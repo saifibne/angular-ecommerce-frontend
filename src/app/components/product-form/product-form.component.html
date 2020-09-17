@@ -1,0 +1,41 @@
+<div class="form-sheet">
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-div">
+      <label for="name">Product Name</label>
+      <input type="text" id="name" class="form-input" placeholder="Product name" formControlName="name">
+      <p *ngIf="form.get('name').invalid && form.get('name').touched" class="error-data">Product name should not be empty and atleast 4 character long.</p>
+    </div>
+    <div class="form-div">
+      <label for="price">Price</label>
+      <input type="number" id="price" class="form-input" placeholder="Price" formControlName="price">
+      <p *ngIf="form.get('price').invalid && form.get('price').touched" class="error-data">Price should not be empty.</p>
+    </div>
+    <div class="form-div">
+      <label for="description">description</label>
+      <textarea id="description" rows="6" placeholder="Description" formControlName="description"></textarea>
+      <p *ngIf="form.get('description').invalid && form.get('description').touched" class="error-data">Description should not be empty and atleast 6 character long.</p>
+    </div>
+    <div class="form-div">
+      <label for="category">Category</label>
+      <select id="category" class="form-input" formControlName="category">
+        <option value="sofa">Sofa</option>
+        <option value="chair">Chair</option>
+        <option value="bed">Bed</option>
+      </select>
+    </div>
+    <div class="form-image" formArrayName="imageUrl">
+      <label for="image">Image</label>
+      <div *ngFor="let control of controls, let i = index">
+        <div class="image-div">
+          <input type="file" class="form-input image-input" id="image" [formControlName]="i" (change)="fileChange($event, i)">
+          <fa-icon [icon]="addIcon" size="2x" class="square-icon" (click)="addImage()" *ngIf="i === (controls.length - 1) && i < 5"></fa-icon>
+          <fa-icon [icon]="cancelIcon" size="2x" class="cancel-icon" (click)="clearControl(i)" *ngIf="i !== 0"></fa-icon>
+        </div>
+        <p *ngIf="!individualControl(i).valid && individualControl(i).touched" class="error-data">Image should not be empty and only jpg, jpeg, png or webp format.</p>
+      </div>
+    </div>
+    <div class="submit-div">
+      <button class="submit-button" type="submit" [disabled]="!form.valid">Submit</button>
+    </div>
+  </form>
+</div>
