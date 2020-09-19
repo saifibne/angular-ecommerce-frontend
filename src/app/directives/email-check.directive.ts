@@ -2,7 +2,6 @@ import { Directive } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidator,
-  FormControl,
   NG_ASYNC_VALIDATORS,
   ValidationErrors,
 } from '@angular/forms';
