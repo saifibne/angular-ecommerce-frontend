@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { ProductDataService } from '../../services/productData.service';
 
 @Component({
   selector: 'app-product-form',
@@ -29,7 +31,10 @@ export class ProductFormComponent implements OnInit {
       imageUrl: new FormArray([new FormControl(null, Validators.required)]),
     });
   }
-  constructor(private http: HttpClient) {}
+  constructor(
+    private productDataService: ProductDataService,
+    private router: Router
+  ) {}
   addImage() {
     const newControl = new FormControl(null, Validators.required);
     (<FormArray>this.form.get('imageUrl')).push(newControl);
@@ -83,15 +88,19 @@ export class ProductFormComponent implements OnInit {
     this.fileData.map((file) => {
       formData.append('imageUrl', file.file);
     });
-    this.http
-      .post('http://localhost:3000/add-product', formData)
-      .subscribe((result) => {
+    this.productDataService.submitProduct(formData).subscribe(
+      (result) => {
         console.log(result);
         this.form.reset({
           category: 'sofa',
         });
         this.clearFormArray();
         this.fileData = [];
-      });
+      },
+      (error) => {
+        this.router.navigate(['login']);
+        console.log(error);
+      }
+    );
   }
 }
