@@ -1,30 +1,53 @@
-<div class="form-sheet">
-  <form (ngSubmit)="onSubmit()" #form="ngForm">
-    <div class="form-div">
-      <label for="name">Name</label>
-      <input type="text" id="name" class="form-input" name="name" ngModel required minlength="4" #name="ngModel">
-      <p *ngIf="!name.valid && name.touched" class="error-data">Name shouldn't be empty and 4 character long.</p>
+<div class="wrapper"></div>
+<div class="second-wrapper">
+  <div class="content-header">
+    <div class="content-header__brand">
+      <a>Ecommerce</a>
     </div>
-    <div class="form-div">
-      <label for="email">Email</label>
-      <input type="email" id="email" class="form-input" name="email" ngModel required email #email="ngModel" emailCheck>
-      <div *ngIf="email.invalid && email.touched">
-        <p *ngIf="email.errors.email || email.errors.required" class="error-data">Email field shouldn't be empty and valid email address.</p>
-        <p *ngIf="email.errors.existingEmail" class="error-data">Email address is already taken.</p>
+    <div>
+      <p class="content-header__paragraph">Already have an account?</p>
+      <a class="content-header__button" routerLink="/login">Log in</a>
+    </div>
+  </div>
+  <div class="title-container">
+    <h1 class="page-title">Sign up for free</h1>
+  </div>
+  <div class="form-sheet">
+    <div class="benefits-container">
+      <h2 class="benefit-title"><span><fa-icon [icon]="customerIcon" class="benefit-icon"></fa-icon></span>Customer Service</h2>
+      <p class="benefit-content">You will get 24/7 customer service.You can contact with customer service through email or chat</p>
+      <hr>
+      <h2 class="benefit-title"><span><fa-icon [icon]="deliveryIcon" class="benefit-icon"></fa-icon></span>Great Delivery</h2>
+      <p class="benefit-content">Product will be delivered all over India.Most of the products delivery cost will be free.Product will be delivered with in a week.</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" #form="ngForm" class="form">
+      <div class="form-group">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" class="form-input" name="name" ngModel required minlength="4" #name="ngModel">
+        <p *ngIf="!name.valid && name.touched" class="error-data">Name shouldn't be empty and 4 character long.</p>
       </div>
-    </div>
-    <div class="form-div">
-      <label for="password">Password</label>
-      <input type="password" id="password" class="form-input" name="password" ngModel required minlength="6" #password="ngModel">
-      <p *ngIf="!password.valid && password.touched" class="error-data">Password shouldn't be empty and 6 character long.</p>
-    </div>
-    <div class="form-div">
-      <label for="companyName">Company Name</label>
-      <input type="text" id="companyName" class="form-input" name="companyName" ngModel required minlength="4" #cpName="ngModel">
-      <p *ngIf="!cpName.valid && cpName.touched" class="error-data">Company name shouldn't be empty and 4 character long.</p>
-    </div>
-    <div class="submit-div">
-      <button class="submit-button" type="submit">Sign Up</button>
-    </div>
-  </form>
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" id="email" class="form-input" name="email" ngModel required email #email="ngModel" emailCheck>
+        <div *ngIf="email.invalid && email.touched">
+          <p *ngIf="email.errors.email || email.errors.required" class="error-data">Email field shouldn't be empty and valid email address.</p>
+          <p *ngIf="email.errors.existingEmail" class="error-data">Email address is already taken.</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-input" name="password" ngModel required minlength="6" #password="ngModel">
+        <p *ngIf="!password.valid && password.touched" class="error-data">Password shouldn't be empty and 6 character long.</p>
+      </div>
+      <div class="form-group">
+        <label for="companyName" class="form-label">Company Name</label>
+        <input type="text" id="companyName" class="form-input" name="companyName" ngModel required minlength="4" #cpName="ngModel">
+        <p *ngIf="!cpName.valid && cpName.touched" class="error-data">Company name shouldn't be empty and 4 character long.</p>
+      </div>
+      <div class="submit-div">
+        <button class="submit-button" type="submit" [disabled]="!form.valid">Create Free Account</button>
+      </div>
+      <p class="terms-class">Signing up signifies that you have read and agree to the Terms of Service and our Privacy Policy.</p>
+    </form>
+  </div>
 </div>

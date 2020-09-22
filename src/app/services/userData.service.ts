@@ -26,12 +26,21 @@ export class UserDataService {
       })
       .pipe(
         tap((userData) => {
-          const expireTime = new Date(userData.expireTime);
-          const user = new User(userData.userData, userData.token, expireTime);
-          this.userData.next(user);
-          localStorage.setItem('token', user.token);
+          if (userData.token) {
+            const expireTime = new Date(userData.expireTime);
+            const user = new User(
+              userData.userData,
+              userData.token,
+              expireTime
+            );
+            this.userData.next(user);
+            localStorage.setItem('token', user.token);
+          }
         })
       );
+  }
+  logout() {
+    localStorage.removeItem('token');
   }
   autoLogin() {
     const token: string = localStorage.getItem('token');
@@ -51,7 +60,10 @@ export class UserDataService {
           );
           this.userData.next(existingUser);
         },
-        (error) => {}
+        (error) => {
+          this.logout();
+          console.log(error);
+        }
       );
   }
 }

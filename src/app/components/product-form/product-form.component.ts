@@ -9,12 +9,16 @@ import { ProductDataService } from '../../services/productData.service';
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.css'],
+  styleUrls: [
+    './product-form.component.css',
+    '../signup-form/signup-form.component.css',
+  ],
 })
 export class ProductFormComponent implements OnInit {
   addIcon = faPlusCircle;
   cancelIcon = faTimesCircle;
   form: FormGroup;
+  fileAsDataUrl: string | ArrayBuffer;
   fileData = [];
   ngOnInit() {
     this.form = new FormGroup({
@@ -45,17 +49,9 @@ export class ProductFormComponent implements OnInit {
   individualControl(index) {
     return (<FormArray>this.form.get('imageUrl')).at(index) as FormControl;
   }
-  fileChange(event, index: number) {
+  async fileChange(event, index: number) {
     const file = event.target.files[0];
     if (file) {
-      const fileIndex = this.fileData.findIndex((object) => {
-        return object.id === index;
-      });
-      if (fileIndex !== -1) {
-        this.fileData[fileIndex] = { id: index, file: file };
-      } else {
-        this.fileData.push({ id: index, file: file });
-      }
       const fileType = file.type;
       if (
         fileType === 'image/jpeg' ||
@@ -63,6 +59,15 @@ export class ProductFormComponent implements OnInit {
         fileType === 'image/jpg' ||
         fileType === 'image/webp'
       ) {
+        const fileIndex = this.fileData.findIndex((object) => {
+          return object.id === index;
+        });
+        if (fileIndex !== -1) {
+          this.fileData[fileIndex] = { id: index, file: file };
+        } else {
+          this.fileData.push({ id: index, file: file });
+        }
+        this.fileReader(file);
         (<FormArray>this.form.get('imageUrl')).at(index).setErrors(null);
       } else {
         (<FormArray>this.form.get('imageUrl'))
@@ -70,6 +75,14 @@ export class ProductFormComponent implements OnInit {
           .setErrors({ wrongExtension: true });
       }
     }
+    console.log(this.fileData);
+  }
+  fileReader(file: File) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (result) => {
+      this.fileAsDataUrl = result.target.result;
+    };
   }
   clearControl(index: number) {
     (<FormArray>this.form.get('imageUrl')).removeAt(index);

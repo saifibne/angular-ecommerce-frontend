@@ -1,4 +1,5 @@
 export interface UserInterface {
+  message: string;
   userData: {
     name: string;
     email: string;
