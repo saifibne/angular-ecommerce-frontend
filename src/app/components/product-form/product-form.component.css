@@ -1,54 +1,36 @@
-/*.form-sheet {*/
-/*  width: 60%;*/
-/*  margin: 0 auto;*/
-/*  border: 1px solid black;*/
-/*  border-radius: 4px;*/
-/*  padding: 20px;*/
-/*}*/
-/*.form-div {*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*  margin-top: 10px;*/
-/*}*/
-/*.form-div label {*/
-/*  margin-bottom: 8px;*/
-/*  color: #3a3b45;*/
-/*}*/
 .error-data {
   font-size: 12px;
   color: red;
   margin: 8px 0;
 }
-/*.form-input,*/
-/*textarea{*/
-/*  padding: 12px 16px;*/
-/*  border: 1px solid #d1d3de;*/
-/*  border-radius: 3px;*/
-/*  background-color: white;*/
-/*}*/
-/*.form-input:focus,*/
-/*textarea:focus {*/
-/*  outline: none;*/
-/*  border-color: #bac8f3;*/
-/*  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);*/
-/*}*/
 .image-container {
   width: 350px;
-  /*height: 400px;*/
-  /*background-color: #4a5568;*/
+}
+.image-wrapper {
+  width: 100%;
+  height: 400px;
+  background-color: #4a5568;
+  margin-bottom: 20px;
 }
 .image {
   width: 100%;
-  height: 400px;
+  height: 100%;
 }
 .select-image-container {
   width: 100%;
   margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.image-anchor {
+  display: block;
+  cursor: pointer;
+  margin: 8px 15px;
 }
 .select-image {
-  width: 40px;
-  height: 50px;
-  /*background-color: #4a5568;*/
+  width: 85px;
+  height: 60px;
 }
 .select-image img {
   width: 100%;
@@ -74,26 +56,20 @@
 .image-button {
   margin-right: 20px;
 }
-/*.submit-div {*/
-/*  margin-top: 20px;*/
-/*  text-align: center;*/
-/*}*/
-/*.submit-button {*/
-/*  padding: 15px 30px;*/
-/*  background-color: #4e73df;*/
-/*  color: white;*/
-/*  border: 1px solid #4e73df;*/
-/*  border-radius: 3px;*/
-/*}*/
-/*.submit-button:hover {*/
-/*  background-color: #2e59d9;*/
-/*  border-color: #2e59d9;*/
-/*}*/
-/*.submit-button:disabled {*/
-/*  background-color: #7f99de;*/
-/*  border-color: #7f99de;*/
-/*  cursor: not-allowed;*/
-/*}*/
+.mat-selector {
+  width: 100%;
+}
+.a-label {
+  display: block;
+}
+::ng-deep .mat-form-field-infix {
+  border: 1px solid #d3d3d3 !important;
+  border-radius: 4px;
+  padding: 10px !important;
+}
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
 .square-icon {
   stroke: #3a2778;
   color: #3a2778;

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ProductDataService } from '../../services/productData.service';
 
 @Component({
@@ -49,7 +48,7 @@ export class ProductFormComponent implements OnInit {
   individualControl(index) {
     return (<FormArray>this.form.get('imageUrl')).at(index) as FormControl;
   }
-  async fileChange(event, index: number) {
+  fileChange(event, index: number) {
     const file = event.target.files[0];
     if (file) {
       const fileType = file.type;
@@ -59,14 +58,26 @@ export class ProductFormComponent implements OnInit {
         fileType === 'image/jpg' ||
         fileType === 'image/webp'
       ) {
-        const fileIndex = this.fileData.findIndex((object) => {
-          return object.id === index;
-        });
-        if (fileIndex !== -1) {
-          this.fileData[fileIndex] = { id: index, file: file };
-        } else {
-          this.fileData.push({ id: index, file: file });
-        }
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          const fileIndex = this.fileData.findIndex((object) => {
+            return object.id === index;
+          });
+          if (fileIndex !== -1) {
+            this.fileData[fileIndex] = {
+              id: index,
+              file: file,
+              data: fileReader.result,
+            };
+          } else {
+            this.fileData.push({
+              id: index,
+              file: file,
+              data: fileReader.result,
+            });
+          }
+        };
         this.fileReader(file);
         (<FormArray>this.form.get('imageUrl')).at(index).setErrors(null);
       } else {
@@ -75,7 +86,6 @@ export class ProductFormComponent implements OnInit {
           .setErrors({ wrongExtension: true });
       }
     }
-    console.log(this.fileData);
   }
   fileReader(file: File) {
     const fileReader = new FileReader();
@@ -86,11 +96,16 @@ export class ProductFormComponent implements OnInit {
   }
   clearControl(index: number) {
     (<FormArray>this.form.get('imageUrl')).removeAt(index);
+    this.fileData.splice(index, 1);
+    this.fileAsDataUrl = this.fileData[index - 1].data;
   }
   private clearFormArray() {
     while ((<FormArray>this.form.get('imageUrl')).controls.length !== 1) {
       (<FormArray>this.form.get('imageUrl')).removeAt(0);
     }
+  }
+  onSelectImage(image: { id: number; file: File; data: string | ArrayBuffer }) {
+    this.fileAsDataUrl = image.data;
   }
   onSubmit() {
     const formData = new FormData();
@@ -109,6 +124,7 @@ export class ProductFormComponent implements OnInit {
         });
         this.clearFormArray();
         this.fileData = [];
+        this.fileAsDataUrl = null;
       },
       (error) => {
         this.router.navigate(['login']);

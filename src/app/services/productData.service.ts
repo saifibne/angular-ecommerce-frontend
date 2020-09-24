@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDataService {
   constructor(private http: HttpClient) {}
   submitProduct(formData: FormData) {
-    return this.http.post('http://localhost:3000/add-product', formData);
+    const req = new HttpRequest(
+      'POST',
+      'http://localhost:3000/add-product',
+      formData
+    );
+    return this.http.request(req);
   }
 }
