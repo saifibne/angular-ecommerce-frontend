@@ -4,8 +4,10 @@ import { NgModule } from '@angular/core';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { SignupFormComponent } from './components/signup-form/signup-form.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const appRoutes: Routes = [
+  { path: '', component: HomePageComponent },
   { path: 'add-product', component: ProductFormComponent },
   { path: 'signup', component: SignupFormComponent },
   { path: 'login', component: LoginFormComponent },

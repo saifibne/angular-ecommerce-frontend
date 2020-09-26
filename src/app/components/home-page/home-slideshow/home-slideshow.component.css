@@ -1,0 +1,115 @@
+.slideshow-container {
+  width: 90%;
+  height: 364px;
+  padding: 10px 20px;
+  margin: 20px auto;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+}
+.slideshow-title {
+  margin: 10px 0;
+}
+.title {
+  font-size: 21px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #444;
+  margin: 0;
+  display: inline-block;
+}
+.anchor {
+  display: inline-block;
+  padding-left: 15px;
+  text-decoration: none;
+  color: #0066c0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.another-wrapper {
+  overflow: hidden;
+}
+.slideshow-card__wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  transform: translateX(0);
+  transition: all 500ms ease-out;
+}
+.slideshow-card {
+  height: 275px;
+  margin-right: 10px;
+}
+.slideshow-card__image {
+  height: 200px;
+}
+.slideshow-card__details {
+  padding: 10px 0;
+}
+.image {
+  height: 100%;
+}
+.current-price {
+  font-size: 17px;
+  line-height: 21.34px;
+  color: #000;
+}
+.current-price::before {
+  content: "\20B9";
+  font-size: 20px;
+  margin-right: 4px;
+  font-weight: 400;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.previous-price {
+  font-size: 13px;
+  line-height: 19px;
+  color: #767676;
+}
+.previous-price::before {
+  content: "\20B9";
+  font-size: 20px;
+  margin-right: 4px;
+  font-weight: 400;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-decoration: none;
+  color: black;
+}
+.icon-container {
+  height: 100px;
+  width: 45px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px #888;
+  text-align: center;
+  line-height: 100px;
+  position: absolute;
+  top: 37%;
+  border: none;
+  opacity: 0.5;
+  transition: all 200ms linear;
+}
+.icon-container:hover {
+  opacity: 1;
+}
+.icon-container:disabled {
+  cursor: not-allowed;
+}
+.icon-container:disabled .icon {
+  color: #9fa8b0;
+  stroke: #9fa8b0;
+}
+.left-icon {
+  left: 0;
+  border-radius: 0 3px 3px 0;
+}
+.right-icon {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.icon {
+  font-size: 30px;
+  stroke: #444;
+  color: #444;
+  /*font-weight: 400;*/
+}

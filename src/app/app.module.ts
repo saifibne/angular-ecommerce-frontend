@@ -16,6 +16,8 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
 import { EmailCheckDirective } from './directives/email-check.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatOptionModule } from '@angular/material/core';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { HomeSlideshowComponent } from './components/home-page/home-slideshow/home-slideshow.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MatOptionModule } from '@angular/material/core';
     SignupFormComponent,
     LoginFormComponent,
     EmailCheckDirective,
+    HomePageComponent,
+    HomeSlideshowComponent,
   ],
   imports: [
     BrowserModule,

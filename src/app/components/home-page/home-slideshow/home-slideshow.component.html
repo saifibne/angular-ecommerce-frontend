@@ -1,0 +1,35 @@
+<div class="slideshow-container">
+  <div class="slideshow-title">
+    <h4 class="title">Great deals on {{ category }}</h4>
+    <a class="anchor">See all deals</a>
+  </div>
+  <div class="another-wrapper">
+    <div class="slideshow-card__wrapper" #slider>
+      <div class="slideshow-card" *ngFor="let product of products" #item>
+        <div class="slideshow-card__image">
+          <img [src]="getImagePath(product)" alt="" class="image" />
+        </div>
+        <div class="slideshow-card__details">
+          <div class="current-price">{{ product.currentPrice }}</div>
+          <div class="previous-price" style="text-decoration: line-through">
+            {{ product.updatedPrice }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="icon-container right-icon"
+    (click)="onClickNext()"
+    [disabled]="prevSliderWidth === totalWidth - sliderVisibilityWidth"
+  >
+    <fa-icon [icon]="nextIcon" class="icon"></fa-icon>
+  </button>
+  <button
+    class="icon-container left-icon"
+    (click)="onClickPrev()"
+    [disabled]="prevSliderWidth === 0"
+  >
+    <fa-icon [icon]="prevIcon" class="icon"></fa-icon>
+  </button>
+</div>
