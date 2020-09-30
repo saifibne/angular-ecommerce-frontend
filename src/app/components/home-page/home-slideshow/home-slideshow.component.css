@@ -1,6 +1,6 @@
 .slideshow-container {
   width: 90%;
-  height: 364px;
+  /*height: 364px;*/
   padding: 10px 20px;
   margin: 20px auto;
   background-color: white;
@@ -28,6 +28,7 @@
 }
 .another-wrapper {
   overflow: hidden;
+  /*overflow-x: scroll;*/
 }
 .slideshow-card__wrapper {
   display: flex;
@@ -36,9 +37,10 @@
   position: relative;
   transform: translateX(0);
   transition: all 500ms ease-out;
+  /*overflow-x: scroll;*/
 }
 .slideshow-card {
-  height: 275px;
+  /*height: 275px;*/
   margin-right: 10px;
 }
 .slideshow-card__image {
@@ -111,5 +113,19 @@
   font-size: 30px;
   stroke: #444;
   color: #444;
-  /*font-weight: 400;*/
+}
+.feed-scroll {
+  height: 6px;
+  width: 100%;
+  margin-top: 8px;
+  position: relative;
+}
+.scroll-bar {
+  position: absolute;
+  top: 0;
+  transform: translateX(0);
+  background-color: #aaa;
+  border-radius: 6px;
+  height: inherit;
+  transition: transform 500ms linear;
 }

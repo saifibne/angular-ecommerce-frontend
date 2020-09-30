@@ -5,7 +5,7 @@
   </div>
   <div class="another-wrapper">
     <div class="slideshow-card__wrapper" #slider>
-      <div class="slideshow-card" *ngFor="let product of products" #item>
+      <div class="slideshow-card" *ngFor="let product of products">
         <div class="slideshow-card__image">
           <img [src]="getImagePath(product)" alt="" class="image" />
         </div>
@@ -32,4 +32,7 @@
   >
     <fa-icon [icon]="prevIcon" class="icon"></fa-icon>
   </button>
+  <div class="feed-scroll">
+    <div class="scroll-bar" (click)="onScroll()"></div>
+  </div>
 </div>

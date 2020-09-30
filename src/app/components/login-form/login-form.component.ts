@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UserDataService } from '../../services/userData.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -15,7 +16,10 @@ export class LoginFormComponent {
   userIcon = faUser;
   passwordIcon = faLock;
   wrongCredentials = false;
-  constructor(private userDataService: UserDataService) {}
+  constructor(
+    private userDataService: UserDataService,
+    private router: Router
+  ) {}
   onSubmit() {
     this.wrongCredentials = false;
     this.userDataService
@@ -30,7 +34,7 @@ export class LoginFormComponent {
               this.wrongCredentials = true;
               break;
             case 'successfully login.':
-              console.log(result);
+              this.router.navigate(['/']);
           }
         },
         (error) => {

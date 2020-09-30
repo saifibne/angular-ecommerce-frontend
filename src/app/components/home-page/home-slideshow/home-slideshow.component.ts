@@ -1,6 +1,9 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnInit,
   Renderer2,
@@ -17,39 +20,59 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
   templateUrl: 'home-slideshow.component.html',
   styleUrls: ['home-slideshow.component.css'],
 })
-export class HomeSlideshowComponent implements OnInit {
+export class HomeSlideshowComponent implements OnInit, AfterViewInit {
   @Input('category') category: string;
   @ViewChild('slider') slider: ElementRef;
   nextIcon = faAngleRight;
   prevIcon = faAngleLeft;
-  sliderVisibilityWidth;
+  sliderVisibilityWidth: number;
   sliderBreakPoint;
-  totalWidth;
+  totalWidth = 0;
   prevSliderWidth = 0;
+  scrollBarWrapperWidth;
+  scrollBar: number;
   items = [];
   products: ProductInterface[] = [];
   constructor(
     private productDataService: ProductDataService,
     private elem: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef
   ) {}
-  ngOnInit() {
+  ngOnInit() {}
+  ngAfterViewInit() {
+    this.scrollBarWrapperWidth = this.elem.nativeElement.querySelector(
+      '.feed-scroll'
+    ).offsetWidth;
+    this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
     this.productDataService
       .categoryData(this.category)
       .subscribe((products) => {
         this.products = products.productsData;
+        this.cd.detectChanges();
+        this.items = this.elem.nativeElement.querySelectorAll(
+          '.slideshow-card'
+        );
+        setTimeout(() => {
+          this.totalWidth = (this.items.length - 1) * 10;
+          this.items.forEach((item) => {
+            this.totalWidth += item.clientWidth;
+          });
+          this.scrollBarWidth();
+        }, 500);
       });
+  }
+  @HostListener('window:resize') changeScrollWidth() {
+    this.scrollBarWrapperWidth = this.elem.nativeElement.querySelector(
+      '.feed-scroll'
+    ).offsetWidth;
+    this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
+    this.scrollBarWidth();
   }
   getImagePath(product: ProductInterface) {
     return `http://localhost:3000/${product.imageUrls[0].path}`;
   }
   onClickNext() {
-    this.items = this.elem.nativeElement.querySelectorAll('.slideshow-card');
-    this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
-    this.totalWidth = (this.items.length - 1) * 10;
-    this.items.forEach((item) => {
-      this.totalWidth += item.clientWidth;
-    });
     for (const item of this.items) {
       if (
         item.offsetLeft + item.clientWidth >
@@ -74,13 +97,12 @@ export class HomeSlideshowComponent implements OnInit {
             `translateX(-${this.sliderBreakPoint}px)`
           );
         }
+        this.scrollBarMove();
         break;
       }
     }
   }
   onClickPrev() {
-    this.items = this.elem.nativeElement.querySelectorAll('.slideshow-card');
-    this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
     const array = [...this.items];
     const newArray = array.reverse();
     for (const item of newArray) {
@@ -103,8 +125,37 @@ export class HomeSlideshowComponent implements OnInit {
           );
           this.prevSliderWidth = 0;
         }
+        this.scrollBarMove();
         break;
       }
     }
+  }
+  scrollBarWidth() {
+    this.scrollBar = +(
+      this.scrollBarWrapperWidth /
+      (this.totalWidth / this.sliderVisibilityWidth)
+    ).toFixed(3);
+    const scrollBarElement = this.elem.nativeElement.querySelector(
+      '.scroll-bar'
+    );
+    this.renderer.setStyle(scrollBarElement, 'width', `${this.scrollBar}px`);
+  }
+  scrollBarMove() {
+    const viewedPercentage =
+      ((this.prevSliderWidth + this.sliderVisibilityWidth) / this.totalWidth) *
+      100;
+    const viewedPercentageInSliderWidth: number = +(
+      (viewedPercentage / 100) *
+      this.sliderVisibilityWidth
+    ).toFixed(3);
+    const width = viewedPercentageInSliderWidth - this.scrollBar;
+    const scrollBarElement = this.elem.nativeElement.querySelector(
+      '.scroll-bar'
+    );
+    this.renderer.setStyle(
+      scrollBarElement,
+      'transform',
+      `translateX(${width}px)`
+    );
   }
 }
