@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -12,13 +13,13 @@ import {
 
 import { ProductDataService } from '../../../services/productData.service';
 import { ProductInterface } from '../../../models/product.model';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home-slideshow',
   templateUrl: 'home-slideshow.component.html',
   styleUrls: ['home-slideshow.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeSlideshowComponent implements OnInit, AfterViewInit {
   @Input('category') category: string;
@@ -53,15 +54,20 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
         this.items = this.elem.nativeElement.querySelectorAll(
           '.slideshow-card'
         );
-        setTimeout(() => {
-          this.totalWidth = (this.items.length - 1) * 10;
-          this.items.forEach((item) => {
-            this.totalWidth += item.clientWidth;
-          });
-          this.scrollBarWidth();
-        }, 500);
+        // change set timeout to work the total width properly TODO: replace setTimeOut()
+        const completeInterval = setInterval(() => {
+          if (document.readyState === 'complete') {
+            this.totalWidth = (this.items.length - 1) * 10;
+            this.items.forEach((item) => {
+              this.totalWidth += item.clientWidth;
+            });
+            this.scrollBarWidth();
+            clearInterval(completeInterval);
+          }
+        }, 100);
       });
   }
+
   @HostListener('window:resize') changeScrollWidth() {
     this.scrollBarWrapperWidth = this.elem.nativeElement.querySelector(
       '.feed-scroll'
