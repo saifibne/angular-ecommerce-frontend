@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { HomeSlideshowComponent } from './components/home-page/home-slideshow/home-slideshow.component';
 import { HomeFooterComponent } from './components/home-page/home-footer/home-footer.component';
+import { ProductPageComponent } from './components/product-page/product-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HomeFooterComponent } from './components/home-page/home-footer/home-foo
     HomePageComponent,
     HomeSlideshowComponent,
     HomeFooterComponent,
+    ProductPageComponent,
   ],
   imports: [
     BrowserModule,

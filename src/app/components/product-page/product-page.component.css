@@ -1,0 +1,153 @@
+.product-detail__wrapper {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  margin: 0 auto;
+  background-color: white;
+}
+.image-collection {
+  width: 70px;
+  padding: 20px 0 20px 20px;
+  height: 100%;
+  align-self: flex-start;
+}
+.all-image {
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  width: 50px;
+  height: 50px;
+}
+.single-image {
+  height: 100%;
+  width: 100%;
+}
+.product-image {
+  padding: 20px;
+}
+.image {
+  max-height: 500px;
+}
+.image-active {
+  border: 1px solid #60467e;
+  box-shadow: 0 0 6px -1px #60467e;
+}
+.product-detail {
+  width: 300px;
+  padding: 20px;
+}
+.product-detail__title {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 32px;
+  color: #111;
+  text-transform: capitalize;
+  margin: 0 0 20px 0;
+}
+.div-margin {
+  margin: 8px 0;
+}
+.product-warranty {
+  display: flex;
+  align-items: center;
+}
+.product-warranty p {
+  margin: 0 0 0 8px;
+}
+.product-rating {
+  display: flex;
+}
+.star {
+  font-size: 12px;
+  color: #555;
+}
+.star-count {
+  margin: 0 0 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #0066c0;
+}
+.star-active {
+  stroke: yellow;
+  color: yellow;
+  content: "f005";
+  /*background-color: yellow;*/
+  /*overflow: hidden;*/
+}
+.shield-icon {
+  color: #555;
+}
+.warranty-text {
+  font-size: 12px;
+  line-height: 16px;
+  color: #555;
+}
+hr {
+  background-color: transparent;
+  border-top: 1px solid #e7e7e7;
+  height: 1px;
+  margin-bottom: 14px;
+}
+.original-price-container,
+.current-price-container {
+  display: flex;
+  font-size: 14px;
+  color: #555;
+  line-height: 20px;
+  align-items: center;
+}
+.original-price {
+  padding-left: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-decoration: line-through;
+}
+.current-price {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding-left: 8px;
+  color: #b12704;
+  font-size: 18px;
+  line-height: 24px;
+}
+.save-price {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding-left: 8px;
+  color: #b12704;
+  font-size: 14px;
+  line-height: 20px;
+}
+.seller {
+  color: #555;
+  font-size: 16px;
+}
+.delivery-text {
+  font-weight: 600;
+  color: #111;
+  font-size: 14px;
+  font-family: inherit;
+}
+.product-detail__button {
+  width: max-content;
+  margin: 20px auto;
+  position: relative;
+}
+.button-icon {
+  color: white;
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  font-size: 16px;
+}
+.button {
+  width: 204px;
+  height: 29px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: #60467e;
+  background-image: -webkit-linear-gradient(
+    left bottom,
+    rgba(159, 88, 150, 0) 0,
+    rgba(159, 88, 150, 0.6) 100%
+  );
+  color: white;
+}

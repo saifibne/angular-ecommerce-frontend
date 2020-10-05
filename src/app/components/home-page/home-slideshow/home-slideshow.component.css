@@ -43,6 +43,9 @@
   /*height: 275px;*/
   margin-right: 10px;
 }
+.product-link {
+  text-decoration: none;
+}
 .slideshow-card__image {
   height: 200px;
 }

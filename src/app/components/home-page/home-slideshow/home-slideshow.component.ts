@@ -54,7 +54,7 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
         this.items = this.elem.nativeElement.querySelectorAll(
           '.slideshow-card'
         );
-        // change set timeout to work the total width properly TODO: replace setTimeOut()
+        // change set timeout to work the total width properly TODO: replace querySelectorAll()
         const completeInterval = setInterval(() => {
           if (document.readyState === 'complete') {
             this.totalWidth = (this.items.length - 1) * 10;
@@ -137,10 +137,14 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
     }
   }
   scrollBarWidth() {
-    this.scrollBar = +(
-      this.scrollBarWrapperWidth /
-      (this.totalWidth / this.sliderVisibilityWidth)
-    ).toFixed(3);
+    if (this.totalWidth > this.sliderVisibilityWidth) {
+      this.scrollBar = +(
+        this.scrollBarWrapperWidth /
+        (this.totalWidth / this.sliderVisibilityWidth)
+      ).toFixed(3);
+    } else {
+      this.scrollBar = this.sliderVisibilityWidth;
+    }
     const scrollBarElement = this.elem.nativeElement.querySelector(
       '.scroll-bar'
     );
@@ -158,10 +162,14 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
     const scrollBarElement = this.elem.nativeElement.querySelector(
       '.scroll-bar'
     );
-    this.renderer.setStyle(
-      scrollBarElement,
-      'transform',
-      `translateX(${width}px)`
-    );
+    if (width >= 0) {
+      this.renderer.setStyle(
+        scrollBarElement,
+        'transform',
+        `translateX(${width}px)`
+      );
+    } else {
+      this.renderer.setStyle(scrollBarElement, 'transform', `translateX(0px)`);
+    }
   }
 }

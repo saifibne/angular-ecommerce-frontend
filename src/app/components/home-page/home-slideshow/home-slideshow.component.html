@@ -6,15 +6,22 @@
   <div class="another-wrapper">
     <div class="slideshow-card__wrapper" #slider>
       <div class="slideshow-card" *ngFor="let product of products">
-        <div class="slideshow-card__image">
-          <img [src]="getImagePath(product)" alt="" class="image" />
-        </div>
-        <div class="slideshow-card__details">
-          <div class="current-price">{{ product.currentPrice }}</div>
-          <div class="previous-price" style="text-decoration: line-through">
-            {{ product.updatedPrice }}
+        <a
+          [routerLink]="['product', category, product._id]"
+          class="product-link"
+        >
+          <div>
+            <div class="slideshow-card__image">
+              <img [src]="getImagePath(product)" alt="" class="image" />
+            </div>
+            <div class="slideshow-card__details">
+              <div class="current-price">{{ product.currentPrice }}</div>
+              <div class="previous-price" style="text-decoration: line-through">
+                {{ product.updatedPrice }}
+              </div>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
