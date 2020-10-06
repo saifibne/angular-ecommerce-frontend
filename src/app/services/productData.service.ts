@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { ProductInterface } from '../models/product.model';
-import { tap } from 'rxjs/operators';
+import {
+  mappedProductInterface,
+  ProductInterface,
+} from '../models/product.model';
+import { map, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDataService {
-  sofaProducts: ProductInterface[] = [];
-  chairProducts: ProductInterface[] = [];
-  bedProducts: ProductInterface[] = [];
-  product: ProductInterface;
-  productObs = new Subject<ProductInterface>();
+  sofaProducts: mappedProductInterface[] = [];
+  chairProducts: mappedProductInterface[] = [];
+  bedProducts: mappedProductInterface[] = [];
+  product: mappedProductInterface;
+  productObs = new Subject<mappedProductInterface>();
   constructor(private http: HttpClient) {}
   submitProduct(formData: FormData) {
     const req = new HttpRequest(
@@ -26,7 +29,27 @@ export class ProductDataService {
         `http://localhost:3000/products/${category}`
       )
       .pipe(
-        tap((products) => {
+        map((products) => {
+          const newProducts = products.productsData.map((product) => {
+            const ratingsCount = product.ratings.length;
+            const priceDifference = product.originalPrice - product.offerPrice;
+            const offerPercentage = Math.round(
+              (priceDifference / product.originalPrice) * 100
+            );
+            const deliveryDate = new Date(
+              new Date().setDate(new Date().getDate() + 7)
+            ).toDateString();
+            return {
+              ...product,
+              ratingsCount: ratingsCount,
+              offerPercentage: offerPercentage,
+              priceDifference: priceDifference,
+              deliveryDate: deliveryDate,
+            };
+          });
+          return { productsData: newProducts };
+        }),
+        tap((products: { productsData: mappedProductInterface[] }) => {
           switch (category) {
             case 'sofa':
               this.sofaProducts = products.productsData;
@@ -42,7 +65,7 @@ export class ProductDataService {
       );
   }
   getSingleProduct(category, productId) {
-    let product: ProductInterface;
+    let product: mappedProductInterface;
     if (category === 'sofa') {
       product = this.sofaProducts.find((product) => {
         return product._id === productId;
@@ -69,10 +92,36 @@ export class ProductDataService {
         `http://localhost:3000/product/${productId}`
       )
       .pipe(
-        tap((product) => {
-          this.product = product.productData;
-          console.log('resolver runs');
-        })
+        map((product) => {
+          const ratingsCount = product.productData.ratings.length;
+          const priceDifference =
+            product.productData.originalPrice - product.productData.offerPrice;
+          const offerPercentage = Math.round(
+            (priceDifference / product.productData.originalPrice) * 100
+          );
+          const deliveryDate = new Date(
+            new Date().setDate(new Date().getDate() + 7)
+          ).toDateString();
+          return {
+            message: product.message,
+            productData: {
+              ...product.productData,
+              ratingsCount: ratingsCount,
+              priceDifference: priceDifference,
+              offerPercentage: offerPercentage,
+              deliveryDate: deliveryDate,
+            },
+          };
+        }),
+        tap(
+          (product: {
+            message: string;
+            productData: mappedProductInterface;
+          }) => {
+            this.product = product.productData;
+            console.log('resolver runs');
+          }
+        )
       );
   }
 }

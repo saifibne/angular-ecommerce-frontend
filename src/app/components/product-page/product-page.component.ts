@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -18,7 +17,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 
 import { ProductDataService } from '../../services/productData.service';
-import { ProductInterface } from '../../models/product.model';
+import { mappedProductInterface } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-page',
@@ -32,7 +31,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   wishList = faShoppingBag;
   productId;
   category: string;
-  product: ProductInterface;
+  product: mappedProductInterface;
   productSubscription: Subscription;
   @ViewChildren('starIcon', { read: ElementRef }) stars: QueryList<ElementRef>;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
@@ -46,8 +45,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private currentRoute: ActivatedRoute,
     private productService: ProductDataService,
     private elem: ElementRef,
-    private render: Renderer2,
-    private cd: ChangeDetectorRef
+    private render: Renderer2
   ) {}
   ngOnInit() {
     this.currentRoute.params.subscribe((params) => {
@@ -72,7 +70,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.render.addClass(star.nativeElement, 'star-active');
       }
     }
-    // this.cd.detectChanges();
     this.imageSources.forEach((image) => {
       if (
         image.nativeElement.attributes.src.value ===

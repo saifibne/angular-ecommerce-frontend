@@ -1,65 +1,75 @@
-<div class="product-detail__wrapper">
-  <div class="image-collection">
-    <div
-      *ngFor="let image of images"
-      class="all-image"
-      (click)="onSelectImage(image.path, singleImage)"
-      #singleImage
-      #allImages
-    >
-      <img
-        [src]="getImageUrl(image.path)"
-        alt=""
-        class="single-image"
-        #imageSources
-      />
+<div class="product-page__wrapper">
+  <div class="product-detail__wrapper">
+    <div class="image-collection">
+      <div
+        *ngFor="let image of images"
+        class="all-image"
+        (click)="onSelectImage(image.path, singleImage)"
+        #singleImage
+        #allImages
+      >
+        <img
+          [src]="getImageUrl(image.path)"
+          alt=""
+          class="single-image"
+          #imageSources
+        />
+      </div>
+    </div>
+    <div class="product-image">
+      <img [src]="imageUrl()" alt="" class="image" #image />
+    </div>
+    <div class="product-detail">
+      <h4 class="product-detail__title">{{ product.name }}</h4>
+      <div class="product-rating">
+        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
+        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
+        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
+        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
+        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
+        <p class="star-count">{{ product.ratingsCount }} ratings</p>
+      </div>
+      <div class="product-warranty div-margin">
+        <fa-icon [icon]="shield" class="shield-icon"></fa-icon>
+        <p class="warranty-text">1 Year Warranty</p>
+      </div>
+      <hr />
+      <div class="original-price-container div-margin">
+        M.R.P:
+        <div class="original-price">&#8377; {{ product.originalPrice }}</div>
+      </div>
+      <div class="current-price-container div-margin">
+        Price:
+        <div class="current-price">&#8377; {{ product.offerPrice }}</div>
+      </div>
+      <div class="current-price-container div-margin">
+        You Save:
+        <div class="save-price">
+          &#8377; {{ product.priceDifference }} ({{ product.offerPercentage }}%
+          off)
+        </div>
+      </div>
+      <div class="current-price-container div-margin">
+        Delivery By:
+        <div class="save-price delivery-text">{{ product.deliveryDate }}</div>
+      </div>
+      <div class="current-price-container div-margin">
+        Seller Name:
+        <div class="save-price seller">{{ product.userId.companyName }}</div>
+      </div>
+      <div class="product-detail__button">
+        <fa-icon [icon]="cart" class="button-icon"></fa-icon>
+        <button class="button">Add To Cart</button>
+      </div>
+      <div class="product-detail__button">
+        <fa-icon [icon]="wishList" class="button-icon"></fa-icon>
+        <button class="button">Add To Wishlist</button>
+      </div>
     </div>
   </div>
-  <div class="product-image">
-    <img [src]="imageUrl()" alt="" class="image" #image />
-  </div>
-  <div class="product-detail">
-    <h4 class="product-detail__title">{{ product.name }}</h4>
-    <div class="product-rating">
-      <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-      <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-      <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-      <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-      <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-      <p class="star-count">10 ratings</p>
-    </div>
-    <div class="product-warranty div-margin">
-      <fa-icon [icon]="shield" class="shield-icon"></fa-icon>
-      <p class="warranty-text">1 Year Warranty</p>
-    </div>
-    <hr />
-    <div class="original-price-container div-margin">
-      M.R.P:
-      <div class="original-price">&#8377; {{ product.currentPrice }}</div>
-    </div>
-    <div class="current-price-container div-margin">
-      Price:
-      <div class="current-price">&#8377; {{ product.updatedPrice }}</div>
-    </div>
-    <div class="current-price-container div-margin">
-      You Save:
-      <div class="save-price">&#8377; {{ product.updatedPrice }}</div>
-    </div>
-    <div class="current-price-container div-margin">
-      Delivery By:
-      <div class="save-price delivery-text">Oct 26 - Nov 2</div>
-    </div>
-    <div class="current-price-container div-margin">
-      Seller Name:
-      <div class="save-price seller">Ibne saif</div>
-    </div>
-    <div class="product-detail__button">
-      <fa-icon [icon]="cart" class="button-icon"></fa-icon>
-      <button class="button">Add To Cart</button>
-    </div>
-    <div class="product-detail__button">
-      <fa-icon [icon]="wishList" class="button-icon"></fa-icon>
-      <button class="button">Add To Wishlist</button>
-    </div>
+  <div class="divider"></div>
+  <div class="product-details">
+    <h4>Product Description</h4>
+    <p>{{ product.description }}</p>
   </div>
 </div>

@@ -15,9 +15,9 @@
               <img [src]="getImagePath(product)" alt="" class="image" />
             </div>
             <div class="slideshow-card__details">
-              <div class="current-price">{{ product.currentPrice }}</div>
+              <div class="current-price">{{ product.offerPrice }}</div>
               <div class="previous-price" style="text-decoration: line-through">
-                {{ product.updatedPrice }}
+                {{ product.originalPrice }}
               </div>
             </div>
           </div>
