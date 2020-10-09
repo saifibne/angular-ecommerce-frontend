@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import {
   mappedProductInterface,
   ProductInterface,
@@ -14,6 +14,7 @@ export class ProductDataService {
   bedProducts: mappedProductInterface[] = [];
   product: mappedProductInterface;
   productObs = new Subject<mappedProductInterface>();
+  hideSearchBoxObs = new Subject<[]>();
   constructor(private http: HttpClient) {}
   submitProduct(formData: FormData) {
     const req = new HttpRequest(
@@ -30,23 +31,8 @@ export class ProductDataService {
       )
       .pipe(
         map((products) => {
-          const newProducts = products.productsData.map((product) => {
-            const ratingsCount = product.ratings.length;
-            const priceDifference = product.originalPrice - product.offerPrice;
-            const offerPercentage = Math.round(
-              (priceDifference / product.originalPrice) * 100
-            );
-            const deliveryDate = new Date(
-              new Date().setDate(new Date().getDate() + 7)
-            ).toDateString();
-            return {
-              ...product,
-              ratingsCount: ratingsCount,
-              offerPercentage: offerPercentage,
-              priceDifference: priceDifference,
-              deliveryDate: deliveryDate,
-            };
-          });
+          const receivedProducts = products.productsData;
+          const newProducts = this.mappingProducts(receivedProducts);
           return { productsData: newProducts };
         }),
         tap((products: { productsData: mappedProductInterface[] }) => {
@@ -123,5 +109,32 @@ export class ProductDataService {
           }
         )
       );
+  }
+  getSearchedProducts(input: string) {
+    return this.http.get<{ products: ProductInterface[] }>(
+      'http://localhost:3000/search',
+      {
+        params: new HttpParams().set('search', input),
+      }
+    );
+  }
+  mappingProducts(products) {
+    return products.map((product) => {
+      const ratingsCount = product.ratings.length;
+      const priceDifference = product.originalPrice - product.offerPrice;
+      const offerPercentage = Math.round(
+        (priceDifference / product.originalPrice) * 100
+      );
+      const deliveryDate = new Date(
+        new Date().setDate(new Date().getDate() + 7)
+      ).toDateString();
+      return {
+        ...product,
+        ratingsCount: ratingsCount,
+        priceDifference: priceDifference,
+        offerPercentage: offerPercentage,
+        deliveryDate: deliveryDate,
+      };
+    });
   }
 }

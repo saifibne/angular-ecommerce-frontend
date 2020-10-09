@@ -19,6 +19,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { HomeSlideshowComponent } from './components/home-page/home-slideshow/home-slideshow.component';
 import { HomeFooterComponent } from './components/home-page/home-footer/home-footer.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
 
 @NgModule({
   declarations: [
@@ -27,10 +29,12 @@ import { ProductPageComponent } from './components/product-page/product-page.com
     SignupFormComponent,
     LoginFormComponent,
     EmailCheckDirective,
+    HideSearchBoxDirective,
     HomePageComponent,
     HomeSlideshowComponent,
     HomeFooterComponent,
     ProductPageComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

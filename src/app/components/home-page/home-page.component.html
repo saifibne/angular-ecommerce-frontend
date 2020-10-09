@@ -1,43 +1,48 @@
-<div class="overview-container">
-  <div class="overview">
-    <div class="first-overview image-position">
-      <img
-        src="../../../assets/img_1_layout_1.jpg"
-        alt=""
-        class="image-class"
-      />
-      <div class="text-container">
-        <div class="text-title-1">Big Home Sale!</div>
-        <div class="text-content-1">Save up to 35%!</div>
+<app-header></app-header>
+<div hide-searchBox>
+  <div class="overview-container">
+    <div class="overview">
+      <div class="first-overview image-position">
+        <img
+          src="../../../assets/img_1_layout_1.jpg"
+          alt=""
+          class="image-class"
+        />
+        <div class="text-container">
+          <div class="text-title-1">Big Home Sale!</div>
+          <div class="text-content-1">Save up to 35%!</div>
+        </div>
       </div>
-    </div>
-    <div class="second-overview image-position">
-      <img
-        src="../../../assets/img_2_layout_1.jpg"
-        alt=""
-        class="image-class"
-      />
-      <div class="text-container-1">
-        <div class="text-title-2 special-title">Modern Designs</div>
-        <div class="text-content-2">New complementary solution</div>
-        <button class="text-container__button special-button">Shop Now</button>
+      <div class="second-overview image-position">
+        <img
+          src="../../../assets/img_2_layout_1.jpg"
+          alt=""
+          class="image-class"
+        />
+        <div class="text-container-1">
+          <div class="text-title-2 special-title">Modern Designs</div>
+          <div class="text-content-2">New complementary solution</div>
+          <button class="text-container__button special-button">
+            Shop Now
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="third-overview image-position">
-      <img
-        src="../../../assets/img_3_layout_1.jpg"
-        alt=""
-        class="image-class"
-      />
-      <div class="text-container">
-        <div class="text-title-2">Select Styles!</div>
-        <div class="text-content-2">Simple, comfy and elegant</div>
-        <button class="text-container__button">Shop Now</button>
+      <div class="third-overview image-position">
+        <img
+          src="../../../assets/img_3_layout_1.jpg"
+          alt=""
+          class="image-class"
+        />
+        <div class="text-container">
+          <div class="text-title-2">Select Styles!</div>
+          <div class="text-content-2">Simple, comfy and elegant</div>
+          <button class="text-container__button">Shop Now</button>
+        </div>
       </div>
     </div>
   </div>
+  <app-home-slideshow [category]="'sofa'"></app-home-slideshow>
+  <app-home-slideshow [category]="'chair'"></app-home-slideshow>
+  <app-home-slideshow [category]="'bed'"></app-home-slideshow>
 </div>
-<app-home-slideshow [category]="'sofa'"></app-home-slideshow>
-<!--<app-home-slideshow [category]="'sofa'"></app-home-slideshow>-->
-<!--<app-home-slideshow [category]="'sofa'"></app-home-slideshow>-->
 <app-home-footer></app-home-footer>

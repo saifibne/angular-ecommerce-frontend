@@ -22,11 +22,12 @@
   justify-content: space-between;
   padding: 30px 0;
 }
-.content-header__brand{
+.content-header__brand a {
   color: white;
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 2px;
+  text-decoration: none;
   text-transform: uppercase;
 }
 .content-header__paragraph {
@@ -38,7 +39,7 @@
 }
 .content-header__button {
   display: inline-block;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 11px 16px;
   font-size: 13px;
   margin-left: 8px;
@@ -53,7 +54,7 @@
   padding: 0 30px 30px;
 }
 .page-title {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
   color: white;
   font-weight: 400;
   font-size: 30px;
@@ -69,7 +70,7 @@
   border: 1px solid transparent;
   padding: 20px;
   border-radius: 5px;
-  background-color: #F9F9FB;
+  background-color: #f9f9fb;
   background-image: url("../../../assets/page-illustration-11400c2a5109317ad7e99571ba2a42bc55522ffa8ea6f9dcdff99737ab6149ac.png");
   background-position: top left;
   background-repeat: no-repeat;
@@ -81,7 +82,8 @@
   border: 1px solid transparent;
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0 0 0 1px rgba(89,105,128,0.1), 0 3px 20px 0 rgba(89,105,128,0.3), 0 1px 2px 0 rgba(0,0,0,0.05);;
+  box-shadow: 0 0 0 1px rgba(89, 105, 128, 0.1),
+    0 3px 20px 0 rgba(89, 105, 128, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 .form-group {
   display: flex;
@@ -93,8 +95,8 @@
   padding: 10px;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
-  box-shadow: 0 0 2px rgba(121,88,159,0);
-  color: #383E40;
+  box-shadow: 0 0 2px rgba(121, 88, 159, 0);
+  color: #383e40;
 }
 .form-input:focus {
   outline: none;
@@ -102,7 +104,7 @@
 .form-label {
   padding-bottom: 5px;
   font-size: 13px;
-  color: #383E40;
+  color: #383e40;
 }
 .submit-button {
   width: 100%;
@@ -133,14 +135,14 @@
 .terms-class {
   font-size: 12px;
   margin-bottom: 0;
-  color: #383E40;
+  color: #383e40;
 }
 .benefits-container {
   max-width: 410px;
   padding: 40px;
 }
 .benefit-title {
-  color: #79589F;
+  color: #79589f;
   font-size: 24px;
   line-height: 1.4;
   margin: 0 auto 15px;
@@ -149,14 +151,20 @@
 .benefit-content {
   font-size: 14px;
   line-height: 1.5;
-  color: #383E40;
+  color: #383e40;
 }
 hr {
   margin: 50px auto 40px;
-  background-color: rgba(228,228,231,0);
+  background-color: rgba(228, 228, 231, 0);
   height: 1px;
   border: 0;
-  background-image: linear-gradient(to right, rgba(228,228,231,0), rgba(228,228,231,0.9) 10%, rgba(228,228,231,0.9) 90%, rgba(228,228,231,0));;
+  background-image: linear-gradient(
+    to right,
+    rgba(228, 228, 231, 0),
+    rgba(228, 228, 231, 0.9) 10%,
+    rgba(228, 228, 231, 0.9) 90%,
+    rgba(228, 228, 231, 0)
+  );
 }
 .benefit-icon {
   margin-right: 8px;

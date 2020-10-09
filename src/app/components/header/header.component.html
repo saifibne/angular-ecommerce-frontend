@@ -1,0 +1,40 @@
+<div class="header-wrapper">
+  <div class="header-title">
+    <h4>Ecommerce</h4>
+  </div>
+  <div class="link-wrapper">
+    <div class="header-left__links">
+      <ul class="links-list">
+        <li routerLink="/">Home</li>
+        <li>Category</li>
+      </ul>
+    </div>
+    <div class="header-right__links">
+      <ul class="links-list">
+        <li class="relative-link">
+          <label>
+            <input
+              type="text"
+              class="header-search__field"
+              placeholder="Search"
+              (input)="onSearch($event)"
+            />
+          </label>
+          <div class="search-results" *ngIf="products.length > 0">
+            <div
+              *ngFor="let product of products"
+              class="each-result"
+              (click)="onSelectProduct(product._id, product.category)"
+              role="button"
+              #result
+            >
+              <p class="result-text">{{ product.name }}</p>
+            </div>
+          </div>
+        </li>
+        <li><fa-icon [icon]="cartIcon"></fa-icon></li>
+        <li class="special-link" routerLink="/login">Sign In</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -48,19 +48,17 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private render: Renderer2
   ) {}
   ngOnInit() {
-    this.currentRoute.params.subscribe((params) => {
-      this.productId = params['productId'];
-    });
-    this.currentRoute.params.subscribe((params) => {
-      this.category = params['category'];
-    });
     this.productSubscription = this.productService.productObs.subscribe(
       (product) => {
         this.product = product;
+        // console.log(this.product);
       }
     );
-    this.productService.getSingleProduct(this.category, this.productId);
-    console.log(this.product);
+    this.currentRoute.params.subscribe((params) => {
+      this.productId = params['productId'];
+      this.category = params['category'];
+      this.productService.getSingleProduct(this.category, this.productId);
+    });
   }
   ngAfterViewInit() {
     const starsArray = this.stars.toArray();
