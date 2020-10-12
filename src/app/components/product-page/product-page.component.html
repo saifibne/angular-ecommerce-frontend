@@ -1,77 +1,210 @@
 <app-header></app-header>
 <div class="product-page__wrapper" hide-searchBox>
-  <div class="product-detail__wrapper">
-    <div class="image-collection">
-      <div
-        *ngFor="let image of images"
-        class="all-image"
-        (click)="onSelectImage(image.path, singleImage)"
-        #singleImage
-        #allImages
-      >
-        <img
-          [src]="getImageUrl(image.path)"
-          alt=""
-          class="single-image"
-          #imageSources
-        />
-      </div>
-    </div>
-    <div class="product-image">
-      <img [src]="imageUrl()" alt="" class="image" #image />
-    </div>
-    <div class="product-detail">
-      <h4 class="product-detail__title">{{ product.name }}</h4>
-      <div class="product-rating">
-        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-        <fa-icon [icon]="star" #starIcon class="star"></fa-icon>
-        <p class="star-count">{{ product.ratingsCount }} ratings</p>
-      </div>
-      <div class="product-warranty div-margin">
-        <fa-icon [icon]="shield" class="shield-icon"></fa-icon>
-        <p class="warranty-text">1 Year Warranty</p>
-      </div>
-      <hr />
-      <div class="original-price-container div-margin">
-        M.R.P:
-        <div class="original-price">&#8377; {{ product.originalPrice }}</div>
-      </div>
-      <div class="current-price-container div-margin">
-        Price:
-        <div class="current-price">&#8377; {{ product.offerPrice }}</div>
-      </div>
-      <div class="current-price-container div-margin">
-        You Save:
-        <div class="save-price">
-          &#8377; {{ product.priceDifference }} ({{ product.offerPercentage }}%
-          off)
+  <div *ngIf="product">
+    <div class="product-detail__wrapper">
+      <div class="image-collection">
+        <div
+          *ngFor="let image of images"
+          class="all-image"
+          (click)="onSelectImage(image.path, divReference)"
+          #divReference
+          #allImages
+          [ngClass]="{
+            'image-active': image.path === product.imageUrls[0].path
+          }"
+        >
+          <img
+            [src]="getImageUrl(image.path)"
+            alt=""
+            class="single-image"
+            #imageSources
+          />
         </div>
       </div>
-      <div class="current-price-container div-margin">
-        Delivery By:
-        <div class="save-price delivery-text">{{ product.deliveryDate }}</div>
+      <div class="product-image">
+        <img [src]="imageUrl()" alt="" class="image" #image />
       </div>
-      <div class="current-price-container div-margin">
-        Seller Name:
-        <div class="save-price seller">{{ product.userId.companyName }}</div>
-      </div>
-      <div class="product-detail__button">
-        <fa-icon [icon]="cart" class="button-icon"></fa-icon>
-        <button class="button">Add To Cart</button>
-      </div>
-      <div class="product-detail__button">
-        <fa-icon [icon]="wishList" class="button-icon"></fa-icon>
-        <button class="button">Add To Wishlist</button>
+      <div class="product-detail">
+        <h4 class="product-detail__title">{{ product.name }}</h4>
+        <div class="product-rating">
+          <fa-icon
+            [icon]="star"
+            [ngClass]="{ 'star-active': 0 < product.totalRating }"
+            class="star"
+          ></fa-icon>
+          <fa-icon
+            [icon]="star"
+            [ngClass]="{ 'star-active': 1 < product.totalRating }"
+            class="star"
+          ></fa-icon>
+          <fa-icon
+            [icon]="star"
+            [ngClass]="{ 'star-active': 2 < product.totalRating }"
+            class="star"
+          ></fa-icon>
+          <fa-icon
+            [icon]="star"
+            [ngClass]="{ 'star-active': 3 < product.totalRating }"
+            class="star"
+          ></fa-icon>
+          <fa-icon
+            [icon]="star"
+            [ngClass]="{ 'star-active': 4 < product.totalRating }"
+            class="star"
+          ></fa-icon>
+          <p class="star-count">{{ product.ratingsCount }} ratings</p>
+        </div>
+        <div class="product-warranty div-margin">
+          <fa-icon [icon]="shield" class="shield-icon"></fa-icon>
+          <p class="warranty-text">1 Year Warranty</p>
+        </div>
+        <hr />
+        <div class="original-price-container div-margin">
+          M.R.P:
+          <div class="original-price">&#8377; {{ product.originalPrice }}</div>
+        </div>
+        <div class="current-price-container div-margin">
+          Price:
+          <div class="current-price">&#8377; {{ product.offerPrice }}</div>
+        </div>
+        <div class="current-price-container div-margin">
+          You Save:
+          <div class="save-price">
+            &#8377; {{ product.priceDifference }} ({{
+              product.offerPercentage
+            }}% off)
+          </div>
+        </div>
+        <div class="current-price-container div-margin">
+          Delivery By:
+          <div class="save-price delivery-text">{{ product.deliveryDate }}</div>
+        </div>
+        <div class="current-price-container div-margin">
+          Seller Name:
+          <div class="save-price seller">{{ product.userId.companyName }}</div>
+        </div>
+        <div class="product-detail__button">
+          <fa-icon [icon]="cart" class="button-icon"></fa-icon>
+          <button class="button">Add To Cart</button>
+        </div>
+        <div class="product-detail__button">
+          <fa-icon [icon]="wishList" class="button-icon"></fa-icon>
+          <button class="button">Add To Wishlist</button>
+        </div>
       </div>
     </div>
+    <div class="divider"></div>
+    <div class="product-details">
+      <h4>Product Description</h4>
+      <p>{{ product.description }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="submit-review__wrapper">
+      <h4>Your review for this product</h4>
+      <label>
+        <input type="text" class="submit-review__title" />
+      </label>
+      <label>
+        <textarea rows="6"></textarea>
+      </label>
+      <button class="submit-review__button">Submit Review</button>
+    </div>
+    <div class="reviews-wrapper">
+      <h4 class="reviews-wrapper__title">Reviews about this product</h4>
+      <div class="each-review" *ngFor="let review of product.ratings">
+        <div class="reviewer-name">
+          <span class="user-image"></span>{{ review.userId.name }}
+        </div>
+        <div class="review-title">
+          <div class="review-stars">
+            <fa-icon
+              [icon]="star"
+              [ngClass]="{ 'star-active': 0 < review.rating }"
+              class="star"
+            ></fa-icon>
+            <fa-icon
+              [icon]="star"
+              [ngClass]="{ 'star-active': 1 < review.rating }"
+              class="star"
+            ></fa-icon>
+            <fa-icon
+              [icon]="star"
+              [ngClass]="{ 'star-active': 2 < review.rating }"
+              class="star"
+            ></fa-icon>
+            <fa-icon
+              [icon]="star"
+              [ngClass]="{ 'star-active': 3 < review.rating }"
+              class="star"
+            ></fa-icon>
+            <fa-icon
+              [icon]="star"
+              [ngClass]="{ 'star-active': 4 < review.rating }"
+              class="star"
+            ></fa-icon>
+          </div>
+          <p>
+            {{ review.title }}
+          </p>
+        </div>
+        <div class="review-time">Reviewed on 4 august 2019</div>
+        <div class="review-content">
+          <p>{{ review.comments.message }}</p>
+        </div>
+        <button
+          type="button"
+          class="reply-comment__button margin-button"
+          (click)="onComment($event)"
+        >
+          Comment
+        </button>
+        <div class="review-reply__wrapper" #addReplyContainer>
+          <label>
+            <textarea
+              rows="3"
+              class="review-reply__textarea"
+              #replyValue
+            ></textarea>
+          </label>
+          <div class="review-reply__buttons">
+            <button
+              type="button"
+              class="reply-comment__button"
+              (click)="
+                onSubmitReply(
+                  product._id,
+                  review._id,
+                  replyValue.value,
+                  addReplyContainer
+                )
+              "
+            >
+              Submit Reply
+            </button>
+            <button
+              type="button"
+              class="reply-comment__button"
+              (click)="onCancel(addReplyContainer)"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div *ngIf="review.comments.reply.length > 0">
+          <div
+            class="subComments-wrapper"
+            *ngFor="let reply of review.comments.reply"
+          >
+            <div class="reviewer-name">
+              <span class="user-image"></span> {{ reply.userId.name }}
+            </div>
+            <div class="review-content">
+              <p>{{ reply.message }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-home-footer></app-home-footer>
   </div>
-  <div class="divider"></div>
-  <div class="product-details">
-    <h4>Product Description</h4>
-    <p>{{ product.description }}</p>
-  </div>
-  <app-home-footer></app-home-footer>
 </div>

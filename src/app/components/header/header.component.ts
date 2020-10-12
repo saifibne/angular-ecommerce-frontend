@@ -2,32 +2,36 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
   ViewChildren,
 } from '@angular/core';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   map,
   switchMap,
 } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+
 import { mappedProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   cartIcon = faShoppingCart;
   count = -1;
   products: mappedProductInterface[] = [];
+  searchBoxSubscription: Subscription;
+  searchTextSubscription: Subscription;
   searchText = new Subject<string>();
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
@@ -36,7 +40,7 @@ export class HeaderComponent implements OnInit {
     private renderer: Renderer2
   ) {}
   ngOnInit() {
-    this.searchText
+    this.searchTextSubscription = this.searchText
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -51,9 +55,12 @@ export class HeaderComponent implements OnInit {
       .subscribe((products) => {
         this.products = products;
       });
-    this.productService.hideSearchBoxObs.subscribe((result) => {
-      this.products = result;
-    });
+    this.searchBoxSubscription = this.productService.hideSearchBoxObs.subscribe(
+      (result) => {
+        this.products = result;
+        this.count = -1;
+      }
+    );
   }
   @HostListener('keydown', ['$event']) selectDropdown(e) {
     if (this.products.length > 0) {
@@ -107,5 +114,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['product', category, productId]).then(() => {
       this.products = [];
     });
+  }
+  ngOnDestroy() {
+    this.searchTextSubscription.unsubscribe();
+    this.searchBoxSubscription.unsubscribe();
   }
 }

@@ -4,22 +4,22 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { ProductInterface } from '../models/product.model';
+import { mappedProductInterface } from '../models/product.model';
 import { Observable } from 'rxjs';
 
 import { ProductDataService } from './productData.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductResolverService
-  implements Resolve<{ message: string; productData: ProductInterface }> {
+  implements Resolve<{ message: string; productData: mappedProductInterface }> {
   constructor(private productService: ProductDataService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
-    | Observable<{ message: string; productData: ProductInterface }>
-    | Promise<{ message: string; productData: ProductInterface }>
-    | { message: string; productData: ProductInterface } {
+    | Observable<{ message: string; productData: mappedProductInterface }>
+    | Promise<{ message: string; productData: mappedProductInterface }>
+    | { message: string; productData: mappedProductInterface } {
     const sofaProducts = this.productService.sofaProducts;
     const bedProducts = this.productService.bedProducts;
     const chairProducts = this.productService.chairProducts;

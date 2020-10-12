@@ -11,7 +11,7 @@ export class UserDataService {
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {
-    return this.http.post('http://localhost:3000/signin', {
+    return this.http.put('http://localhost:3000/signin', {
       name: name,
       email: email,
       password: password,
@@ -20,7 +20,7 @@ export class UserDataService {
   }
   logIn(email: string, password: string) {
     return this.http
-      .post<UserInterface>('http://localhost:3000/login', {
+      .put<UserInterface>('http://localhost:3000/login', {
         email: email,
         password: password,
       })

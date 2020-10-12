@@ -4,7 +4,8 @@ import { NgForm } from '@angular/forms';
 import { UserDataService } from '../../services/userData.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -16,16 +17,19 @@ export class LoginFormComponent {
   userIcon = faUser;
   passwordIcon = faLock;
   wrongCredentials = false;
+  logInSubscription: Subscription;
   constructor(
     private userDataService: UserDataService,
-    private router: Router
+    private router: Router,
+    private currentRoute: ActivatedRoute
   ) {}
   onSubmit() {
     this.wrongCredentials = false;
-    this.userDataService
+    this.logInSubscription = this.userDataService
       .logIn(this.form.value.email, this.form.value.password)
       .subscribe(
         (result) => {
+          console.log(result);
           switch (result.message) {
             case 'email address dont match.':
               this.wrongCredentials = true;
@@ -34,7 +38,10 @@ export class LoginFormComponent {
               this.wrongCredentials = true;
               break;
             case 'successfully login.':
-              this.router.navigate(['/']);
+              // return this.router.navigate(['../'], {
+              //   relativeTo: this.currentRoute,
+              // });
+              window.history.back();
           }
         },
         (error) => {

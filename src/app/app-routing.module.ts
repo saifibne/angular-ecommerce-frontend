@@ -13,7 +13,7 @@ const appRoutes: Routes = [
   {
     path: 'product/:category/:productId',
     component: ProductPageComponent,
-    resolve: [ProductResolverService],
+    // resolve: [ProductResolverService],
   },
   { path: 'add-product', component: ProductFormComponent },
   { path: 'signup', component: SignupFormComponent },

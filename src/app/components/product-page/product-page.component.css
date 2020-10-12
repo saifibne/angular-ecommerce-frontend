@@ -194,3 +194,107 @@ hr {
   font-size: 13px;
   color: #555;
 }
+.submit-review__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
+}
+.submit-review__title {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+.reviews-wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+.each-review {
+  margin: 10px 20px;
+}
+.reviews-wrapper__title {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.reviewer-name {
+  font-size: 13px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+.user-image {
+  display: block;
+  background-image: url("../../../assets/default._CR0,0,1024,1024_SX48_.jpeg");
+  background-position: center;
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}
+.review-title {
+  display: flex;
+  align-items: center;
+}
+.review-stars {
+  line-height: 24px;
+}
+.review-title p {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  margin: 0 0 0 6px;
+}
+.review-time {
+  color: #555;
+  font-size: 14px;
+  line-height: 20px;
+}
+.review-content {
+  margin: 12px 0;
+}
+.review-content p {
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0;
+}
+.reply-comment__button {
+  border: 1px solid;
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-right: 14px;
+  cursor: pointer;
+}
+.margin-button {
+  margin-bottom: 12px;
+}
+.reply-comment__button:focus {
+  outline: none;
+}
+.review-reply__wrapper {
+  width: 95%;
+  margin-left: auto;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 200ms linear;
+}
+.review-reply__textarea {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+.review-reply__textarea:focus {
+  outline: none;
+}
+.review-reply__buttons {
+  margin-top: 10px;
+}
+.subComments-wrapper {
+  width: 95%;
+  margin-left: auto;
+  margin-top: 12px;
+}

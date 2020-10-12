@@ -10,15 +10,19 @@ import { catchError, exhaustMap, take } from 'rxjs/operators';
 
 import { UserDataService } from './userData.service';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(private userDataService: UserDataService) {}
+  constructor(
+    private userDataService: UserDataService,
+    private router: Router
+  ) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url === 'http://localhost:3000/add-product') {
+    if (req.method === 'POST') {
       return this.userDataService.userData.pipe(
         take(1),
         exhaustMap((user) => {
@@ -28,6 +32,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           return next.handle(newRequest);
         }),
         catchError((error) => {
+          this.router.navigate(['/login']);
           return throwError('Cant get the token from user object.');
         })
       );

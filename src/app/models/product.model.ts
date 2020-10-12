@@ -11,7 +11,30 @@ export interface ProductInterface {
     }
   ];
   totalRating: number;
-  ratings: [];
+  ratings: [
+    {
+      title: string;
+      comments: {
+        message: string;
+        reply: [
+          {
+            userId: {
+              _id: string;
+              name: string;
+            };
+            message: string;
+          }
+        ];
+      };
+      rating: number;
+      userId: {
+        _id: string;
+        name: string;
+      };
+      creation: string;
+      _id: string;
+    }
+  ];
   category: string;
   userId: {
     email: string;
@@ -38,7 +61,30 @@ export interface mappedProductInterface {
     }
   ];
   totalRating: number;
-  ratings: [];
+  ratings: [
+    {
+      title: string;
+      comments: {
+        message: string;
+        reply: [
+          {
+            userId: {
+              _id: string;
+              name: string;
+            };
+            message: string;
+          }
+        ];
+      };
+      rating: number;
+      userId: {
+        _id: string;
+        name: string;
+      };
+      creation: string;
+      _id: string;
+    }
+  ];
   category: string;
   userId: {
     email: string;

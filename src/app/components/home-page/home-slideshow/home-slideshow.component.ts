@@ -6,14 +6,19 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 
 import { ProductDataService } from '../../../services/productData.service';
-import { ProductInterface } from '../../../models/product.model';
+import {
+  mappedProductInterface,
+  ProductInterface,
+} from '../../../models/product.model';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-slideshow',
@@ -21,9 +26,11 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['home-slideshow.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeSlideshowComponent implements OnInit, AfterViewInit {
+export class HomeSlideshowComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @Input('category') category: string;
   @ViewChild('slider') slider: ElementRef;
+  productDataSubscription: Subscription;
   nextIcon = faAngleRight;
   prevIcon = faAngleLeft;
   sliderVisibilityWidth: number;
@@ -33,7 +40,7 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
   scrollBarWrapperWidth;
   scrollBar: number;
   items = [];
-  products: ProductInterface[] = [];
+  products: mappedProductInterface[] = [];
   constructor(
     private productDataService: ProductDataService,
     private elem: ElementRef,
@@ -46,7 +53,7 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
       '.feed-scroll'
     ).offsetWidth;
     this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
-    this.productDataService
+    this.productDataSubscription = this.productDataService
       .categoryData(this.category)
       .subscribe((products) => {
         this.products = products.productsData;
@@ -171,5 +178,8 @@ export class HomeSlideshowComponent implements OnInit, AfterViewInit {
     } else {
       this.renderer.setStyle(scrollBarElement, 'transform', `translateX(0px)`);
     }
+  }
+  ngOnDestroy() {
+    this.productDataSubscription.unsubscribe();
   }
 }

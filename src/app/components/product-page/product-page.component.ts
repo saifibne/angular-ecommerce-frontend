@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
@@ -10,7 +9,6 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +22,7 @@ import { mappedProductInterface } from '../../models/product.model';
   templateUrl: './product-page.component.html',
   styleUrls: ['product-page.component.css'],
 })
-export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductPageComponent implements OnInit, AfterViewInit {
   star = faStar;
   shield = faShieldAlt;
   cart = faShoppingCart;
@@ -32,8 +30,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   productId;
   category: string;
   product: mappedProductInterface;
-  productSubscription: Subscription;
-  @ViewChildren('starIcon', { read: ElementRef }) stars: QueryList<ElementRef>;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
     ElementRef
   >;
@@ -48,37 +44,33 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private render: Renderer2
   ) {}
   ngOnInit() {
-    this.productSubscription = this.productService.productObs.subscribe(
-      (product) => {
-        this.product = product;
-        // console.log(this.product);
-      }
-    );
     this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
-      this.productService.getSingleProduct(this.category, this.productId);
+      this.getProduct(this.productId);
     });
+    this.elem.nativeElement
+      .querySelector('.product-page__wrapper')
+      .addEventListener(
+        'wheel',
+        () => {
+          this.productService.hideSearchBoxObs.next([]);
+        },
+        { passive: true }
+      );
   }
-  ngAfterViewInit() {
-    const starsArray = this.stars.toArray();
-    for (let star of starsArray) {
-      const index = starsArray.indexOf(star, 0);
-      if (index < this.product.totalRating) {
-        this.render.addClass(star.nativeElement, 'star-active');
-      }
-    }
-    this.imageSources.forEach((image) => {
-      if (
-        image.nativeElement.attributes.src.value ===
-        `http://localhost:3000/${this.product.imageUrls[0].path}`
-      ) {
-        this.render.addClass(image.nativeElement.parentElement, 'image-active');
-      }
-    });
+  ngAfterViewInit() {}
+  getProduct(productId) {
+    this.productService
+      .getProductFromDatabase(productId)
+      .subscribe((product) => {
+        this.product = product.productData;
+      });
   }
   get images() {
-    return this.product.imageUrls;
+    if (this.product) {
+      return this.product.imageUrls;
+    }
   }
   getImageUrl(path) {
     return `http://localhost:3000/${path}`;
@@ -95,10 +87,32 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.render.addClass(element, 'image-active');
   }
   imageUrl() {
-    const imageUrl = this.product.imageUrls[0].path;
-    return `http://localhost:3000/${imageUrl}`;
+    if (this.product) {
+      const imageUrl = this.product.imageUrls[0].path;
+      return `http://localhost:3000/${imageUrl}`;
+    }
   }
-  ngOnDestroy() {
-    this.productSubscription.unsubscribe();
+  onComment(event: Event) {
+    this.render.setStyle(
+      (<HTMLButtonElement>event.target).nextElementSibling,
+      'max-height',
+      '300px'
+    );
+  }
+  onSubmitReply(
+    productId: string,
+    commentId: string,
+    message: string,
+    element: Element
+  ) {
+    this.productService
+      .postAddCommentsReply(message, productId, commentId)
+      .subscribe(() => {
+        this.getProduct(this.productId);
+        this.onCancel(element);
+      });
+  }
+  onCancel(element: Element) {
+    this.render.removeStyle(element, 'max-height');
   }
 }
