@@ -4,14 +4,11 @@ import {
   mappedProductInterface,
   ProductInterface,
 } from '../models/product.model';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDataService {
-  sofaProducts: mappedProductInterface[] = [];
-  chairProducts: mappedProductInterface[] = [];
-  bedProducts: mappedProductInterface[] = [];
   product: mappedProductInterface;
   hideSearchBoxObs = new Subject<[]>();
   constructor(private http: HttpClient) {}
@@ -24,30 +21,9 @@ export class ProductDataService {
     return this.http.request(req);
   }
   categoryData(category: string) {
-    return this.http
-      .get<{ productsData: ProductInterface[] }>(
-        `http://localhost:3000/products/${category}`
-      )
-      .pipe(
-        map((products) => {
-          const receivedProducts = products.productsData;
-          const newProducts = this.mappingProducts(receivedProducts);
-          return { productsData: newProducts };
-        }),
-        tap((products: { productsData: mappedProductInterface[] }) => {
-          switch (category) {
-            case 'sofa':
-              this.sofaProducts = products.productsData;
-              break;
-            case 'chair':
-              this.chairProducts = products.productsData;
-              break;
-            case 'bed':
-              this.bedProducts = products.productsData;
-              break;
-          }
-        })
-      );
+    return this.http.get<{ productsData: ProductInterface[] }>(
+      `http://localhost:3000/products/${category}`
+    );
   }
   getProductFromDatabase(productId) {
     return this.http
@@ -92,6 +68,21 @@ export class ProductDataService {
       { comment: message },
       {
         params: new HttpParams().set('commentId', commentId),
+      }
+    );
+  }
+  postAddComment(
+    productId: string,
+    title: string,
+    comment: string,
+    rating: number
+  ) {
+    return this.http.post(
+      `http://localhost:3000/product/comment/${productId}`,
+      {
+        title: title,
+        comment: comment,
+        rating: rating,
       }
     );
   }

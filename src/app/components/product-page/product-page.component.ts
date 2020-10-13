@@ -29,11 +29,18 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
   wishList = faShoppingBag;
   productId;
   category: string;
+  alreadyReplied = false;
+  alreadyCommented = false;
+  emptyMessage = false;
+  emptySubmit = false;
   product: mappedProductInterface;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
     ElementRef
   >;
   @ViewChildren('allImages', { read: ElementRef }) allImages: QueryList<
+    ElementRef
+  >;
+  @ViewChildren('reviewInput', { read: ElementRef }) allStarInputs: QueryList<
     ElementRef
   >;
   @ViewChild('image') image: ElementRef;
@@ -105,14 +112,78 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     message: string,
     element: Element
   ) {
+    this.emptyMessage = false;
+    this.alreadyReplied = false;
+    if (message === '') {
+      this.emptyMessage = true;
+      return;
+    }
     this.productService
       .postAddCommentsReply(message, productId, commentId)
-      .subscribe(() => {
-        this.getProduct(this.productId);
-        this.onCancel(element);
+      .subscribe((result: { message: string; status: number }) => {
+        switch (result.status) {
+          case 301:
+            this.alreadyReplied = true;
+            break;
+          case 200:
+            this.emptyMessage = false;
+            this.getProduct(this.productId);
+            this.onCancel(element);
+        }
       });
   }
   onCancel(element: Element) {
+    this.alreadyReplied = false;
+    this.emptyMessage = false;
     this.render.removeStyle(element, 'max-height');
+  }
+  createDate(creation: string) {
+    return new Date(creation).toDateString();
+  }
+  onRateProduct(element: Element) {
+    this.render.addClass(element, 'show-submit__wrapper');
+  }
+  onSubmitComment(
+    productId: string,
+    title: string,
+    comment: string,
+    element: Element
+  ) {
+    this.alreadyCommented = false;
+    this.emptySubmit = false;
+    if (title === '' || comment === '') {
+      this.emptySubmit = true;
+      return;
+    }
+    new Promise((resolve) => {
+      this.allStarInputs.forEach((starInput) => {
+        if ((<HTMLInputElement>starInput.nativeElement).checked) {
+          resolve(+(<HTMLInputElement>starInput.nativeElement).value);
+        }
+      });
+    })
+      .then((ratingValue: number) => {
+        return this.productService
+          .postAddComment(productId, title, comment, ratingValue)
+          .toPromise();
+      })
+      .then((result: { message: string; status: number }) => {
+        switch (result.status) {
+          case 301:
+            this.alreadyCommented = true;
+            break;
+          case 200:
+            this.getProduct(this.productId);
+            this.onCancelSubmit(element);
+        }
+      });
+  }
+  onCancelSubmit(element: Element) {
+    this.render.removeClass(element, 'show-submit__wrapper');
+    this.alreadyCommented = false;
+    this.emptySubmit = false;
+    this.allStarInputs.forEach((starInput) => {
+      (<HTMLInputElement>starInput.nativeElement).checked = false;
+    });
   }
 }

@@ -99,18 +99,85 @@
       <p>{{ product.description }}</p>
     </div>
     <div class="divider"></div>
-    <div class="submit-review__wrapper">
-      <h4>Your review for this product</h4>
-      <label>
-        <input type="text" class="submit-review__title" />
-      </label>
-      <label>
-        <textarea rows="6"></textarea>
-      </label>
-      <button class="submit-review__button">Submit Review</button>
+    <div class="submit-review__wrapper" #submitWrapper>
+      <h4 class="reviews-wrapper__title top-margin__title">
+        {{
+          product.ratingsCount === 0
+            ? "Be first to rate this product"
+            : "Your review"
+        }}
+      </h4>
+      <div class="submit-title__star">
+        <div class="position-relative measure-width">
+          <label>
+            <input type="text" class="submit-review__input" #commentTitle />
+          </label>
+          <p class="absolute-placed">Title:</p>
+        </div>
+        <div class="submit-review__stars">
+          <input type="radio" id="5" value="5" name="star" #reviewInput />
+          <label for="5" class="each-star__label">5</label>
+          <input type="radio" id="4" value="4" name="star" #reviewInput />
+          <label for="4" class="each-star__label">4</label>
+          <input type="radio" id="3" value="3" name="star" #reviewInput />
+          <label for="3" class="each-star__label">3</label>
+          <input type="radio" id="2" value="2" name="star" #reviewInput />
+          <label for="2" class="each-star__label">2</label>
+          <input type="radio" id="1" value="1" name="star" #reviewInput />
+          <label for="1" class="each-star__label">1</label>
+        </div>
+      </div>
+      <div class="position-relative">
+        <label>
+          <textarea
+            rows="3"
+            class="submit-review__textarea"
+            #commentText
+          ></textarea>
+        </label>
+        <p class="absolute-placed">Description:</p>
+      </div>
+      <p class="reply-warning" *ngIf="alreadyCommented">
+        You already commented for this product
+      </p>
+      <p class="reply-warning" *ngIf="emptySubmit">
+        Title and description field should not be empty.
+      </p>
+      <div class="submit-wrapper__buttons">
+        <button
+          type="button"
+          class="reply-comment__button"
+          (click)="
+            onSubmitComment(
+              product._id,
+              commentTitle.value,
+              commentText.value,
+              submitWrapper
+            )
+          "
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          class="reply-comment__button"
+          (click)="onCancelSubmit(submitWrapper)"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
-    <div class="reviews-wrapper">
-      <h4 class="reviews-wrapper__title">Reviews about this product</h4>
+    <div class="reviews-wrapper" *ngIf="product.ratingsCount > 0">
+      <div class="titles-wrapper">
+        <h4 class="reviews-wrapper__title">Reviews about this product</h4>
+        <button
+          type="button"
+          class="submit-review__button"
+          (click)="onRateProduct(submitWrapper)"
+        >
+          Rate Product
+        </button>
+      </div>
       <div class="each-review" *ngFor="let review of product.ratings">
         <div class="reviewer-name">
           <span class="user-image"></span>{{ review.userId.name }}
@@ -147,7 +214,9 @@
             {{ review.title }}
           </p>
         </div>
-        <div class="review-time">Reviewed on 4 august 2019</div>
+        <div class="review-time">
+          Reviewed on {{ createDate(review.creation) }}
+        </div>
         <div class="review-content">
           <p>{{ review.comments.message }}</p>
         </div>
@@ -166,6 +235,12 @@
               #replyValue
             ></textarea>
           </label>
+          <p class="reply-warning" *ngIf="alreadyReplied">
+            You already replied to this comment
+          </p>
+          <p class="reply-warning" *ngIf="emptyMessage">
+            Comment should not be empty
+          </p>
           <div class="review-reply__buttons">
             <button
               type="button"
@@ -203,6 +278,71 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="submit-review__wrapper special-wrapper"
+      #anotherSubmitWrapper
+      *ngIf="product.ratingsCount === 0"
+    >
+      <h4 class="reviews-wrapper__title top-margin__title">
+        {{
+          product.ratingsCount === 0
+            ? "Be first to rate this product"
+            : "Your review"
+        }}
+      </h4>
+      <div class="submit-title__star">
+        <div class="position-relative measure-width">
+          <label>
+            <input type="text" class="submit-review__input" #commentTitle />
+          </label>
+          <p class="absolute-placed">Title:</p>
+        </div>
+        <div class="submit-review__stars">
+          <input type="radio" id="6" value="5" name="star" #reviewInput />
+          <label for="6" class="each-star__label">5</label>
+          <input type="radio" id="7" value="4" name="star" #reviewInput />
+          <label for="7" class="each-star__label">4</label>
+          <input type="radio" id="8" value="3" name="star" #reviewInput />
+          <label for="8" class="each-star__label">3</label>
+          <input type="radio" id="9" value="2" name="star" #reviewInput />
+          <label for="9" class="each-star__label">2</label>
+          <input type="radio" id="10" value="1" name="star" #reviewInput />
+          <label for="10" class="each-star__label">1</label>
+        </div>
+      </div>
+      <div class="position-relative">
+        <label>
+          <textarea
+            rows="3"
+            class="submit-review__textarea"
+            #commentText
+          ></textarea>
+        </label>
+        <p class="absolute-placed">Description:</p>
+      </div>
+      <p class="reply-warning" *ngIf="alreadyCommented">
+        You already commented for this product
+      </p>
+      <p class="reply-warning" *ngIf="emptySubmit">
+        Title and description field should not be empty.
+      </p>
+      <div class="submit-wrapper__buttons">
+        <button
+          type="button"
+          class="reply-comment__button"
+          (click)="
+            onSubmitComment(
+              product._id,
+              commentTitle.value,
+              commentText.value,
+              anotherSubmitWrapper
+            )
+          "
+        >
+          Submit
+        </button>
       </div>
     </div>
     <app-home-footer></app-home-footer>

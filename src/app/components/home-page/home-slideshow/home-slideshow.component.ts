@@ -13,10 +13,7 @@ import {
 } from '@angular/core';
 
 import { ProductDataService } from '../../../services/productData.service';
-import {
-  mappedProductInterface,
-  ProductInterface,
-} from '../../../models/product.model';
+import { ProductInterface } from '../../../models/product.model';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
@@ -40,7 +37,7 @@ export class HomeSlideshowComponent
   scrollBarWrapperWidth;
   scrollBar: number;
   items = [];
-  products: mappedProductInterface[] = [];
+  products: ProductInterface[] = [];
   constructor(
     private productDataService: ProductDataService,
     private elem: ElementRef,
