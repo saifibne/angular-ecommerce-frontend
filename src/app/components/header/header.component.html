@@ -42,6 +42,7 @@
               class="header-search__field"
               placeholder="Search"
               (input)="onSearch($event)"
+              #searchInput
             />
           </label>
           <div class="search-results" *ngIf="products.length > 0">

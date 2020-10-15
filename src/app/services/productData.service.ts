@@ -63,7 +63,7 @@ export class ProductDataService {
           );
           const deliveryDate = new Date(
             new Date().setDate(new Date().getDate() + 7)
-          ).toDateString();
+          );
           return {
             message: product.message,
             productData: {

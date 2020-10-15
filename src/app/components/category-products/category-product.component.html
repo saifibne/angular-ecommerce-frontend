@@ -64,9 +64,9 @@
             </div>
             <p class="product-price">
               Price:
-              <span class="product-currency"
-                >&#8377; {{ product.offerPrice }}</span
-              >
+              <span class="product-currency">{{
+                product.offerPrice | currency: "INR"
+              }}</span>
             </p>
           </div>
           <div class="each-product__btn">

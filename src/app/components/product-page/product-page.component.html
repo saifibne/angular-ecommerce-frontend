@@ -61,23 +61,29 @@
         <hr />
         <div class="original-price-container div-margin">
           M.R.P:
-          <div class="original-price">&#8377; {{ product.originalPrice }}</div>
+          <div class="original-price">
+            {{ product.originalPrice | currency: "INR" }}
+          </div>
         </div>
         <div class="current-price-container div-margin">
           Price:
-          <div class="current-price">&#8377; {{ product.offerPrice }}</div>
+          <div class="current-price">
+            {{ product.offerPrice | currency: "INR" }}
+          </div>
         </div>
         <div class="current-price-container div-margin">
           You Save:
           <div class="save-price">
-            &#8377; {{ product.priceDifference }} ({{
+            {{ product.priceDifference | currency: "INR" }} ({{
               product.offerPercentage
             }}% off)
           </div>
         </div>
         <div class="current-price-container div-margin">
           Delivery By:
-          <div class="save-price delivery-text">{{ product.deliveryDate }}</div>
+          <div class="save-price delivery-text">
+            {{ product.deliveryDate | date: "mediumDate" }}
+          </div>
         </div>
         <div class="current-price-container div-margin">
           Seller Name:
@@ -215,7 +221,7 @@
           </p>
         </div>
         <div class="review-time">
-          Reviewed on {{ createDate(review.creation) }}
+          Reviewed on {{ review.creation | date: "shortDate" }}
         </div>
         <div class="review-content">
           <p>{{ review.comments.message }}</p>

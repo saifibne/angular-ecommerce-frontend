@@ -54,7 +54,7 @@ export interface mappedProductInterface {
   priceDifference: number;
   offerPercentage: number;
   description: string;
-  deliveryDate: string;
+  deliveryDate: Date;
   imageUrls: [
     {
       _id: string;

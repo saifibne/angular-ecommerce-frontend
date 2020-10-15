@@ -130,9 +130,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     this.emptyMessage = false;
     this.render.removeStyle(element, 'max-height');
   }
-  createDate(creation: string) {
-    return new Date(creation).toDateString();
-  }
   onRateProduct(element: Element) {
     this.render.addClass(element, 'show-submit__wrapper');
   }

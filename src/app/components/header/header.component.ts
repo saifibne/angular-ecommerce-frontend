@@ -6,6 +6,7 @@ import {
   OnInit,
   QueryList,
   Renderer2,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
@@ -13,6 +14,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
+  retryWhen,
   switchMap,
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -37,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchBoxSubscription: Subscription;
   searchTextSubscription: Subscription;
   searchText = new Subject<string>();
+  @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
     private productService: ProductDataService,
@@ -49,16 +52,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
         debounceTime(500),
         distinctUntilChanged(),
         switchMap((input) => {
-          return this.productService.getSearchedProducts(input);
+          const changedInput = input.replace(
+            /[!@#$%^&*()\-=+/\\_|}\]{\['";:,.?<>]/gi,
+            ''
+          );
+          return this.productService.getSearchedProducts(changedInput);
         }),
         map((products) => {
           const receivedProducts = products.products;
           return this.productService.mappingProducts(receivedProducts);
+        }),
+        retryWhen((errors) => {
+          return errors;
         })
       )
-      .subscribe((products) => {
-        this.products = products;
-      });
+      .subscribe(
+        (products) => {
+          this.products = products;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     this.searchBoxSubscription = this.productService.hideSearchBoxObs.subscribe(
       (result) => {
         this.products = result;
@@ -83,6 +98,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.renderer.addClass(
             results[this.count].nativeElement,
             'each-result-focused'
+          );
+          this.renderer.setProperty(
+            this.searchInput.nativeElement,
+            'value',
+            results[this.count].nativeElement.children[0].innerText
           );
           break;
         case 'ArrowUp':
@@ -112,9 +132,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.searchText.next(inputValue);
   }
   onSelectProduct(productId, category) {
-    this.productService.product = this.products.find(
-      (product) => product._id === productId
-    );
     this.router.navigate(['product', category, productId]).then(() => {
       this.products = [];
     });
