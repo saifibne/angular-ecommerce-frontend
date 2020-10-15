@@ -20,10 +20,34 @@ export class ProductDataService {
     );
     return this.http.request(req);
   }
-  categoryData(category: string) {
+  slideShowData(category: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
-      `http://localhost:3000/products/${category}`
+      `http://localhost:3000/slideshow/${category}`
     );
+  }
+  categoryData(category: string, value: string) {
+    if (value === 'New Arrivals') {
+      return this.http.get<{ productsData: ProductInterface[] }>(
+        `http://localhost:3000/products/${category}`,
+        {
+          params: new HttpParams().set('sortBy', 'newArrivals'),
+        }
+      );
+    } else if (value === 'Customer Ratings') {
+      return this.http.get<{ productsData: ProductInterface[] }>(
+        `http://localhost:3000/products/${category}`,
+        {
+          params: new HttpParams().set('sortBy', 'ratings'),
+        }
+      );
+    } else if (value === 'Added By Date') {
+      return this.http.get<{ productsData: ProductInterface[] }>(
+        `http://localhost:3000/products/${category}`,
+        {
+          params: new HttpParams().set('sortBy', 'addedDate'),
+        }
+      );
+    }
   }
   getProductFromDatabase(productId) {
     return this.http
@@ -32,7 +56,6 @@ export class ProductDataService {
       )
       .pipe(
         map((product) => {
-          const ratingsCount = product.productData.ratings.length;
           const priceDifference =
             product.productData.originalPrice - product.productData.offerPrice;
           const offerPercentage = Math.round(
@@ -45,7 +68,6 @@ export class ProductDataService {
             message: product.message,
             productData: {
               ...product.productData,
-              ratingsCount: ratingsCount,
               priceDifference: priceDifference,
               offerPercentage: offerPercentage,
               deliveryDate: deliveryDate,
@@ -88,7 +110,6 @@ export class ProductDataService {
   }
   mappingProducts(products) {
     return products.map((product) => {
-      const ratingsCount = product.ratings.length;
       const priceDifference = product.originalPrice - product.offerPrice;
       const offerPercentage = Math.round(
         (priceDifference / product.originalPrice) * 100
@@ -98,7 +119,6 @@ export class ProductDataService {
       ).toDateString();
       return {
         ...product,
-        ratingsCount: ratingsCount,
         priceDifference: priceDifference,
         offerPercentage: offerPercentage,
         deliveryDate: deliveryDate,

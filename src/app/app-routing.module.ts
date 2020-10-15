@@ -6,6 +6,7 @@ import { SignupFormComponent } from './components/signup-form/signup-form.compon
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
+import { CategoryProductComponent } from './components/category-products/category-product.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
     path: 'product/:category/:productId',
     component: ProductPageComponent,
   },
+  { path: 'products/:category', component: CategoryProductComponent },
   { path: 'add-product', component: ProductFormComponent },
   { path: 'signup', component: SignupFormComponent },
   { path: 'login', component: LoginFormComponent },

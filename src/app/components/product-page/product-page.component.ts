@@ -56,23 +56,16 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
       this.category = params['category'];
       this.getProduct(this.productId);
     });
-    this.elem.nativeElement
-      .querySelector('.product-page__wrapper')
-      .addEventListener(
-        'wheel',
-        () => {
-          this.productService.hideSearchBoxObs.next([]);
-        },
-        { passive: true }
-      );
   }
   ngAfterViewInit() {}
   getProduct(productId) {
     this.productService
       .getProductFromDatabase(productId)
-      .subscribe((product) => {
-        this.product = product.productData;
-      });
+      .subscribe(
+        (product: { message: string; productData: mappedProductInterface }) => {
+          this.product = product.productData;
+        }
+      );
   }
   get images() {
     if (this.product) {

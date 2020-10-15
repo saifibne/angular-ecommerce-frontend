@@ -1,0 +1,129 @@
+.another-sorting__wrapper {
+  width: 90%;
+  margin: 20px auto;
+}
+.sort-products__wrapper {
+  width: max-content;
+  position: relative;
+  margin-left: auto;
+}
+.shorting-anchor {
+  padding: 10px;
+  background-color: white;
+  font-size: 14px;
+  line-height: 18px;
+  display: block;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.13);
+}
+.caret-icon {
+  padding-left: 4px;
+}
+.shorting-ul {
+  list-style: none;
+  width: auto;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.13);
+}
+.show-list {
+  display: block;
+}
+.shorting-item {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.shorting-item:hover {
+  border-color: #555;
+  background-color: #f1eded;
+}
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 264px);
+  grid-gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.single-product {
+  width: 264px;
+  border: 1px solid transparent;
+  padding: 10px 14px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+.each-product__link {
+  cursor: pointer;
+  text-decoration: none;
+}
+.image-container {
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+.image-src {
+  width: 100%;
+}
+.product-text {
+  margin-bottom: 12px;
+}
+.product-name {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #111;
+}
+.star-count {
+  display: flex;
+  align-items: center;
+}
+.star-icons {
+  display: flex;
+}
+.each-star__icon::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f005";
+  font-size: 13px;
+  color: #ff9900;
+}
+.active-star::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f005";
+  font-size: 13px;
+  color: #ff9900;
+}
+.rating-count {
+  font-size: 13px;
+  color: #555;
+  padding-left: 6px;
+}
+.product-price {
+  font-size: 13px;
+  color: #555;
+  line-height: 18px;
+  margin: 0;
+}
+.product-currency {
+  font-size: 14px;
+  color: #b12704;
+  line-height: 19px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.each-product__btn {
+  text-align: center;
+}

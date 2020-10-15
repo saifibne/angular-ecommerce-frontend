@@ -35,6 +35,7 @@ export interface ProductInterface {
       _id: string;
     }
   ];
+  ratingCount: number;
   category: string;
   userId: {
     email: string;
@@ -85,6 +86,7 @@ export interface mappedProductInterface {
       _id: string;
     }
   ];
+  ratingCount: number;
   category: string;
   userId: {
     email: string;

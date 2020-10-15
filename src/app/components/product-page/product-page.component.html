@@ -52,7 +52,7 @@
             [ngClass]="{ 'star-active': 4 < product.totalRating }"
             class="star"
           ></fa-icon>
-          <p class="star-count">{{ product.ratingsCount }} ratings</p>
+          <p class="star-count">{{ product.ratingCount }} ratings</p>
         </div>
         <div class="product-warranty div-margin">
           <fa-icon [icon]="shield" class="shield-icon"></fa-icon>
@@ -102,7 +102,7 @@
     <div class="submit-review__wrapper" #submitWrapper>
       <h4 class="reviews-wrapper__title top-margin__title">
         {{
-          product.ratingsCount === 0
+          product.ratingCount === 0
             ? "Be first to rate this product"
             : "Your review"
         }}
@@ -167,7 +167,7 @@
         </button>
       </div>
     </div>
-    <div class="reviews-wrapper" *ngIf="product.ratingsCount > 0">
+    <div class="reviews-wrapper" *ngIf="product.ratingCount > 0">
       <div class="titles-wrapper">
         <h4 class="reviews-wrapper__title">Reviews about this product</h4>
         <button
@@ -283,11 +283,11 @@
     <div
       class="submit-review__wrapper special-wrapper"
       #anotherSubmitWrapper
-      *ngIf="product.ratingsCount === 0"
+      *ngIf="product.ratingCount === 0"
     >
       <h4 class="reviews-wrapper__title top-margin__title">
         {{
-          product.ratingsCount === 0
+          product.ratingCount === 0
             ? "Be first to rate this product"
             : "Your review"
         }}

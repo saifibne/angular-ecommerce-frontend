@@ -17,6 +17,8 @@ import {
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 import { mappedProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
@@ -28,6 +30,8 @@ import { ProductDataService } from '../../services/productData.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   cartIcon = faShoppingCart;
+  nextIcon = faAngleRight;
+  caretIcon = faCaretDown;
   count = -1;
   products: mappedProductInterface[] = [];
   searchBoxSubscription: Subscription;

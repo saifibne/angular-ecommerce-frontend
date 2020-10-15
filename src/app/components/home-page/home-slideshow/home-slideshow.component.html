@@ -1,7 +1,7 @@
 <div class="slideshow-container">
   <div class="slideshow-title">
     <h4 class="title">Great deals on {{ category }}</h4>
-    <a class="anchor">See all deals</a>
+    <a class="anchor" [routerLink]="['products', category]">See all deals</a>
   </div>
   <div class="another-wrapper">
     <div class="slideshow-card__wrapper" #slider>

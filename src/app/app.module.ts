@@ -21,6 +21,8 @@ import { HomeFooterComponent } from './components/home-page/home-footer/home-foo
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
+import { CategoryProductComponent } from './components/category-products/category-product.component';
+import { ShortTextPipe } from './pipes/shortText.pipe';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
     HomeFooterComponent,
     ProductPageComponent,
     HeaderComponent,
+    CategoryProductComponent,
+    ShortTextPipe,
   ],
   imports: [
     BrowserModule,

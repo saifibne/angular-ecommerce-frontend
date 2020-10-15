@@ -6,7 +6,31 @@
     <div class="header-left__links">
       <ul class="links-list">
         <li routerLink="/">Home</li>
-        <li>Category</li>
+        <li class="position-relative">
+          <p>
+            Category
+            <span
+              ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
+            ></span>
+          </p>
+          <div class="dropdown-wrapper">
+            <div class="dropdown-arrow"></div>
+            <ul class="dropdown-ul">
+              <li class="dropdown-item">
+                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                <a routerLink="/products/sofa">Sofa</a>
+              </li>
+              <li class="dropdown-item">
+                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                <a routerLink="/products/chair">Chair</a>
+              </li>
+              <li class="dropdown-item">
+                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                <a routerLink="/products/bed">Bed</a>
+              </li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </div>
     <div class="header-right__links">

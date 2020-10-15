@@ -51,7 +51,7 @@ export class HomeSlideshowComponent
     ).offsetWidth;
     this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
     this.productDataSubscription = this.productDataService
-      .categoryData(this.category)
+      .slideShowData(this.category)
       .subscribe((products) => {
         this.products = products.productsData;
         this.cd.detectChanges();

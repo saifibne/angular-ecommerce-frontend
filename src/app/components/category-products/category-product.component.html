@@ -1,0 +1,80 @@
+<app-header></app-header>
+<div class="another-sorting__wrapper">
+  <div class="sort-products__wrapper">
+    <a class="shorting-anchor" (click)="showList(sortList)" #showListAnchor
+      >Sort By: {{ selectedListItem }}
+      <span><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon></span
+    ></a>
+    <ul class="shorting-ul" #sortList>
+      <li class="shorting-item" (click)="onSelectItem(first.innerText)" #first>
+        New Arrivals
+      </li>
+      <li
+        class="shorting-item"
+        (click)="onSelectItem(second.innerText)"
+        #second
+      >
+        Customer Ratings
+      </li>
+      <li class="shorting-item" (click)="onSelectItem(third.innerText)" #third>
+        Added By Date
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="products">
+  <div class="products-container" hide-searchBox (click)="onClickContainer()">
+    <div class="single-product" *ngFor="let product of products">
+      <a
+        class="each-product__link"
+        [routerLink]="['/product', category, product._id]"
+      >
+        <div class="image-container">
+          <img [src]="getImageUrl(product)" alt="" class="image-src" />
+        </div>
+        <div class="product-details__container">
+          <div class="product-text">
+            <h4 class="product-name">
+              {{ product.name | titlecase | shortText: 30 }}
+            </h4>
+            <div class="star-count">
+              <div class="star-icons">
+                <div
+                  class="each-star__icon"
+                  [ngClass]="{ 'active-star': 0 < product.totalRating }"
+                ></div>
+                <div
+                  class="each-star__icon"
+                  [ngClass]="{ 'active-star': 1 < product.totalRating }"
+                ></div>
+                <div
+                  class="each-star__icon"
+                  [ngClass]="{ 'active-star': 2 < product.totalRating }"
+                ></div>
+                <div
+                  class="each-star__icon"
+                  [ngClass]="{ 'active-star': 3 < product.totalRating }"
+                ></div>
+                <div
+                  class="each-star__icon"
+                  [ngClass]="{ 'active-star': 4 < product.totalRating }"
+                ></div>
+              </div>
+              <div class="rating-count">({{ product.ratingCount }})</div>
+            </div>
+            <p class="product-price">
+              Price:
+              <span class="product-currency"
+                >&#8377; {{ product.offerPrice }}</span
+              >
+            </p>
+          </div>
+          <div class="each-product__btn">
+            <button type="button" class="product-cart__btn">Add To Cart</button>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <app-home-footer></app-home-footer>
+</div>
