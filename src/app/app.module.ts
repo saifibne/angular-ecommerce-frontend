@@ -23,6 +23,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
 import { CategoryProductComponent } from './components/category-products/category-product.component';
 import { ShortTextPipe } from './pipes/shortText.pipe';
+import { CartPageComponent } from './components/cart-page/cart-page.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ShortTextPipe } from './pipes/shortText.pipe';
     HeaderComponent,
     CategoryProductComponent,
     ShortTextPipe,
+    CartPageComponent,
   ],
   imports: [
     BrowserModule,

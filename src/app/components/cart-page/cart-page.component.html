@@ -1,0 +1,80 @@
+<app-header [userLogIn]="isUserLogIn"></app-header>
+<div class="total-wrapper" *ngIf="cartItems">
+  <div class="cart-wrapper">
+    <div class="cart-items__wrapper">
+      <div class="cart-items__title">
+        <h4>My Cart ({{ cartItems.items.length }})</h4>
+      </div>
+      <div class="cart-items">
+        <div class="each-cart__item" *ngFor="let item of cartItems.items">
+          <div class="image-details">
+            <div class="item-image__wrapper">
+              <img
+                [src]="getImageUrl(item.productId.imageUrls[0].path)"
+                alt=""
+                class="item-image"
+              />
+            </div>
+            <div class="item-details">
+              <div class="cart-items__detail">
+                <h4 class="item-title">
+                  {{ item.productId.name | shortText: 40 }}
+                </h4>
+                <p class="item-seller">Seller: {{ item.seller }}</p>
+                <div class="item-price">
+                  <p class="item-offerPrice">
+                    {{ item.productId.offerPrice | currency: "INR" }}
+                  </p>
+                  <p class="item-originalPrice">
+                    {{ item.productId.originalPrice | currency: "INR" }}
+                  </p>
+                  <p class="item-discount">{{ item.offerPercentage }}% off</p>
+                </div>
+              </div>
+              <div class="cart-item__quantity"></div>
+            </div>
+          </div>
+          <div class="delivery-date__wrapper">
+            <div class="delivery-date">
+              Deliver by {{ item.deliveryDate | date: "mediumDate" }}
+            </div>
+            <div class="delivery-replacement">10 days replacement policy</div>
+          </div>
+        </div>
+      </div>
+      <div class="place-order__wrapper">
+        <button class="place-order__btn">Place Order</button>
+      </div>
+    </div>
+    <div class="cart-price__wrapper">
+      <div class="cart-price__title">
+        <h4>PRICE DETAILS</h4>
+      </div>
+      <div class="cart-price__body">
+        <div class="cart-total__price">
+          <div>Price({{ cartItems.items.length }} items)</div>
+          <div class="right-price">
+            {{ cartItems.totalPrice | currency: "INR" }}
+          </div>
+        </div>
+        <div class="cart-delivery__price">
+          <div class="deliver-title">Delivery Charges</div>
+          <div class="deliver-price">Free</div>
+        </div>
+      </div>
+      <div class="total-amount__wrapper">
+        <div>Total Amount</div>
+        <div class="right-total__price">
+          {{ cartItems.totalPrice | currency: "INR" }}
+        </div>
+      </div>
+      <div class="total-save__wrapper">
+        <p>
+          You will save {{ cartItems.priceSave | currency: "INR" }} on this
+          order
+        </p>
+      </div>
+    </div>
+  </div>
+  <app-home-footer></app-home-footer>
+</div>

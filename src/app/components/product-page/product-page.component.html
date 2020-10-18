@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header [userLogIn]="isUserLogIn"></app-header>
 <div class="product-page__wrapper" hide-searchBox>
   <div *ngIf="product">
     <div class="product-detail__wrapper">
@@ -91,7 +91,9 @@
         </div>
         <div class="product-detail__button">
           <fa-icon [icon]="cart" class="button-icon"></fa-icon>
-          <button class="button">Add To Cart</button>
+          <button class="button" (click)="onAddCart(product._id)">
+            Add To Cart
+          </button>
         </div>
         <div class="product-detail__button">
           <fa-icon [icon]="wishList" class="button-icon"></fa-icon>

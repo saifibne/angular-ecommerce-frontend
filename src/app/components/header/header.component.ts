@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnDestroy,
   OnInit,
   QueryList,
@@ -13,17 +14,17 @@ import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
-  map,
   retryWhen,
   switchMap,
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-import { mappedProductInterface } from '../../models/product.model';
+import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-header',
@@ -31,18 +32,22 @@ import { ProductDataService } from '../../services/productData.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @Input('userLogIn') userLogIn: boolean;
   cartIcon = faShoppingCart;
   nextIcon = faAngleRight;
+  prevIcon = faAngleLeft;
   caretIcon = faCaretDown;
   count = -1;
-  products: mappedProductInterface[] = [];
+  products: ProductInterface[] = [];
   searchBoxSubscription: Subscription;
   searchTextSubscription: Subscription;
   searchText = new Subject<string>();
   @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchBtn') searchBtn: ElementRef;
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
     private productService: ProductDataService,
+    private userService: UserDataService,
     private router: Router,
     private renderer: Renderer2
   ) {}
@@ -58,17 +63,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           );
           return this.productService.getSearchedProducts(changedInput);
         }),
-        map((products) => {
-          const receivedProducts = products.products;
-          return this.productService.mappingProducts(receivedProducts);
-        }),
         retryWhen((errors) => {
           return errors;
         })
       )
       .subscribe(
-        (products) => {
-          this.products = products;
+        (products: { productsData: ProductInterface[] }) => {
+          this.products = products.productsData;
         },
         (error) => {
           console.log(error);
@@ -118,12 +119,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
             results[this.count].nativeElement,
             'each-result-focused'
           );
+          this.renderer.setProperty(
+            this.searchInput.nativeElement,
+            'value',
+            results[this.count].nativeElement.children[0].innerText
+          );
           break;
         case 'Enter':
-          results[this.count].nativeElement.click();
+          if (results[this.count]) {
+            results[this.count].nativeElement.click();
+          } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
+            (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+          }
           break;
         default:
           this.count = -1;
+      }
+    } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
+      if (e.key === 'Enter') {
+        (<HTMLButtonElement>this.searchBtn.nativeElement).click();
       }
     }
   }
@@ -135,6 +149,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['product', category, productId]).then(() => {
       this.products = [];
     });
+  }
+  onClick(value: string) {
+    return this.router.navigate(['/search'], {
+      queryParams: { search: value },
+    });
+  }
+  onLogout() {
+    this.userService.logout();
   }
   ngOnDestroy() {
     this.searchTextSubscription.unsubscribe();

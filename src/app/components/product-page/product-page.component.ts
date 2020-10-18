@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 
 import { ProductDataService } from '../../services/productData.service';
 import { mappedProductInterface } from '../../models/product.model';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-product-page',
@@ -29,6 +30,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
   wishList = faShoppingBag;
   productId;
   category: string;
+  isUserLogIn: boolean;
   alreadyReplied = false;
   alreadyCommented = false;
   emptyMessage = false;
@@ -48,9 +50,14 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     private currentRoute: ActivatedRoute,
     private productService: ProductDataService,
     private elem: ElementRef,
-    private render: Renderer2
+    private render: Renderer2,
+    private userService: UserDataService,
+    private router: Router
   ) {}
   ngOnInit() {
+    this.userService.userLogInObs.subscribe((result) => {
+      this.isUserLogIn = result;
+    });
     this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
@@ -85,6 +92,11 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
       `http://localhost:3000/${imageUrl}`
     );
     this.render.addClass(element, 'image-active');
+  }
+  onAddCart(productId: string) {
+    this.userService.addToCart(productId, 'add').subscribe((result) => {
+      return this.router.navigate(['/cart']);
+    });
   }
   imageUrl() {
     if (this.product) {
@@ -166,6 +178,9 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
             this.getProduct(this.productId);
             this.onCancelSubmit(element);
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
   onCancelSubmit(element: Element) {

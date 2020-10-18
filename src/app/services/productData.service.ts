@@ -77,7 +77,7 @@ export class ProductDataService {
       );
   }
   getSearchedProducts(input: string) {
-    return this.http.get<{ products: ProductInterface[] }>(
+    return this.http.get<{ productsData: ProductInterface[] }>(
       'http://localhost:3000/search',
       {
         params: new HttpParams().set('search', input),

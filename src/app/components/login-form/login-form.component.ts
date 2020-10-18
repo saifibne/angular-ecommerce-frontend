@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UserDataService } from '../../services/userData.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,8 +20,7 @@ export class LoginFormComponent {
   logInSubscription: Subscription;
   constructor(
     private userDataService: UserDataService,
-    private router: Router,
-    private currentRoute: ActivatedRoute
+    private router: Router
   ) {}
   onSubmit() {
     this.wrongCredentials = false;
@@ -38,10 +37,7 @@ export class LoginFormComponent {
               this.wrongCredentials = true;
               break;
             case 'successfully login.':
-              // return this.router.navigate(['../'], {
-              //   relativeTo: this.currentRoute,
-              // });
-              window.history.back();
+              return this.router.navigate(['/']);
           }
         },
         (error) => {

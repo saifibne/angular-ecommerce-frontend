@@ -26,8 +26,11 @@ export class HttpInterceptorService implements HttpInterceptor {
       return this.userDataService.userData.pipe(
         take(1),
         exhaustMap((user) => {
+          console.log(user);
           const newRequest = req.clone({
-            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
+            headers: new HttpHeaders({
+              Authorization: `Bearer ${user.token}`,
+            }),
           });
           return next.handle(newRequest);
         }),

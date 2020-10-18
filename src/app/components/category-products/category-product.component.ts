@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
@@ -10,32 +11,56 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
+import { switchMap, tap } from 'rxjs/operators';
+import { iif, combineLatest, Subscription } from 'rxjs';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-category-product',
   templateUrl: 'category-product.component.html',
   styleUrls: ['category-product.component.css'],
 })
-export class CategoryProductComponent implements OnInit {
+export class CategoryProductComponent implements OnInit, OnDestroy {
   caretIcon = faCaretDown;
   category: string;
+  showSorting = false;
+  routerSubscription: Subscription;
   selectedListItem: string = 'New Arrivals';
   products: ProductInterface[];
+  isUserLogIn: boolean;
   @ViewChild('sortList') sortList: ElementRef;
   @ViewChild('showListAnchor') anchor: ElementRef;
   constructor(
     private productService: ProductDataService,
     private currentRoute: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userService: UserDataService
   ) {}
   ngOnInit() {
-    this.currentRoute.params.subscribe((params) => {
-      this.category = params['category'];
-      this.productService
-        .categoryData(this.category, 'New Arrivals')
-        .subscribe((products) => {
-          this.products = products.productsData;
-        });
+    this.routerSubscription = combineLatest([
+      this.currentRoute.params,
+      this.currentRoute.queryParams,
+    ])
+      .pipe(
+        tap((params) => {
+          this.category = params[0].category;
+          this.showSorting = !!params[0].category;
+        }),
+        switchMap((params) => {
+          return iif(
+            () => params[0].category,
+            this.productService.categoryData(this.category, 'New Arrivals'),
+            this.productService.getSearchedProducts(
+              this.currentRoute.snapshot.queryParams['search']
+            )
+          );
+        })
+      )
+      .subscribe((products: { productsData: ProductInterface[] }) => {
+        this.products = products.productsData;
+      });
+    this.userService.userLogInObs.subscribe((result) => {
+      this.isUserLogIn = result;
     });
   }
   getImageUrl(product: ProductInterface) {
@@ -47,7 +72,9 @@ export class CategoryProductComponent implements OnInit {
     this.renderer.addClass(element, 'show-list');
   }
   onClickContainer() {
-    this.renderer.removeClass(this.sortList.nativeElement, 'show-list');
+    if (this.sortList) {
+      this.renderer.removeClass(this.sortList.nativeElement, 'show-list');
+    }
   }
   onSelectItem(value) {
     this.selectedListItem = value;
@@ -57,5 +84,8 @@ export class CategoryProductComponent implements OnInit {
       .subscribe((products) => {
         this.products = products.productsData;
       });
+  }
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
   }
 }

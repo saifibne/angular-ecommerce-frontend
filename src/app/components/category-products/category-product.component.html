@@ -1,5 +1,5 @@
-<app-header></app-header>
-<div class="another-sorting__wrapper">
+<app-header [userLogIn]="isUserLogIn"></app-header>
+<div class="another-sorting__wrapper" *ngIf="showSorting">
   <div class="sort-products__wrapper">
     <a class="shorting-anchor" (click)="showList(sortList)" #showListAnchor
       >Sort By: {{ selectedListItem }}
@@ -27,7 +27,7 @@
     <div class="single-product" *ngFor="let product of products">
       <a
         class="each-product__link"
-        [routerLink]="['/product', category, product._id]"
+        [routerLink]="['/product', product.category, product._id]"
       >
         <div class="image-container">
           <img [src]="getImageUrl(product)" alt="" class="image-src" />

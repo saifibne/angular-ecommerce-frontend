@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ProductDataService } from '../../services/productData.service';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,9 +8,11 @@ import { ProductDataService } from '../../services/productData.service';
   styleUrls: ['home-page.component.css'],
 })
 export class HomePageComponent implements OnInit {
+  isUserLogIn: boolean;
   constructor(
     private elem: ElementRef,
-    private productService: ProductDataService
+    private productService: ProductDataService,
+    private userService: UserDataService
   ) {}
   ngOnInit() {
     this.elem.nativeElement
@@ -21,5 +24,8 @@ export class HomePageComponent implements OnInit {
         },
         { passive: true }
       );
+    this.userService.userLogInObs.subscribe((result) => {
+      this.isUserLogIn = result;
+    });
   }
 }

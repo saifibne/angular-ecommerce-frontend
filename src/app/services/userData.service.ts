@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { User, UserInterface } from '../models/user.model';
+import { CartInterface } from '../models/cart.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserDataService {
-  userData = new BehaviorSubject<User>(null);
+  userData = new ReplaySubject<User>(1);
+  userLogInObs = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {
@@ -34,6 +36,7 @@ export class UserDataService {
               expireTime
             );
             this.userData.next(user);
+            this.userLogInObs.next(true);
             localStorage.setItem('token', user.token);
           }
         })
@@ -41,10 +44,13 @@ export class UserDataService {
   }
   logout() {
     localStorage.removeItem('token');
+    this.userData.next(null);
+    this.userLogInObs.next(false);
   }
   autoLogin() {
     const token: string = localStorage.getItem('token');
     if (!token) {
+      this.userLogInObs.next(false);
       return;
     }
     this.http
@@ -59,11 +65,68 @@ export class UserDataService {
             new Date(user.expireTime)
           );
           this.userData.next(existingUser);
+          this.userLogInObs.next(true);
         },
         (error) => {
           this.logout();
+          this.userLogInObs.next(false);
           console.log(error);
         }
       );
+  }
+  getCart() {
+    return this.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.get<{ message: string; cart: CartInterface }>(
+            'http://localhost:3000/cart',
+            {
+              headers: new HttpHeaders({
+                Authorization: `Bearer ${user.token}`,
+              }),
+            }
+          );
+        } else {
+          return of(null);
+        }
+      }),
+      map((result: { message: string; cart: CartInterface }) => {
+        if (result !== null) {
+          let originalTotalPrice: number = 0;
+          let offerTotalPrice: number = 0;
+          const newCartItems = result.cart.items.map((item) => {
+            const deliveryDate = new Date(
+              new Date().setDate(new Date().getDate() + 7)
+            );
+            const offerPercentage = Math.round(
+              ((item.productId.originalPrice - item.productId.offerPrice) /
+                item.productId.originalPrice) *
+                100
+            );
+            originalTotalPrice += item.productId.originalPrice;
+            offerTotalPrice += item.productId.offerPrice;
+            return {
+              ...item,
+              deliveryDate: deliveryDate,
+              offerPercentage: offerPercentage,
+            };
+          });
+          const priceSave = originalTotalPrice - offerTotalPrice;
+          return {
+            message: result.message,
+            cart: {
+              items: newCartItems,
+              totalPrice: result.cart.totalPrice,
+              priceSave: priceSave,
+            },
+          };
+        }
+      })
+    );
+  }
+  addToCart(productId: string, code: string) {
+    return this.http.post(`http://localhost:3000/cart/${productId}`, {
+      code: code,
+    });
   }
 }
