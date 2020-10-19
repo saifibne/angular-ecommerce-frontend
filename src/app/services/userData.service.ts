@@ -92,8 +92,7 @@ export class UserDataService {
       }),
       map((result: { message: string; cart: CartInterface }) => {
         if (result !== null) {
-          let originalTotalPrice: number = 0;
-          let offerTotalPrice: number = 0;
+          let priceSave: number = 0;
           const newCartItems = result.cart.items.map((item) => {
             const deliveryDate = new Date(
               new Date().setDate(new Date().getDate() + 7)
@@ -103,15 +102,15 @@ export class UserDataService {
                 item.productId.originalPrice) *
                 100
             );
-            originalTotalPrice += item.productId.originalPrice;
-            offerTotalPrice += item.productId.offerPrice;
+            priceSave +=
+              (item.productId.originalPrice - item.productId.offerPrice) *
+              item.quantity;
             return {
               ...item,
               deliveryDate: deliveryDate,
               offerPercentage: offerPercentage,
             };
           });
-          const priceSave = originalTotalPrice - offerTotalPrice;
           return {
             message: result.message,
             cart: {

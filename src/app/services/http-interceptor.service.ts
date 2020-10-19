@@ -26,7 +26,6 @@ export class HttpInterceptorService implements HttpInterceptor {
       return this.userDataService.userData.pipe(
         take(1),
         exhaustMap((user) => {
-          console.log(user);
           const newRequest = req.clone({
             headers: new HttpHeaders({
               Authorization: `Bearer ${user.token}`,
@@ -34,7 +33,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
           return next.handle(newRequest);
         }),
-        catchError((error) => {
+        catchError(() => {
           this.router.navigate(['/login']);
           return throwError('Cant get the token from user object.');
         })
