@@ -131,5 +131,14 @@
       </div>
     </div>
   </div>
+  <div class="notification-wrapper" *ngIf="showNotification && updatedItemData">
+    <div class="notification">
+      <fa-icon [icon]="checked" class="checked-icon"></fa-icon>
+      <div class="notification-text">
+        You've changed '{{ updatedItemData.productId.name | shortText: 40 }}'
+        Quantity to '{{ updatedItemData.quantity }}'
+      </div>
+    </div>
+  </div>
   <app-home-footer></app-home-footer>
 </div>
