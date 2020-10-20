@@ -24,6 +24,8 @@ import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
 import { CategoryProductComponent } from './components/category-products/category-product.component';
 import { ShortTextPipe } from './pipes/shortText.pipe';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { AdminProductsComponent } from './components/admin-products/admin-products.component';
+import { SearchArrayPipe } from './pipes/searchArray.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { CartPageComponent } from './components/cart-page/cart-page.component';
     CategoryProductComponent,
     ShortTextPipe,
     CartPageComponent,
+    AdminProductsComponent,
+    SearchArrayPipe,
   ],
   imports: [
     BrowserModule,

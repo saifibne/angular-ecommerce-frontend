@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest,
+} from '@angular/common/http';
 import {
   mappedProductInterface,
   ProductInterface,
 } from '../models/product.model';
-import { map } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { UserDataService } from './userData.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDataService {
   product: mappedProductInterface;
   hideSearchBoxObs = new Subject<[]>();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserDataService) {}
   submitProduct(formData: FormData) {
     const req = new HttpRequest(
       'POST',
@@ -107,6 +113,25 @@ export class ProductDataService {
         rating: rating,
       }
     );
+  }
+  getAdminProducts() {
+    return this.userService.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.get<{
+            message: string;
+            products: ProductInterface[];
+          }>('http://localhost:3000/admin/products', {
+            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
+          });
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+  deleteProduct(productId: string) {
+    return this.http.delete(`http://localhost:3000/delete/${productId}`);
   }
   mappingProducts(products) {
     return products.map((product) => {

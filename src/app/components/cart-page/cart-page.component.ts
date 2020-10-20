@@ -21,6 +21,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
   cartItems: MappedCartInterface;
   isUserLogIn: boolean;
   showModal = false;
+  productId: string;
   updatedItemData: { quantity: number; productId: { name: string } };
   showNotification = false;
   headerSub: Subscription;
@@ -60,15 +61,25 @@ export class CartPageComponent implements OnInit, OnDestroy {
   }
   onCancel() {
     this.showModal = false;
+    this.productId = null;
   }
-  onDelete() {
+  onDelete(productId: string) {
     this.showModal = true;
+    this.productId = productId;
   }
-  onRemove(productId: string) {
-    this.userService.addToCart(productId, 'delete').subscribe(() => {
-      this.rerunDataBase().subscribe();
-      this.showModal = false;
-    });
+  onRemove() {
+    if (this.productId) {
+      this.userService
+        .addToCart(this.productId, 'delete')
+        .pipe(
+          switchMap(() => {
+            return this.rerunDataBase();
+          })
+        )
+        .subscribe(() => {
+          this.onCancel();
+        });
+    }
   }
   private handlingAddDelete(productId: string, code: string) {
     this.userService

@@ -8,9 +8,11 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { CategoryProductComponent } from './components/category-products/category-product.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
+  { path: 'admin/products', component: AdminProductsComponent },
   {
     path: 'product/:category/:productId',
     component: ProductPageComponent,

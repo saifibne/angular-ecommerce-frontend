@@ -1,5 +1,21 @@
 <app-header [userLogIn]="isUserLogIn"></app-header>
 <div class="total-wrapper" *ngIf="cartItems">
+  <div class="remove-modal__wrapper" *ngIf="showModal">
+    <div class="backdrop"></div>
+    <div class="position-wrapper">
+      <div class="remove-modal">
+        <button class="close-btn" (click)="onCancel()">&#10005;</button>
+        <div class="modal-title">Remove Item</div>
+        <div class="modal-content">
+          Are you sure you want to remove this item?
+        </div>
+        <div class="modal-btn">
+          <button class="modal-btn__1" (click)="onCancel()">Cancel</button>
+          <button class="modal-btn__2" (click)="onRemove()">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="empty-cart__wrapper" *ngIf="cartItems.items.length === 0">
     <div class="empty-cart__title">My Cart</div>
     <div class="empty-cart__body">
@@ -59,32 +75,12 @@
                   <button class="plus-btn" (click)="onPlus(item.productId._id)">
                     +
                   </button>
-                  <p class="remove-quantity" (click)="onDelete()">Remove</p>
-                </div>
-              </div>
-              <div class="remove-modal__wrapper" *ngIf="showModal">
-                <div class="backdrop"></div>
-                <div class="position-wrapper">
-                  <div class="remove-modal">
-                    <button class="close-btn" (click)="onCancel()">
-                      &#10005;
-                    </button>
-                    <div class="modal-title">Remove Item</div>
-                    <div class="modal-content">
-                      Are you sure you want to remove this item?
-                    </div>
-                    <div class="modal-btn">
-                      <button class="modal-btn__1" (click)="onCancel()">
-                        Cancel
-                      </button>
-                      <button
-                        class="modal-btn__2"
-                        (click)="onRemove(item.productId._id)"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
+                  <p
+                    class="remove-quantity"
+                    (click)="onDelete(item.productId._id)"
+                  >
+                    Remove
+                  </p>
                 </div>
               </div>
             </div>

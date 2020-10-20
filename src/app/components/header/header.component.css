@@ -203,6 +203,8 @@
 }
 .account-dropdown-item a {
   padding-right: 6px;
+  text-decoration: none;
+  color: inherit;
 }
 .account-dropdown-item:hover {
   background-color: #f1eded;

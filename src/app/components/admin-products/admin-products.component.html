@@ -1,0 +1,69 @@
+<app-header [userLogIn]="isUserLogIn"></app-header>
+<div hide-searchBox>
+  <div class="search-bar">
+    <div class="width-adjust">
+      <label>
+        <input
+          type="text"
+          class="search"
+          placeholder="Search Your Product..."
+          [(ngModel)]="searchText"
+        />
+      </label>
+    </div>
+  </div>
+  <div class="remove-modal__wrapper" *ngIf="showModal">
+    <div class="backdrop"></div>
+    <div class="position-wrapper">
+      <div class="remove-modal">
+        <button class="close-btn" (click)="onCancel()">&#10005;</button>
+        <div class="modal-title">Remove Item</div>
+        <div class="modal-content">
+          Are you sure you want to remove this item?
+        </div>
+        <div class="modal-btn">
+          <button class="modal-btn__1" (click)="onCancel()">Cancel</button>
+          <button class="modal-btn__2" (click)="onRemove()">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="products-wrapper" *ngIf="adminProducts">
+    <div class="empty-product__wrapper" *ngIf="adminProducts.length === 0">
+      <div>
+        <img
+          src="../../../assets/d438a32e-765a-4d8b-b4a6-520b560971e8.png"
+          alt=""
+          class="empty-img"
+        />
+        <div class="empty-product__content">You don't have any product.</div>
+      </div>
+    </div>
+    <div
+      class="single-product__wrapper"
+      *ngFor="let product of adminProducts | searchArray: searchText"
+    >
+      <div class="product-img">
+        <img [src]="getImage(product.imageUrls[0].path)" alt="" class="img" />
+      </div>
+      <div class="product-name">
+        <p>{{ product.name | shortText: 40 }}</p>
+        <div class="time-stamp">
+          <div class="created-at">
+            Created At: {{ product.createdAt | date: "shortDate" }}
+          </div>
+          <div class="update-at">
+            Updated At: {{ product.updatedAt | date: "shortDate" }}
+          </div>
+        </div>
+      </div>
+      <div class="single-product__btn">
+        <button class="edit-btn">Edit</button>
+        <button class="delete-btn" (click)="onDelete(product._id)">
+          Delete
+        </button>
+      </div>
+    </div>
+    <app-home-footer></app-home-footer>
+  </div>
+</div>

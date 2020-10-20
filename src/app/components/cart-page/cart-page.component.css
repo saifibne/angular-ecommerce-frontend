@@ -356,7 +356,7 @@
   width: 100%;
 }
 .notification {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 24px;
   max-width: 70%;
   width: max-content;
