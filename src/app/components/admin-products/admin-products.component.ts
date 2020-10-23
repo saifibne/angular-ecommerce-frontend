@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { switchMap, tap } from 'rxjs/operators';
+
 import { UserDataService } from '../../services/userData.service';
 import { ProductDataService } from '../../services/productData.service';
 import { ProductInterface } from '../../models/product.model';
-import { Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-products',

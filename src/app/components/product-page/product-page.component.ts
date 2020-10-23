@@ -13,18 +13,25 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ProductDataService } from '../../services/productData.service';
 import { mappedProductInterface } from '../../models/product.model';
 import { UserDataService } from '../../services/userData.service';
+import { WishListModel } from '../../models/wishList.model';
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
-  styleUrls: ['product-page.component.css'],
+  styleUrls: [
+    '../cart-page/cart-page.component.css',
+    'product-page.component.css',
+  ],
 })
 export class ProductPageComponent implements OnInit, AfterViewInit {
   star = faStar;
+  checked = faCheckCircle;
   shield = faShieldAlt;
   cart = faShoppingCart;
   wishList = faShoppingBag;
@@ -33,6 +40,9 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
   isUserLogIn: boolean;
   alreadyReplied = false;
   alreadyCommented = false;
+  alreadyWishListed = false;
+  showNotification = false;
+  deleteItemNotification = false;
   emptyMessage = false;
   emptySubmit = false;
   product: mappedProductInterface;
@@ -61,18 +71,29 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
-      this.getProduct(this.productId);
+      this.getProduct(this.productId).subscribe();
     });
   }
   ngAfterViewInit() {}
   getProduct(productId) {
-    this.productService
-      .getProductFromDatabase(productId)
-      .subscribe(
+    return this.productService.getProductFromDatabase(productId).pipe(
+      tap(
         (product: { message: string; productData: mappedProductInterface }) => {
           this.product = product.productData;
         }
-      );
+      ),
+      switchMap(() => {
+        return this.productService.getWishlistItems();
+      }),
+      tap((result: { message: string; wishList: WishListModel[] }) => {
+        if (result) {
+          const wishItemIndex = result.wishList.findIndex((item) => {
+            return item.productId._id.toString() === this.productId.toString();
+          });
+          this.alreadyWishListed = wishItemIndex !== -1;
+        }
+      })
+    );
   }
   get images() {
     if (this.product) {
@@ -94,9 +115,42 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     this.render.addClass(element, 'image-active');
   }
   onAddCart(productId: string) {
-    this.userService.addToCart(productId, 'add').subscribe((result) => {
+    this.userService.addToCart(productId, 'add').subscribe(() => {
       return this.router.navigate(['/cart']);
     });
+  }
+  onAddWishList(productId: string) {
+    if (this.alreadyWishListed) {
+      this.productService
+        .deleteWishListItem(productId)
+        .pipe(
+          switchMap(() => {
+            return this.getProduct(this.productId);
+          })
+        )
+        .subscribe(() => {
+          this.showNotification = true;
+          this.deleteItemNotification = true;
+          setTimeout(() => {
+            this.showNotification = false;
+            this.deleteItemNotification = false;
+          }, 2000);
+        });
+    } else {
+      this.productService
+        .addWishListItem(productId)
+        .pipe(
+          switchMap(() => {
+            return this.getProduct(this.productId);
+          })
+        )
+        .subscribe(() => {
+          this.showNotification = true;
+          setTimeout(() => {
+            this.showNotification = false;
+          }, 2000);
+        });
+    }
   }
   imageUrl() {
     if (this.product) {
@@ -132,7 +186,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
             break;
           case 200:
             this.emptyMessage = false;
-            this.getProduct(this.productId);
+            this.getProduct(this.productId).subscribe();
             this.onCancel(element);
         }
       });
@@ -175,7 +229,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
             this.alreadyCommented = true;
             break;
           case 200:
-            this.getProduct(this.productId);
+            this.getProduct(this.productId).subscribe();
             this.onCancelSubmit(element);
         }
       })

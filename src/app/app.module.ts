@@ -26,6 +26,7 @@ import { ShortTextPipe } from './pipes/shortText.pipe';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 import { SearchArrayPipe } from './pipes/searchArray.pipe';
+import { WishlistItemsComponent } from './components/wishlist-items/wishlist-items.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { SearchArrayPipe } from './pipes/searchArray.pipe';
     CartPageComponent,
     AdminProductsComponent,
     SearchArrayPipe,
+    WishlistItemsComponent,
   ],
   imports: [
     BrowserModule,

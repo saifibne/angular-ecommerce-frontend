@@ -97,7 +97,9 @@
         </div>
         <div class="product-detail__button">
           <fa-icon [icon]="wishList" class="button-icon"></fa-icon>
-          <button class="button">Add To Wishlist</button>
+          <button class="button" (click)="onAddWishList(product._id)">
+            {{ alreadyWishListed ? "WishListed" : "Add To WishList" }}
+          </button>
         </div>
       </div>
     </div>
@@ -351,6 +353,18 @@
         >
           Submit
         </button>
+      </div>
+    </div>
+    <div class="notification-wrapper" *ngIf="showNotification">
+      <div class="notification">
+        <fa-icon [icon]="checked" class="checked-icon"></fa-icon>
+        <div class="notification-text">
+          {{
+            deleteItemNotification
+              ? "Item deleted from wishlist"
+              : "Item added to wishlist"
+          }}
+        </div>
       </div>
     </div>
     <app-home-footer></app-home-footer>

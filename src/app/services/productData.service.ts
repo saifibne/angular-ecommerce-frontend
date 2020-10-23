@@ -133,6 +133,50 @@ export class ProductDataService {
   deleteProduct(productId: string) {
     return this.http.delete(`http://localhost:3000/delete/${productId}`);
   }
+  getWishlistItems() {
+    return this.userService.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.get('http://localhost:3000/get-wishlist', {
+            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
+          });
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+  addWishListItem(productId: string) {
+    return this.userService.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.get(`http://localhost:3000/wishlist/${productId}`, {
+            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
+          });
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+  deleteWishListItem(itemId: string) {
+    return this.userService.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.delete<{ message: string }>(
+            `http://localhost:3000/wishlist/${itemId}`,
+            {
+              headers: new HttpHeaders({
+                Authorization: `Bearer ${user.token}`,
+              }),
+            }
+          );
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
   mappingProducts(products) {
     return products.map((product) => {
       const priceDifference = product.originalPrice - product.offerPrice;

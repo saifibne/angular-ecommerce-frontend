@@ -7,6 +7,12 @@ export interface UserInterface {
     products: [];
     totalRating: number;
     ratings: [];
+    wishList: [
+      {
+        _id: string;
+        productId: string;
+      }
+    ];
   };
   token: string;
   expireTime: Date;
@@ -19,6 +25,12 @@ export class User {
     products: [];
     totalRating: number;
     ratings: [];
+    wishList: [
+      {
+        _id: string;
+        productId: string;
+      }
+    ];
   };
   private readonly _token: string;
   private readonly expireTime: Date;
@@ -30,6 +42,12 @@ export class User {
       products: [];
       totalRating: number;
       ratings: [];
+      wishList: [
+        {
+          _id: string;
+          productId: string;
+        }
+      ];
     },
     _token: string,
     expireTime: Date
