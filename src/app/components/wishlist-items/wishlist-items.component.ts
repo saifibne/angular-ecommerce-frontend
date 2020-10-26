@@ -1,26 +1,31 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ProductDataService } from '../../services/productData.service';
 import { Router } from '@angular/router';
 import { WishListModel } from '../../models/wishList.model';
+import { exhaustMap, take, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wishlist-items',
   templateUrl: 'wishlist-items.component.html',
   styleUrls: ['wishlist-items.component.css'],
 })
-export class WishlistItemsComponent implements OnInit {
+export class WishlistItemsComponent implements OnInit, OnDestroy {
   trashIcon = faTrash;
   items: WishListModel[];
+  wishListSub: Subscription;
   constructor(
     private productService: ProductDataService,
     private router: Router,
     private renderer: Renderer2
   ) {}
   ngOnInit() {
-    this.productService
-      .getWishlistItems()
-      .subscribe((result: { message: string; wishList: WishListModel[] }) => {
+    this.wishListSub = this.rerunDataBase().subscribe();
+  }
+  rerunDataBase() {
+    return this.productService.getWishlistItems().pipe(
+      tap((result: { message: string; wishList: WishListModel[] }) => {
         if (result) {
           this.items = result.wishList.map((item) => {
             const offerPercentage = Math.round(
@@ -33,7 +38,8 @@ export class WishlistItemsComponent implements OnInit {
         } else {
           return this.router.navigate(['login']);
         }
-      });
+      })
+    );
   }
   getImage(path: string) {
     return `http://localhost:3000/${path}`;
@@ -45,8 +51,17 @@ export class WishlistItemsComponent implements OnInit {
     this.renderer.removeClass(element, 'show-modal');
   }
   deleteWishItem(itemId: string) {
-    this.productService.deleteWishListItem(itemId).subscribe((result) => {
-      console.log(result);
-    });
+    this.productService
+      .deleteWishListItem(itemId)
+      .pipe(
+        take(1),
+        exhaustMap(() => {
+          return this.rerunDataBase();
+        })
+      )
+      .subscribe();
+  }
+  ngOnDestroy() {
+    this.wishListSub.unsubscribe();
   }
 }

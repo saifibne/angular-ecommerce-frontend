@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { faPlusCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ProductDataService } from '../../services/productData.service';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-product-form',
@@ -13,12 +14,17 @@ import { ProductDataService } from '../../services/productData.service';
     '../signup-form/signup-form.component.css',
   ],
 })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit, OnDestroy {
   addIcon = faPlusCircle;
   cancelIcon = faTimesCircle;
   form: FormGroup;
   fileAsDataUrl: string | ArrayBuffer;
   fileData = [];
+  constructor(
+    private productDataService: ProductDataService,
+    private router: Router,
+    private userService: UserDataService
+  ) {}
   ngOnInit() {
     this.form = new FormGroup({
       name: new FormControl(null, [
@@ -33,11 +39,9 @@ export class ProductFormComponent implements OnInit {
       category: new FormControl('sofa', Validators.required),
       imageUrl: new FormArray([new FormControl(null, Validators.required)]),
     });
+    this.userService.showHeader.next(false);
+    this.userService.showFooter.next(false);
   }
-  constructor(
-    private productDataService: ProductDataService,
-    private router: Router
-  ) {}
   addImage() {
     const newControl = new FormControl(null, Validators.required);
     (<FormArray>this.form.get('imageUrl')).push(newControl);
@@ -126,10 +130,13 @@ export class ProductFormComponent implements OnInit {
         this.fileData = [];
         this.fileAsDataUrl = null;
       },
-      (error) => {
-        this.router.navigate(['login']);
-        console.log(error);
+      () => {
+        return this.router.navigate(['login']);
       }
     );
+  }
+  ngOnDestroy() {
+    this.userService.showHeader.next(true);
+    this.userService.showFooter.next(true);
   }
 }

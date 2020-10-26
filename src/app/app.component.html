@@ -1,1 +1,7 @@
+<app-header
+  [userLogIn]="isLogIn"
+  *ngIf="showHeader"
+  [ngClass]="{ 'header-fixed': fixedHeader }"
+></app-header>
 <router-outlet></router-outlet>
+<app-home-footer *ngIf="showFooter"></app-home-footer>

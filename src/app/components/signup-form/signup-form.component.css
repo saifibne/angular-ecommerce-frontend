@@ -1,3 +1,7 @@
+:host {
+  grid-row-start: 1;
+  grid-row-end: -1;
+}
 .wrapper {
   background-color: #3a2778;
   background-image: url("../../../assets/header-illustration-3a4c23d829b8e7030dc9083774e0758b3728928904767e24784d840b40b98c78.png");

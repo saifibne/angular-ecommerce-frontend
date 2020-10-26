@@ -19,18 +19,13 @@ export class CartPageComponent implements OnInit, OnDestroy {
   minus = faMinus;
   checked = faCheckCircle;
   cartItems: MappedCartInterface;
-  isUserLogIn: boolean;
   showModal = false;
   productId: string;
   updatedItemData: { quantity: number; productId: { name: string } };
   showNotification = false;
-  headerSub: Subscription;
   cartSub: Subscription;
   constructor(private userService: UserDataService, private router: Router) {}
   ngOnInit() {
-    this.headerSub = this.userService.userLogInObs.subscribe((result) => {
-      this.isUserLogIn = result;
-    });
     this.cartSub = this.rerunDataBase().subscribe();
   }
   rerunDataBase() {
@@ -105,7 +100,6 @@ export class CartPageComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.headerSub.unsubscribe();
     this.cartSub.unsubscribe();
   }
 }

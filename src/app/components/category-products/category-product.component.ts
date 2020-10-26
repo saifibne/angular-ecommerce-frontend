@@ -13,7 +13,6 @@ import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { iif, combineLatest, Subscription } from 'rxjs';
-import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-category-product',
@@ -27,14 +26,12 @@ export class CategoryProductComponent implements OnInit, OnDestroy {
   routerSubscription: Subscription;
   selectedListItem: string = 'New Arrivals';
   products: ProductInterface[];
-  isUserLogIn: boolean;
   @ViewChild('sortList') sortList: ElementRef;
   @ViewChild('showListAnchor') anchor: ElementRef;
   constructor(
     private productService: ProductDataService,
     private currentRoute: ActivatedRoute,
-    private renderer: Renderer2,
-    private userService: UserDataService
+    private renderer: Renderer2
   ) {}
   ngOnInit() {
     this.routerSubscription = combineLatest([
@@ -59,9 +56,6 @@ export class CategoryProductComponent implements OnInit, OnDestroy {
       .subscribe((products: { productsData: ProductInterface[] }) => {
         this.products = products.productsData;
       });
-    this.userService.userLogInObs.subscribe((result) => {
-      this.isUserLogIn = result;
-    });
   }
   getImageUrl(product: ProductInterface) {
     return `http://localhost:3000/${product.imageUrls[0].path}`;

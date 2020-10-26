@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
@@ -14,7 +15,7 @@ import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 import { ProductDataService } from '../../services/productData.service';
 import { mappedProductInterface } from '../../models/product.model';
@@ -29,7 +30,7 @@ import { WishListModel } from '../../models/wishList.model';
     'product-page.component.css',
   ],
 })
-export class ProductPageComponent implements OnInit, AfterViewInit {
+export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   star = faStar;
   checked = faCheckCircle;
   shield = faShieldAlt;
@@ -37,7 +38,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
   wishList = faShoppingBag;
   productId;
   category: string;
-  isUserLogIn: boolean;
   alreadyReplied = false;
   alreadyCommented = false;
   alreadyWishListed = false;
@@ -65,9 +65,6 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
   ngOnInit() {
-    this.userService.userLogInObs.subscribe((result) => {
-      this.isUserLogIn = result;
-    });
     this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
@@ -115,40 +112,53 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     this.render.addClass(element, 'image-active');
   }
   onAddCart(productId: string) {
-    this.userService.addToCart(productId, 'add').subscribe(() => {
-      return this.router.navigate(['/cart']);
-    });
+    this.userService
+      .addToCart(productId, 'add')
+      .pipe(take(1))
+      .subscribe(() => {
+        return this.router.navigate(['/cart']);
+      });
   }
   onAddWishList(productId: string) {
     if (this.alreadyWishListed) {
       this.productService
         .deleteWishListItem(productId)
         .pipe(
+          take(1),
           switchMap(() => {
             return this.getProduct(this.productId);
           })
         )
-        .subscribe(() => {
-          this.showNotification = true;
-          this.deleteItemNotification = true;
-          setTimeout(() => {
-            this.showNotification = false;
-            this.deleteItemNotification = false;
-          }, 2000);
+        .subscribe((result) => {
+          if (result) {
+            this.showNotification = true;
+            this.deleteItemNotification = true;
+            setTimeout(() => {
+              this.showNotification = false;
+              this.deleteItemNotification = false;
+            }, 2000);
+          } else {
+            return this.router.navigate(['login']);
+          }
         });
     } else {
       this.productService
         .addWishListItem(productId)
         .pipe(
+          take(1),
           switchMap(() => {
             return this.getProduct(this.productId);
           })
         )
-        .subscribe(() => {
-          this.showNotification = true;
-          setTimeout(() => {
-            this.showNotification = false;
-          }, 2000);
+        .subscribe((result) => {
+          if (result) {
+            this.showNotification = true;
+            setTimeout(() => {
+              this.showNotification = false;
+            }, 2000);
+          } else {
+            return this.router.navigate(['login']);
+          }
         });
     }
   }
@@ -179,6 +189,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
     }
     this.productService
       .postAddCommentsReply(message, productId, commentId)
+      .pipe(take(1))
       .subscribe((result: { message: string; status: number }) => {
         switch (result.status) {
           case 301:
@@ -245,4 +256,5 @@ export class ProductPageComponent implements OnInit, AfterViewInit {
       (<HTMLInputElement>starInput.nativeElement).checked = false;
     });
   }
+  ngOnDestroy() {}
 }

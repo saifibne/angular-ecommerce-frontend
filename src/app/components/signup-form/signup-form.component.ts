@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { UserDataService } from '../../services/userData.service';
@@ -10,11 +10,16 @@ import { faHeadset } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.css'],
 })
-export class SignupFormComponent {
+export class SignupFormComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
   deliveryIcon = faTruck;
   customerIcon = faHeadset;
   constructor(private userDataService: UserDataService) {}
+  ngOnInit() {
+    this.userDataService.showHeader.next(false);
+    this.userDataService.showFooter.next(false);
+  }
+
   onSubmit() {
     this.userDataService
       .signUp(
@@ -27,5 +32,9 @@ export class SignupFormComponent {
         console.log(result);
         this.form.reset();
       });
+  }
+  ngOnDestroy() {
+    this.userDataService.showHeader.next(true);
+    this.userDataService.showFooter.next(true);
   }
 }

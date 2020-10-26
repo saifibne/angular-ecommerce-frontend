@@ -10,6 +10,9 @@ import { CartInterface } from '../models/cart.model';
 export class UserDataService {
   userData = new ReplaySubject<User>(1);
   userLogInObs = new BehaviorSubject<boolean>(false);
+  showHeader = new BehaviorSubject<boolean>(true);
+  fixedHeader = new BehaviorSubject<boolean>(false);
+  showFooter = new BehaviorSubject<boolean>(true);
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {
@@ -51,6 +54,7 @@ export class UserDataService {
     const token: string = localStorage.getItem('token');
     if (!token) {
       this.userLogInObs.next(false);
+      this.userData.next(null);
       return;
     }
     this.http
@@ -70,6 +74,7 @@ export class UserDataService {
         (error) => {
           this.logout();
           this.userLogInObs.next(false);
+          this.userData.next(null);
           console.log(error);
         }
       );

@@ -1,3 +1,7 @@
+:host {
+  grid-row-start: 1;
+  grid-row-end: -1;
+}
 .error-data {
   font-size: 12px;
   color: red;

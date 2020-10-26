@@ -1,81 +1,86 @@
-<div class="wishlist-wrapper" *ngIf="items">
-  <div class="wrapper-heading">My Wishlist({{ items.length }})</div>
-  <div class="wrapper-body">
-    <div class="each-wishlist__item" *ngFor="let item of items">
-      <div class="img-body__wrapper">
-        <div class="item-image__wrapper">
-          <img
-            [src]="getImage(item.productId.imageUrls[0].path)"
-            alt=""
-            class="img"
-          />
+<div *ngIf="items">
+  <div class="wishlist-wrapper">
+    <div class="wrapper-heading">My Wishlist({{ items.length }})</div>
+    <div class="wrapper-body">
+      <div class="each-wishlist__item" *ngFor="let item of items">
+        <div class="img-body__wrapper">
+          <div class="item-image__wrapper">
+            <img
+              [src]="getImage(item.productId.imageUrls[0].path)"
+              alt=""
+              class="img"
+            />
+          </div>
+          <div class="item-body">
+            <div class="item-body__title">
+              {{ item.productId.name | shortText: 60 }}
+            </div>
+            <div class="item-ratings__wrapper">
+              <div
+                class="item-star"
+                [ngClass]="{ 'star-active': 0 < item.productId.totalRating }"
+              ></div>
+              <div
+                class="item-star"
+                [ngClass]="{ 'star-active': 1 < item.productId.totalRating }"
+              ></div>
+              <div
+                class="item-star"
+                [ngClass]="{ 'star-active': 2 < item.productId.totalRating }"
+              ></div>
+              <div
+                class="item-star"
+                [ngClass]="{ 'star-active': 3 < item.productId.totalRating }"
+              ></div>
+              <div
+                class="item-star"
+                [ngClass]="{ 'star-active': 4 < item.productId.totalRating }"
+              ></div>
+              <div class="item-star__count">
+                ({{ item.productId.ratingCount }})
+              </div>
+            </div>
+            <div class="item-price__wrapper">
+              <div class="offer-price">
+                {{ item.productId.offerPrice | currency: "INR" }}
+              </div>
+              <div class="original-price">
+                {{ item.productId.originalPrice | currency: "INR" }}
+              </div>
+              <div class="discount-price">
+                ({{ item.offerPercentage }}% off)
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="item-body">
-          <div class="item-body__title">
-            {{ item.productId.name | shortText: 60 }}
-          </div>
-          <div class="item-ratings__wrapper">
-            <div
-              class="item-star"
-              [ngClass]="{ 'star-active': 0 < item.productId.totalRating }"
-            ></div>
-            <div
-              class="item-star"
-              [ngClass]="{ 'star-active': 1 < item.productId.totalRating }"
-            ></div>
-            <div
-              class="item-star"
-              [ngClass]="{ 'star-active': 2 < item.productId.totalRating }"
-            ></div>
-            <div
-              class="item-star"
-              [ngClass]="{ 'star-active': 3 < item.productId.totalRating }"
-            ></div>
-            <div
-              class="item-star"
-              [ngClass]="{ 'star-active': 4 < item.productId.totalRating }"
-            ></div>
-            <div class="item-star__count">
-              ({{ item.productId.ratingCount }})
-            </div>
-          </div>
-          <div class="item-price__wrapper">
-            <div class="offer-price">
-              {{ item.productId.offerPrice | currency: "INR" }}
-            </div>
-            <div class="original-price">
-              {{ item.productId.originalPrice | currency: "INR" }}
-            </div>
-            <div class="discount-price">({{ item.offerPercentage }}% off)</div>
-          </div>
-        </div>
-      </div>
-      <div class="item-delete__icon">
-        <fa-icon
-          [icon]="trashIcon"
-          class="trash-icon"
-          (click)="onClickDelete(modal)"
-        ></fa-icon>
-        <div class="modal-wrapper" #modal>
-          <div class="angle"></div>
-          <div class="item-delete__modal">
-            <div class="modal-title">
-              Are you sure you want to remove this product?
-            </div>
-            <div class="modal-btn">
-              <button class="modal-cancel__btn" (click)="onCancel(modal)">
-                Cancel
-              </button>
-              <button
-                class="modal-delete__btn"
-                (click)="deleteWishItem(item.productId._id)"
-              >
-                Yes, Remove
-              </button>
+        <div class="item-delete__icon">
+          <fa-icon
+            [icon]="trashIcon"
+            class="trash-icon"
+            (click)="onClickDelete(modal)"
+          ></fa-icon>
+          <div class="modal-wrapper" #modal>
+            <div class="angle"></div>
+            <div class="item-delete__modal">
+              <div class="modal-title">
+                Are you sure you want to remove this product?
+              </div>
+              <div class="modal-btn">
+                <button class="modal-cancel__btn" (click)="onCancel(modal)">
+                  Cancel
+                </button>
+                <button
+                  class="modal-delete__btn"
+                  (click)="deleteWishItem(item.productId._id)"
+                >
+                  Yes, Remove
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!--  <app-home-footer></app-home-footer>-->
 </div>

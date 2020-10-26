@@ -1,0 +1,28 @@
+.header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+app-root {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 52px 1fr 278px;
+  grid-template-columns: 100%;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+app-header {
+  grid-area: header;
+}
+router-outlet + * {
+  grid-area: main;
+}
+app-home-footer {
+  grid-area: footer;
+}

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { ProductDataService } from '../../services/productData.service';
 import { UserDataService } from '../../services/userData.service';
 
@@ -7,8 +7,7 @@ import { UserDataService } from '../../services/userData.service';
   templateUrl: 'home-page.component.html',
   styleUrls: ['home-page.component.css'],
 })
-export class HomePageComponent implements OnInit {
-  isUserLogIn: boolean;
+export class HomePageComponent implements OnInit, OnDestroy {
   constructor(
     private elem: ElementRef,
     private productService: ProductDataService,
@@ -24,8 +23,9 @@ export class HomePageComponent implements OnInit {
         },
         { passive: true }
       );
-    this.userService.userLogInObs.subscribe((result) => {
-      this.isUserLogIn = result;
-    });
+    this.userService.fixedHeader.next(true);
+  }
+  ngOnDestroy() {
+    this.userService.fixedHeader.next(false);
   }
 }

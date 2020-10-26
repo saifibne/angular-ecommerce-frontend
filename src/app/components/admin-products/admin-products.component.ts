@@ -16,9 +16,7 @@ import { ProductInterface } from '../../models/product.model';
   ],
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
-  headerSub: Subscription;
   productSub: Subscription;
-  isUserLogIn: boolean;
   showModal = false;
   searchText: string;
   productId: string;
@@ -29,9 +27,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
   ngOnInit() {
-    this.headerSub = this.userService.userLogInObs.subscribe((result) => {
-      this.isUserLogIn = result;
-    });
     this.productSub = this.rerunDataBase().subscribe();
   }
   rerunDataBase() {
@@ -71,7 +66,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
-    this.headerSub.unsubscribe();
     this.productSub.unsubscribe();
   }
 }

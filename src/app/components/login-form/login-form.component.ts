@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { UserDataService } from '../../services/userData.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css'],
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
   userIcon = faUser;
   passwordIcon = faLock;
@@ -22,6 +22,11 @@ export class LoginFormComponent {
     private userDataService: UserDataService,
     private router: Router
   ) {}
+  ngOnInit() {
+    this.userDataService.showHeader.next(false);
+    this.userDataService.showFooter.next(false);
+  }
+
   onSubmit() {
     this.wrongCredentials = false;
     this.logInSubscription = this.userDataService
@@ -44,5 +49,9 @@ export class LoginFormComponent {
           console.log(error);
         }
       );
+  }
+  ngOnDestroy() {
+    this.userDataService.showHeader.next(true);
+    this.userDataService.showFooter.next(true);
   }
 }
