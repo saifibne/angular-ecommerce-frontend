@@ -5,13 +5,15 @@ import {
   HttpParams,
   HttpRequest,
 } from '@angular/common/http';
+import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+
 import {
   mappedProductInterface,
   ProductInterface,
 } from '../models/product.model';
-import { map, switchMap } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
 import { UserDataService } from './userData.service';
+import { OrderModel } from '../models/order.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDataService {
@@ -165,6 +167,27 @@ export class ProductDataService {
         if (user) {
           return this.http.delete<{ message: string }>(
             `http://localhost:3000/wishlist/${itemId}`,
+            {
+              headers: new HttpHeaders({
+                Authorization: `Bearer ${user.token}`,
+              }),
+            }
+          );
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+  postOrder(orderItems: any[]) {
+    return this.http.post('http://localhost:3000/order', orderItems);
+  }
+  getOrders() {
+    return this.userService.userData.pipe(
+      exhaustMap((user) => {
+        if (user) {
+          return this.http.get<{ message: string; orders: OrderModel[] }>(
+            'http://localhost:3000/orders',
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,

@@ -30,7 +30,9 @@
   <button
     class="icon-container right-icon"
     (click)="onClickNext()"
-    [disabled]="prevSliderWidth === totalWidth - sliderVisibilityWidth"
+    [disabled]="
+      this.prevSliderWidth === this.totalWidth - this.sliderVisibilityWidth
+    "
   >
     <fa-icon [icon]="nextIcon" class="icon"></fa-icon>
   </button>

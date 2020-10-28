@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 
 import { UserDataService } from '../../services/userData.service';
 import { MappedCartInterface } from '../../models/cart.model';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { ProductDataService } from '../../services/productData.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -24,7 +25,11 @@ export class CartPageComponent implements OnInit, OnDestroy {
   updatedItemData: { quantity: number; productId: { name: string } };
   showNotification = false;
   cartSub: Subscription;
-  constructor(private userService: UserDataService, private router: Router) {}
+  constructor(
+    private userService: UserDataService,
+    private productService: ProductDataService,
+    private router: Router
+  ) {}
   ngOnInit() {
     this.cartSub = this.rerunDataBase().subscribe();
   }
@@ -75,6 +80,26 @@ export class CartPageComponent implements OnInit, OnDestroy {
           this.onCancel();
         });
     }
+  }
+  onOrder() {
+    const orderItems = [...this.cartItems.items];
+    const mappedOrderItems = orderItems.map((item) => {
+      return {
+        productId: item.productId._id,
+        name: item.productId.name,
+        price: item.productId.offerPrice,
+        imageUrl: item.productId.imageUrls[0].path,
+        deliveryDate: item.deliveryDate,
+        seller: item.seller,
+        quantity: item.quantity,
+      };
+    });
+    this.productService
+      .postOrder(mappedOrderItems)
+      .pipe(take(1))
+      .subscribe(() => {
+        return this.router.navigate(['order']);
+      });
   }
   private handlingAddDelete(productId: string, code: string) {
     this.userService

@@ -86,6 +86,9 @@
 .icon-container:disabled {
   cursor: not-allowed;
 }
+button:disabled {
+  cursor: not-allowed;
+}
 .icon-container:disabled .icon {
   color: #9fa8b0;
   stroke: #9fa8b0;

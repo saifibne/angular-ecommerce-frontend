@@ -10,6 +10,7 @@ import { CategoryProductComponent } from './components/category-products/categor
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 import { WishlistItemsComponent } from './components/wishlist-items/wishlist-items.component';
+import { OrderComponent } from './components/order/order.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupFormComponent },
   { path: 'login', component: LoginFormComponent },
   { path: 'wishlist', component: WishlistItemsComponent },
+  { path: 'order', component: OrderComponent },
 ];
 
 @NgModule({
