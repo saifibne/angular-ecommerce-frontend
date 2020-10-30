@@ -31,7 +31,8 @@
   width: 100%;
 }
 .product-image {
-  padding: 20px;
+  margin: 20px;
+  position: relative;
 }
 .image {
   max-height: 500px;
@@ -424,4 +425,23 @@ hr {
   width: 95%;
   margin-left: auto;
   margin-top: 12px;
+}
+.product-img-lens {
+  position: absolute;
+  width: 180px;
+  height: 140px;
+  background-color: rgba(1, 0, 0, 0.2);
+  visibility: hidden;
+  cursor: pointer;
+}
+.img-zoom__view {
+  width: 360px;
+  height: 280px;
+  border: 1px solid #555555;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 0;
+  right: -370px;
+  z-index: 1000;
+  visibility: hidden;
 }

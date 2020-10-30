@@ -56,6 +56,8 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ElementRef
   >;
   @ViewChild('image') image: ElementRef;
+  @ViewChild('zoomLens') zoomLens: ElementRef;
+  @ViewChild('zoomView') zoomView: ElementRef;
   constructor(
     private currentRoute: ActivatedRoute,
     private productService: ProductDataService,
@@ -255,6 +257,79 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.allStarInputs.forEach((starInput) => {
       (<HTMLInputElement>starInput.nativeElement).checked = false;
     });
+  }
+  zoomImage() {
+    const imageSource = (<HTMLImageElement>this.image.nativeElement).src;
+    this.render.setStyle(
+      this.zoomView.nativeElement,
+      'background-image',
+      `url(${imageSource})`
+    );
+    const imageWidth =
+      this.image.nativeElement.width *
+      (this.zoomView.nativeElement.offsetWidth /
+        this.zoomLens.nativeElement.offsetWidth);
+    const imageHeight =
+      this.image.nativeElement.height *
+      (this.zoomView.nativeElement.offsetHeight /
+        this.zoomLens.nativeElement.offsetHeight);
+    this.render.setStyle(
+      this.zoomView.nativeElement,
+      'background-size',
+      `${imageWidth}px ${imageHeight}px`
+    );
+  }
+  lensMovement(event: Event) {
+    event.preventDefault();
+    this.render.setStyle(this.zoomLens.nativeElement, 'visibility', 'visible');
+    this.render.setStyle(this.zoomView.nativeElement, 'visibility', 'visible');
+    let position = this.getCursorPosition(event);
+    let x = position.x - this.zoomLens.nativeElement.offsetWidth / 2;
+    let y = position.y - this.zoomLens.nativeElement.offsetHeight / 2;
+    if (
+      x >
+      this.image.nativeElement.width - this.zoomLens.nativeElement.offsetWidth
+    ) {
+      x =
+        this.image.nativeElement.width -
+        this.zoomLens.nativeElement.offsetWidth;
+    } else if (x < 0) {
+      x = 0;
+    }
+    if (
+      y >
+      this.image.nativeElement.height - this.zoomLens.nativeElement.offsetHeight
+    ) {
+      y =
+        this.image.nativeElement.height -
+        this.zoomLens.nativeElement.offsetHeight;
+    } else if (y < 0) {
+      y = 0;
+    }
+    this.render.setStyle(
+      this.zoomLens.nativeElement,
+      'transform',
+      `translateX(${x}px) translateY(${y}px)`
+    );
+    this.render.setStyle(
+      this.zoomView.nativeElement,
+      'background-position',
+      `-${x * 2}px -${y * 2}px`
+    );
+  }
+  getCursorPosition(e: Event) {
+    let x: number;
+    let y: number;
+    const imageView = this.image.nativeElement.getBoundingClientRect();
+    x = (<MouseEvent>e).pageX - imageView.left;
+    y = (<MouseEvent>e).pageY - imageView.top;
+    const finalX = x - window.pageXOffset;
+    const finalY = y - window.pageYOffset;
+    return { x: finalX, y: finalY };
+  }
+  mouseOut() {
+    this.render.removeStyle(this.zoomView.nativeElement, 'visibility');
+    this.render.removeStyle(this.zoomLens.nativeElement, 'visibility');
   }
   ngOnDestroy() {}
 }

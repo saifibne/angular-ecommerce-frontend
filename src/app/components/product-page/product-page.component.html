@@ -21,7 +21,22 @@
         </div>
       </div>
       <div class="product-image">
-        <img [src]="imageUrl()" alt="" class="image" #image />
+        <div
+          class="product-img-lens"
+          #zoomLens
+          (mousemove)="lensMovement($event)"
+          (mouseleave)="mouseOut()"
+        ></div>
+        <img
+          [src]="imageUrl()"
+          alt=""
+          class="image"
+          #image
+          (load)="zoomImage()"
+          (mousemove)="lensMovement($event)"
+          (mouseleave)="mouseOut()"
+        />
+        <div class="img-zoom__view" #zoomView></div>
       </div>
       <div class="product-detail">
         <h4 class="product-detail__title">{{ product.name }}</h4>
