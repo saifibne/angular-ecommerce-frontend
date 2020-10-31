@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -16,6 +15,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { switchMap, take, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { ProductDataService } from '../../services/productData.service';
 import { mappedProductInterface } from '../../models/product.model';
@@ -30,7 +30,7 @@ import { WishListModel } from '../../models/wishList.model';
     'product-page.component.css',
   ],
 })
-export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductPageComponent implements OnInit, OnDestroy {
   star = faStar;
   checked = faCheckCircle;
   shield = faShieldAlt;
@@ -46,6 +46,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
   emptyMessage = false;
   emptySubmit = false;
   product: mappedProductInterface;
+  paramSub: Subscription;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
     ElementRef
   >;
@@ -64,16 +65,16 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private elem: ElementRef,
     private render: Renderer2,
     private userService: UserDataService,
-    private router: Router
+    private router: Router,
+    private element: ElementRef
   ) {}
   ngOnInit() {
-    this.currentRoute.params.subscribe((params) => {
+    this.paramSub = this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
       this.getProduct(this.productId).subscribe();
     });
   }
-  ngAfterViewInit() {}
   getProduct(productId) {
     return this.productService.getProductFromDatabase(productId).pipe(
       tap(
@@ -278,6 +279,18 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
       'background-size',
       `${imageWidth}px ${imageHeight}px`
     );
+    this.element.nativeElement
+      .querySelector('.image')
+      .addEventListener('mousemove', this.lensMovement.bind(this));
+    this.element.nativeElement
+      .querySelector('.product-img-lens')
+      .addEventListener('mousemove', this.lensMovement.bind(this));
+    this.element.nativeElement
+      .querySelector('.image')
+      .addEventListener('mouseleave', this.mouseOut.bind(this));
+    this.element.nativeElement
+      .querySelector('.product-img-lens')
+      .addEventListener('mouseleave', this.mouseOut.bind(this));
   }
   lensMovement(event: Event) {
     event.preventDefault();
@@ -331,5 +344,7 @@ export class ProductPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.render.removeStyle(this.zoomView.nativeElement, 'visibility');
     this.render.removeStyle(this.zoomLens.nativeElement, 'visibility');
   }
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.paramSub.unsubscribe();
+  }
 }
