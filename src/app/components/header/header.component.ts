@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -31,7 +32,7 @@ import { UserDataService } from '../../services/userData.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('userLogIn') userLogIn: boolean;
   cartIcon = faShoppingCart;
   nextIcon = faAngleRight;
@@ -44,6 +45,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchText = new Subject<string>();
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('searchBtn') searchBtn: ElementRef;
+  @ViewChild('categoryDropdownHost') categoryDropdown: ElementRef;
+  @ViewChild('categoryDropdownWrapper') categoryWrapper: ElementRef;
+  @ViewChild('accountDropdown') accountDropdown: ElementRef;
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
     private productService: ProductDataService,
@@ -81,6 +85,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.count = -1;
       }
     );
+  }
+  ngAfterViewInit() {
+    this.categoryDropdown.nativeElement.addEventListener('mouseenter', () => {
+      this.renderer.addClass(
+        this.categoryWrapper.nativeElement,
+        'show-dropdown'
+      );
+    });
+    this.categoryDropdown.nativeElement.addEventListener(
+      'mouseleave',
+      this.hideDropdown.bind(this)
+    );
+  }
+  hideDropdown() {
+    this.renderer.removeClass(
+      this.categoryWrapper.nativeElement,
+      'show-dropdown'
+    );
+  }
+  hideAccountDropdown() {
+    this.renderer.removeClass(
+      this.accountDropdown.nativeElement,
+      'account-dropdown__show'
+    );
+  }
+  changeRoute(route: string) {
+    this.router.navigate([route]).then(() => {
+      this.hideDropdown();
+    });
+  }
+  changeAdminRoute(route: string) {
+    this.router.navigate([route]).then(() => {
+      this.hideAccountDropdown();
+    });
   }
   @HostListener('keydown', ['$event']) selectDropdown(e) {
     if (this.products.length > 0) {
@@ -130,14 +168,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
             results[this.count].nativeElement.click();
           } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
             (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+            this.productService.hideSearchBoxObs.next([]);
           }
+          this.renderer.setProperty(
+            this.searchInput.nativeElement,
+            'value',
+            ''
+          );
           break;
         default:
           this.count = -1;
       }
     } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
       if (e.key === 'Enter') {
-        (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+        if (this.searchInput.nativeElement.value !== '') {
+          (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+          this.renderer.setProperty(
+            this.searchInput.nativeElement,
+            'value',
+            ''
+          );
+          this.productService.hideSearchBoxObs.next([]);
+        }
       }
     }
   }
@@ -148,12 +200,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onSelectProduct(productId, category) {
     this.router.navigate(['product', category, productId]).then(() => {
       this.products = [];
+      this.searchInput.nativeElement.blur();
     });
   }
   onClick(value: string) {
-    return this.router.navigate(['/search'], {
-      queryParams: { search: value },
-    });
+    this.router
+      .navigate(['/search'], {
+        queryParams: { search: value },
+      })
+      .then(() => {
+        this.productService.hideSearchBoxObs.next([]);
+        this.searchInput.nativeElement.blur();
+      });
   }
   onLogout() {
     this.userService.logout();

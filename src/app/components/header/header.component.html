@@ -6,27 +6,27 @@
     <div class="header-left__links">
       <ul class="links-list">
         <li routerLink="/">Home</li>
-        <li class="position-relative">
+        <li class="position-relative" #categoryDropdownHost>
           <p>
             Category
             <span
               ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
             ></span>
           </p>
-          <div class="dropdown-wrapper">
+          <div class="dropdown-wrapper" #categoryDropdownWrapper>
             <div class="dropdown-arrow"></div>
             <ul class="dropdown-ul">
               <li class="dropdown-item">
                 <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a routerLink="/products/sofa">Sofa</a>
+                <a (click)="changeRoute('/products/sofa')">Sofa</a>
               </li>
               <li class="dropdown-item">
                 <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a routerLink="/products/chair">Chair</a>
+                <a (click)="changeRoute('/products/chair')">Chair</a>
               </li>
               <li class="dropdown-item">
                 <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a routerLink="/products/bed">Bed</a>
+                <a (click)="changeRoute('/products/bed')">Bed</a>
               </li>
             </ul>
           </div>
@@ -92,26 +92,31 @@
         >
           Sign In
         </li>
-        <li class="special-link another-relative" *ngIf="userLogIn === true">
+        <li
+          class="special-link another-relative"
+          *ngIf="userLogIn === true"
+          accountDropdown
+        >
           <p>
             Account
             <span
               ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
             ></span>
           </p>
-          <div class="account-dropdown">
+          <div class="account-dropdown" #accountDropdown>
             <div class="dropdown-arrow more-right"></div>
             <ul class="account-dropdown-ul">
               <li class="account-dropdown-item">
-                <a routerLink="/admin/products">Your Products</a
+                <a (click)="changeAdminRoute('/admin/products')"
+                  >Your Products</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">
-                <a routerLink="/wishlist">Wishlist Items</a
+                <a (click)="changeAdminRoute('/wishlist')">Wishlist Items</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">
-                <a routerLink="/order">Your Orders</a
+                <a (click)="changeAdminRoute('/order')">Your Orders</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">

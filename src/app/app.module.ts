@@ -28,6 +28,7 @@ import { AdminProductsComponent } from './components/admin-products/admin-produc
 import { SearchArrayPipe } from './pipes/searchArray.pipe';
 import { WishlistItemsComponent } from './components/wishlist-items/wishlist-items.component';
 import { OrderComponent } from './components/order/order.component';
+import { AccountDropdownDirective } from './directives/account-dropdown.directive';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { OrderComponent } from './components/order/order.component';
     SearchArrayPipe,
     WishlistItemsComponent,
     OrderComponent,
+    AccountDropdownDirective,
   ],
   imports: [
     BrowserModule,

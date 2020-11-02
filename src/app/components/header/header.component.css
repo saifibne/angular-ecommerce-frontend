@@ -42,10 +42,10 @@
 .position-relative {
   position: relative;
 }
-.position-relative:hover .dropdown-wrapper {
-  visibility: visible;
-  transform: translateY(0);
-  opacity: 1;
+.show-dropdown {
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 .dropdown-wrapper {
   position: absolute;
@@ -164,10 +164,10 @@
 .another-relative {
   position: relative;
 }
-.another-relative:hover .account-dropdown {
-  visibility: visible;
-  transform: translateY(0);
-  opacity: 1;
+.account-dropdown__show {
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 .account-dropdown {
   background-color: white;
