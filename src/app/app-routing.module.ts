@@ -11,22 +11,39 @@ import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 import { WishlistItemsComponent } from './components/wishlist-items/wishlist-items.component';
 import { OrderComponent } from './components/order/order.component';
+import { CanActivateClass } from './services/canActivate.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
-  { path: 'admin/products', component: AdminProductsComponent },
+  {
+    path: 'admin/products',
+    component: AdminProductsComponent,
+    canActivate: [CanActivateClass],
+  },
   {
     path: 'product/:category/:productId',
     component: ProductPageComponent,
   },
   { path: 'products/:category', component: CategoryProductComponent },
   { path: 'search', component: CategoryProductComponent },
-  { path: 'add-product', component: ProductFormComponent },
-  { path: 'cart', component: CartPageComponent },
+  {
+    path: 'add-product',
+    component: ProductFormComponent,
+    canActivate: [CanActivateClass],
+  },
+  {
+    path: 'cart',
+    component: CartPageComponent,
+    canActivate: [CanActivateClass],
+  },
   { path: 'signup', component: SignupFormComponent },
   { path: 'login', component: LoginFormComponent },
-  { path: 'wishlist', component: WishlistItemsComponent },
-  { path: 'order', component: OrderComponent },
+  {
+    path: 'wishlist',
+    component: WishlistItemsComponent,
+    canActivate: [CanActivateClass],
+  },
+  { path: 'order', component: OrderComponent, canActivate: [CanActivateClass] },
 ];
 
 @NgModule({

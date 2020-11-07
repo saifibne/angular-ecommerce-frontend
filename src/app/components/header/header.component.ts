@@ -6,10 +6,10 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
   Renderer2,
   ViewChild,
   ViewChildren,
+  QueryList,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import {
