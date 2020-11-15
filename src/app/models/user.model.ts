@@ -33,7 +33,7 @@ export class User {
     ];
   };
   private readonly _token: string;
-  private readonly expireTime: Date;
+  public expireTime: Date;
   constructor(
     userData: {
       name: string;

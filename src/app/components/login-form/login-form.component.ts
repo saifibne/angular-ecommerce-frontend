@@ -42,6 +42,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
               this.wrongCredentials = true;
               break;
             case 'successfully login.':
+              this.userDataService.autoLogOut(new Date(result.expireTime));
               return this.router.navigate(['/']);
           }
         },

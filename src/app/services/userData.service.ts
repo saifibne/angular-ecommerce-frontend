@@ -8,6 +8,7 @@ import { CartInterface } from '../models/cart.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserDataService {
+  logOutTimer;
   userData = new ReplaySubject<User>(1);
   userLogInObs = new BehaviorSubject<boolean>(false);
   showHeader = new BehaviorSubject<boolean>(true);
@@ -50,6 +51,7 @@ export class UserDataService {
     localStorage.removeItem('token');
     this.userData.next(null);
     this.userLogInObs.next(false);
+    clearTimeout(this.logOutTimer);
   }
   autoLogin() {
     const token: string = localStorage.getItem('token');
@@ -71,6 +73,7 @@ export class UserDataService {
           );
           this.userData.next(existingUser);
           this.userLogInObs.next(true);
+          this.autoLogOut(new Date(user.expireTime));
         },
         (error) => {
           this.logout();
@@ -79,6 +82,15 @@ export class UserDataService {
           console.log(error);
         }
       );
+  }
+  autoLogOut(expireTime: Date) {
+    console.log(expireTime);
+    const logOutTime = expireTime.getTime();
+    const currentTime = Date.now();
+    const timeOut = logOutTime - currentTime;
+    this.logOutTimer = setTimeout(() => {
+      this.logout();
+    }, timeOut);
   }
   getCart() {
     return this.userData.pipe(
