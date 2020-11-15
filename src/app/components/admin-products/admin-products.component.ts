@@ -27,7 +27,12 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
   ngOnInit() {
-    this.productSub = this.rerunDataBase().subscribe();
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
+    this.productSub = this.rerunDataBase().subscribe(() => {
+      this.userService.loadProgressBar.next(false);
+      this.userService.showFooter.next(true);
+    });
   }
   rerunDataBase() {
     return this.productService.getAdminProducts().pipe(

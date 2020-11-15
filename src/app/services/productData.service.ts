@@ -5,7 +5,7 @@ import {
   HttpParams,
   HttpRequest,
 } from '@angular/common/http';
-import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
 import {
@@ -145,6 +145,9 @@ export class ProductDataService {
         } else {
           return of(null);
         }
+      }),
+      catchError(() => {
+        return of(null);
       })
     );
   }

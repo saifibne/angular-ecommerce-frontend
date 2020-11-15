@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { ProductDataService } from '../../services/productData.service';
 import { OrderModel } from '../../models/order.model';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-order',
@@ -11,18 +12,23 @@ import { OrderModel } from '../../models/order.model';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent implements OnInit, OnDestroy {
-  orders: OrderModel[] = [];
+  orders: OrderModel[];
   orderSub: Subscription;
   constructor(
     private productService: ProductDataService,
-    private router: Router
+    private router: Router,
+    private userService: UserDataService
   ) {}
   ngOnInit() {
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
     this.orderSub = this.productService
       .getOrders()
       .subscribe((result: { message: string; orders: OrderModel[] }) => {
         if (result) {
           this.orders = result.orders;
+          this.userService.loadProgressBar.next(false);
+          this.userService.showFooter.next(true);
         } else {
           return this.router.navigate(['login']);
         }

@@ -1,3 +1,8 @@
+<mat-progress-bar
+  mode="indeterminate"
+  class="progress-bar"
+  *ngIf="loadProgressBar"
+></mat-progress-bar>
 <app-header
   [userLogIn]="isLogIn"
   *ngIf="showHeader"

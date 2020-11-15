@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   showHeader = true;
   fixedHeader = false;
   showFooter = true;
+  loadProgressBar: boolean;
   constructor(
     private userDataService: UserDataService,
     private cd: ChangeDetectorRef
@@ -25,6 +26,10 @@ export class AppComponent implements OnInit {
     this.userDataService.autoLogin();
     this.userDataService.userLogInObs.subscribe((result) => {
       this.isLogIn = result;
+    });
+    this.userDataService.loadProgressBar.subscribe((result) => {
+      this.loadProgressBar = result;
+      this.cd.detectChanges();
     });
     this.userDataService.showHeader.subscribe((result) => {
       this.showHeader = result;

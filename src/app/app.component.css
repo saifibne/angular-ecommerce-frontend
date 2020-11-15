@@ -26,3 +26,9 @@ router-outlet + * {
 app-home-footer {
   grid-area: footer;
 }
+.progress-bar {
+  z-index: 1000;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+}

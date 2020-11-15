@@ -25,6 +25,13 @@
 .img-body__wrapper {
   display: flex;
 }
+.item-link__wrapper {
+  display: flex;
+  cursor: pointer;
+}
+.item-link__wrapper:focus {
+  outline: none;
+}
 .item-body__title {
   font-size: 15px;
   font-weight: 400;

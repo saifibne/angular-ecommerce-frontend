@@ -4,51 +4,60 @@
     <div class="wrapper-body">
       <div class="each-wishlist__item" *ngFor="let item of items">
         <div class="img-body__wrapper">
-          <div class="item-image__wrapper">
-            <img
-              [src]="getImage(item.productId.imageUrls[0].path)"
-              alt=""
-              class="img"
-            />
-          </div>
-          <div class="item-body">
-            <div class="item-body__title">
-              {{ item.productId.name | shortText: 60 }}
+          <div
+            class="item-link__wrapper"
+            [routerLink]="[
+              '/product',
+              item.productId.category,
+              item.productId._id
+            ]"
+          >
+            <div class="item-image__wrapper">
+              <img
+                [src]="getImage(item.productId.imageUrls[0].path)"
+                alt=""
+                class="img"
+              />
             </div>
-            <div class="item-ratings__wrapper">
-              <div
-                class="item-star"
-                [ngClass]="{ 'star-active': 0 < item.productId.totalRating }"
-              ></div>
-              <div
-                class="item-star"
-                [ngClass]="{ 'star-active': 1 < item.productId.totalRating }"
-              ></div>
-              <div
-                class="item-star"
-                [ngClass]="{ 'star-active': 2 < item.productId.totalRating }"
-              ></div>
-              <div
-                class="item-star"
-                [ngClass]="{ 'star-active': 3 < item.productId.totalRating }"
-              ></div>
-              <div
-                class="item-star"
-                [ngClass]="{ 'star-active': 4 < item.productId.totalRating }"
-              ></div>
-              <div class="item-star__count">
-                ({{ item.productId.ratingCount }})
+            <div class="item-body">
+              <div class="item-body__title">
+                {{ item.productId.name | shortText: 60 }}
               </div>
-            </div>
-            <div class="item-price__wrapper">
-              <div class="offer-price">
-                {{ item.productId.offerPrice | currency: "INR" }}
+              <div class="item-ratings__wrapper">
+                <div
+                  class="item-star"
+                  [ngClass]="{ 'star-active': 0 < item.productId.totalRating }"
+                ></div>
+                <div
+                  class="item-star"
+                  [ngClass]="{ 'star-active': 1 < item.productId.totalRating }"
+                ></div>
+                <div
+                  class="item-star"
+                  [ngClass]="{ 'star-active': 2 < item.productId.totalRating }"
+                ></div>
+                <div
+                  class="item-star"
+                  [ngClass]="{ 'star-active': 3 < item.productId.totalRating }"
+                ></div>
+                <div
+                  class="item-star"
+                  [ngClass]="{ 'star-active': 4 < item.productId.totalRating }"
+                ></div>
+                <div class="item-star__count">
+                  ({{ item.productId.ratingCount }})
+                </div>
               </div>
-              <div class="original-price">
-                {{ item.productId.originalPrice | currency: "INR" }}
-              </div>
-              <div class="discount-price">
-                ({{ item.offerPercentage }}% off)
+              <div class="item-price__wrapper">
+                <div class="offer-price">
+                  {{ item.productId.offerPrice | currency: "INR" }}
+                </div>
+                <div class="original-price">
+                  {{ item.productId.originalPrice | currency: "INR" }}
+                </div>
+                <div class="discount-price">
+                  ({{ item.offerPercentage }}% off)
+                </div>
               </div>
             </div>
           </div>
@@ -82,5 +91,4 @@
       </div>
     </div>
   </div>
-  <!--  <app-home-footer></app-home-footer>-->
 </div>

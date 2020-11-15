@@ -1,35 +1,37 @@
 <div class="order-wrapper">
-  <div class="empty-order__wrapper" *ngIf="orders.length === 0">
-    <div class="empty-order__body">
-      <p>You didn't ordered anything.</p>
-      <button type="button" class="shop-btn" (click)="onShopNow()">
-        Shop Now
-      </button>
+  <div *ngIf="orders">
+    <div class="empty-order__wrapper" *ngIf="orders.length === 0">
+      <div class="empty-order__body">
+        <p>You didn't ordered anything.</p>
+        <button type="button" class="shop-btn" (click)="onShopNow()">
+          Shop Now
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="all-orders">
-    <div class="each-order" *ngFor="let order of orders">
-      <div class="order-img__desc">
-        <div class="order-img">
-          <img [src]="getImage(order.imageUrl)" alt="" class="img" />
-        </div>
-        <div class="order-desc">
-          <div class="order-product__title">
-            {{ order.name | shortText: 38 }}
+    <div class="all-orders">
+      <div class="each-order" *ngFor="let order of orders">
+        <div class="order-img__desc">
+          <div class="order-img">
+            <img [src]="getImage(order.imageUrl)" alt="" class="img" />
           </div>
-          <div class="order-product__seller">Seller: {{ order.seller }}</div>
+          <div class="order-desc">
+            <div class="order-product__title">
+              {{ order.name | shortText: 38 }}
+            </div>
+            <div class="order-product__seller">Seller: {{ order.seller }}</div>
+          </div>
         </div>
-      </div>
-      <div class="order-price">
-        <div class="order-product__price">
-          {{ order.price | currency: "INR" }}
+        <div class="order-price">
+          <div class="order-product__price">
+            {{ order.price | currency: "INR" }}
+          </div>
         </div>
-      </div>
-      <div class="order-delivery">
-        <div class="order-delivery__date">
-          Delivery By {{ order.deliveryDate | date: "mediumDate" }}
+        <div class="order-delivery">
+          <div class="order-delivery__date">
+            Delivery By {{ order.deliveryDate | date: "mediumDate" }}
+          </div>
+          <div class="order-delivery__text">Your item has been delivered.</div>
         </div>
-        <div class="order-delivery__text">Your item has been delivered.</div>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { WishListModel } from '../../models/wishList.model';
 import { exhaustMap, take, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-wishlist-items',
@@ -18,10 +19,16 @@ export class WishlistItemsComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductDataService,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userService: UserDataService
   ) {}
   ngOnInit() {
-    this.wishListSub = this.rerunDataBase().subscribe();
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
+    this.wishListSub = this.rerunDataBase().subscribe(() => {
+      this.userService.loadProgressBar.next(false);
+      this.userService.showFooter.next(true);
+    });
   }
   rerunDataBase() {
     return this.productService.getWishlistItems().pipe(

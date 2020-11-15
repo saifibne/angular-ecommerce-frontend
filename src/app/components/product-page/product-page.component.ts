@@ -69,10 +69,15 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     private element: ElementRef
   ) {}
   ngOnInit() {
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
     this.paramSub = this.currentRoute.params.subscribe((params) => {
       this.productId = params['productId'];
       this.category = params['category'];
-      this.getProduct(this.productId).subscribe();
+      this.getProduct(this.productId).subscribe(() => {
+        this.userService.loadProgressBar.next(false);
+        this.userService.showFooter.next(true);
+      });
     });
   }
   getProduct(productId) {

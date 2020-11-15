@@ -13,6 +13,7 @@ export class UserDataService {
   showHeader = new BehaviorSubject<boolean>(true);
   fixedHeader = new BehaviorSubject<boolean>(false);
   showFooter = new BehaviorSubject<boolean>(true);
+  loadProgressBar = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {

@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppRoutingModule } from './app-routing.module';
 import { MatOptionModule } from '@angular/material/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
@@ -63,6 +64,7 @@ import { AccountDropdownDirective } from './directives/account-dropdown.directiv
     MatSelectModule,
     MatFormFieldModule,
     MatOptionModule,
+    MatProgressBarModule,
   ],
   providers: [
     {

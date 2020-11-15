@@ -2,6 +2,7 @@ export interface WishListModel {
   _id: string;
   productId: {
     _id: string;
+    category: string;
     name: string;
     offerPrice: number;
     originalPrice: number;

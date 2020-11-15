@@ -31,7 +31,12 @@ export class CartPageComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
   ngOnInit() {
-    this.cartSub = this.rerunDataBase().subscribe();
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
+    this.cartSub = this.rerunDataBase().subscribe(() => {
+      this.userService.loadProgressBar.next(false);
+      this.userService.showFooter.next(true);
+    });
   }
   rerunDataBase() {
     return this.userService.getCart().pipe(

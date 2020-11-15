@@ -13,6 +13,7 @@ import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { iif, combineLatest, Subscription } from 'rxjs';
+import { UserDataService } from '../../services/userData.service';
 
 @Component({
   selector: 'app-category-product',
@@ -31,9 +32,12 @@ export class CategoryProductComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductDataService,
     private currentRoute: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userService: UserDataService
   ) {}
   ngOnInit() {
+    this.userService.loadProgressBar.next(true);
+    this.userService.showFooter.next(false);
     this.routerSubscription = combineLatest([
       this.currentRoute.params,
       this.currentRoute.queryParams,
@@ -55,6 +59,8 @@ export class CategoryProductComponent implements OnInit, OnDestroy {
       )
       .subscribe((products: { productsData: ProductInterface[] }) => {
         this.products = products.productsData;
+        this.userService.loadProgressBar.next(false);
+        this.userService.showFooter.next(true);
       });
   }
   getImageUrl(product: ProductInterface) {
