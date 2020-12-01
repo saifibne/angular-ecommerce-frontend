@@ -24,7 +24,7 @@ export class EmailCheckDirective implements AsyncValidator {
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.http
       .get<{ emailFound: string }>(
-        `http://localhost:3000/email-search?email=${control.value}`
+        `http://13.233.158.89:3000/email-search?email=${control.value}`
       )
       .pipe(
         take(1),

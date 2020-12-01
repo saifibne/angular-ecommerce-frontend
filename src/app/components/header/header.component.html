@@ -84,10 +84,12 @@
             </div>
           </div>
         </li>
-        <li routerLink="/cart"><fa-icon [icon]="cartIcon"></fa-icon></li>
+        <li routerLink="/account/cart">
+          <fa-icon [icon]="cartIcon"></fa-icon>
+        </li>
         <li
           class="special-link"
-          routerLink="/login"
+          routerLink="/user/login"
           *ngIf="userLogIn === false"
         >
           Sign In
@@ -107,16 +109,21 @@
             <div class="dropdown-arrow more-right"></div>
             <ul class="account-dropdown-ul">
               <li class="account-dropdown-item">
+                <a (click)="changeAdminRoute('/add-product')">Add Product</a
+                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+              </li>
+              <li class="account-dropdown-item">
                 <a (click)="changeAdminRoute('/admin/products')"
                   >Your Products</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/wishlist')">Wishlist Items</a
+                <a (click)="changeAdminRoute('/account/wishlist')"
+                  >Wishlist Items</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/order')">Your Orders</a
+                <a (click)="changeAdminRoute('/account/order')">Your Orders</a
                 ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
               </li>
               <li class="account-dropdown-item">

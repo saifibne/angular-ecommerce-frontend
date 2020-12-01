@@ -105,18 +105,14 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       return this.product.imageUrls;
     }
   }
-  getImageUrl(path) {
-    return `http://localhost:3000/${path}`;
-  }
+  // getImageUrl(path) {
+  //   return `http://localhost:3000/${path}`;
+  // }
   onSelectImage(imageUrl, element) {
     this.allImages.forEach((image) => {
       this.render.removeClass(image.nativeElement, 'image-active');
     });
-    this.render.setProperty(
-      this.image.nativeElement,
-      'src',
-      `http://localhost:3000/${imageUrl}`
-    );
+    this.render.setProperty(this.image.nativeElement, 'src', imageUrl);
     this.render.addClass(element, 'image-active');
   }
   onAddCart(productId: string) {
@@ -170,12 +166,12 @@ export class ProductPageComponent implements OnInit, OnDestroy {
         });
     }
   }
-  imageUrl() {
-    if (this.product) {
-      const imageUrl = this.product.imageUrls[0].path;
-      return `http://localhost:3000/${imageUrl}`;
-    }
-  }
+  // imageUrl() {
+  //   if (this.product) {
+  //     const imageUrl = this.product.imageUrls[0].path;
+  //     return `http://localhost:3000/${imageUrl}`;
+  //   }
+  // }
   onComment(event: Event) {
     this.render.setStyle(
       (<HTMLButtonElement>event.target).nextElementSibling,

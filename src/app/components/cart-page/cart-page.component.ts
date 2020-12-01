@@ -44,19 +44,16 @@ export class CartPageComponent implements OnInit, OnDestroy {
         if (result !== undefined) {
           this.cartItems = result.cart;
         } else {
-          return this.router.navigate(['login']);
+          return this.router.navigate(['/user/login']);
         }
       }),
       catchError(() => {
-        return this.router.navigate(['login']);
+        return this.router.navigate(['/user/login']);
       })
     );
   }
   goHomePage() {
     return this.router.navigate(['/']);
-  }
-  getImageUrl(path) {
-    return `http://localhost:3000/${path}`;
   }
   onPlus(productId: string) {
     this.handlingAddDelete(productId, 'add');
@@ -93,7 +90,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
         productId: item.productId._id,
         name: item.productId.name,
         price: item.productId.offerPrice,
-        imageUrl: item.productId.imageUrls[0].path,
+        imageUrl: item.productId.mainImage.path,
         deliveryDate: item.deliveryDate,
         seller: item.seller,
         quantity: item.quantity,

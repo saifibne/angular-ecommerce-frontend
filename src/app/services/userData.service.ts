@@ -18,7 +18,7 @@ export class UserDataService {
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {
-    return this.http.put('http://localhost:3000/signin', {
+    return this.http.put('http://13.233.158.89:3000/signin', {
       name: name,
       email: email,
       password: password,
@@ -27,7 +27,7 @@ export class UserDataService {
   }
   logIn(email: string, password: string) {
     return this.http
-      .put<UserInterface>('http://localhost:3000/login', {
+      .put<UserInterface>('http://13.233.158.89:3000/login', {
         email: email,
         password: password,
       })
@@ -61,7 +61,7 @@ export class UserDataService {
       return;
     }
     this.http
-      .get<UserInterface>('http://localhost:3000/userData', {
+      .get<UserInterface>('http://13.233.158.89:3000/userData', {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
       })
       .subscribe(
@@ -84,7 +84,6 @@ export class UserDataService {
       );
   }
   autoLogOut(expireTime: Date) {
-    console.log(expireTime);
     const logOutTime = expireTime.getTime();
     const currentTime = Date.now();
     const timeOut = logOutTime - currentTime;
@@ -97,7 +96,7 @@ export class UserDataService {
       switchMap((user) => {
         if (user) {
           return this.http.get<{ message: string; cart: CartInterface }>(
-            'http://localhost:3000/cart',
+            'http://13.233.158.89:3000/cart',
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
@@ -142,7 +141,7 @@ export class UserDataService {
     );
   }
   addToCart(productId: string, code: string) {
-    return this.http.post(`http://localhost:3000/cart/${productId}`, {
+    return this.http.post(`http://13.233.158.89:3000/cart/${productId}`, {
       code: code,
     });
   }

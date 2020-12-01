@@ -12,7 +12,7 @@
       <div class="each-order" *ngFor="let order of orders">
         <div class="order-img__desc">
           <div class="order-img">
-            <img [src]="getImage(order.imageUrl)" alt="" class="img" />
+            <img [src]="order.imageUrl" alt="" class="img" />
           </div>
           <div class="order-desc">
             <div class="order-product__title">

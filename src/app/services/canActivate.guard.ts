@@ -34,7 +34,7 @@ export class CanActivateClass implements CanActivate {
         if (user) {
           return true;
         } else {
-          return this.router.createUrlTree(['/login']);
+          return this.router.createUrlTree(['/user/login']);
         }
       })
     );

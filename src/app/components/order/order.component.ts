@@ -34,9 +34,9 @@ export class OrderComponent implements OnInit, OnDestroy {
         }
       });
   }
-  getImage(path) {
-    return `http://localhost:3000/${path}`;
-  }
+  // getImage(path) {
+  //   return `http://localhost:3000/${path}`;
+  // }
   onShopNow() {
     return this.router.navigate(['/']);
   }

@@ -4,10 +4,15 @@ export interface ProductInterface {
   originalPrice: number;
   offerPrice: number;
   description: string;
+  mainImage: {
+    path: string;
+    key: string;
+  };
   imageUrls: [
     {
       _id: string;
       path: string;
+      key: string;
     }
   ];
   totalRating: number;
@@ -55,10 +60,15 @@ export interface mappedProductInterface {
   offerPercentage: number;
   description: string;
   deliveryDate: Date;
+  mainImage: {
+    path: string;
+    key: string;
+  };
   imageUrls: [
     {
       _id: string;
       path: string;
+      key: string;
     }
   ];
   totalRating: number;

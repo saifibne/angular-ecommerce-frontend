@@ -29,7 +29,7 @@
         [routerLink]="['/product', product.category, product._id]"
       >
         <div class="image-container">
-          <img [src]="getImageUrl(product)" alt="" class="image-src" />
+          <img [src]="product.mainImage.path" alt="" class="image-src" />
         </div>
         <div class="product-details__container">
           <div class="product-text">

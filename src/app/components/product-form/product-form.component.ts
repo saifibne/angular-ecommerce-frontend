@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { faPlusCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { ProductDataService } from '../../services/productData.service';
 import { UserDataService } from '../../services/userData.service';
+import { DeactivateInterface } from '../../services/formDeactivate.guard';
 
 @Component({
   selector: 'app-product-form',
@@ -14,12 +15,14 @@ import { UserDataService } from '../../services/userData.service';
     '../signup-form/signup-form.component.css',
   ],
 })
-export class ProductFormComponent implements OnInit, OnDestroy {
+export class ProductFormComponent
+  implements OnInit, DeactivateInterface, OnDestroy {
   addIcon = faPlusCircle;
   cancelIcon = faTimesCircle;
   form: FormGroup;
   fileAsDataUrl: string | ArrayBuffer;
   fileData = [];
+  submitted = false;
   constructor(
     private productDataService: ProductDataService,
     private router: Router,
@@ -112,6 +115,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.fileAsDataUrl = image.data;
   }
   onSubmit() {
+    this.submitted = false;
     const formData = new FormData();
     formData.append('name', this.form.get('name').value);
     formData.append('price', this.form.get('price').value);
@@ -123,6 +127,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productDataService.submitProduct(formData).subscribe(
       (result) => {
         console.log(result);
+        this.submitted = true;
         this.form.reset({
           category: 'sofa',
         });
@@ -134,6 +139,20 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         return this.router.navigate(['login']);
       }
     );
+  }
+  canDeactivate() {
+    if (this.submitted) {
+      return true;
+    } else if (
+      this.form.get('name').value === null &&
+      this.form.get('price').value === null &&
+      this.form.get('description').value === null &&
+      this.submitted === false
+    ) {
+      return true;
+    } else {
+      return confirm('Do you really want to leave?');
+    }
   }
   ngOnDestroy() {
     this.userService.showHeader.next(true);

@@ -48,9 +48,9 @@ export class WishlistItemsComponent implements OnInit, OnDestroy {
       })
     );
   }
-  getImage(path: string) {
-    return `http://localhost:3000/${path}`;
-  }
+  // getImage(path: string) {
+  //   return `http://localhost:3000/${path}`;
+  // }
   onClickDelete(element: Element) {
     this.renderer.addClass(element, 'show-modal');
   }

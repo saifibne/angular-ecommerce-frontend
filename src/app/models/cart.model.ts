@@ -11,6 +11,7 @@ export interface CartInterface {
           {
             _id: string;
             path: string;
+            key: string;
           }
         ];
       };
@@ -29,10 +30,15 @@ export interface MappedCartInterface {
         originalPrice: number;
         offerPrice: number;
         name: string;
+        mainImage: {
+          path: string;
+          key: string;
+        };
         imageUrls: [
           {
             _id: string;
             path: string;
+            key: string;
           }
         ];
       };

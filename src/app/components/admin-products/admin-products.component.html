@@ -43,7 +43,7 @@
       *ngFor="let product of adminProducts | searchArray: searchText"
     >
       <div class="product-img">
-        <img [src]="getImage(product.imageUrls[0].path)" alt="" class="img" />
+        <img [src]="product.mainImage.path" alt="" class="img" />
       </div>
       <div class="product-name">
         <p>{{ product.name | shortText: 40 }}</p>

@@ -13,11 +13,7 @@
             ]"
           >
             <div class="item-image__wrapper">
-              <img
-                [src]="getImage(item.productId.imageUrls[0].path)"
-                alt=""
-                class="img"
-              />
+              <img [src]="item.productId.mainImage.path" alt="" class="img" />
             </div>
             <div class="item-body">
               <div class="item-body__title">

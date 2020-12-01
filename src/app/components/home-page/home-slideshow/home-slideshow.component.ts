@@ -79,9 +79,6 @@ export class HomeSlideshowComponent
     this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
     this.scrollBarWidth();
   }
-  getImagePath(product: ProductInterface) {
-    return `http://localhost:3000/${product.imageUrls[0].path}`;
-  }
   onClickNext() {
     for (const item of this.items) {
       if (

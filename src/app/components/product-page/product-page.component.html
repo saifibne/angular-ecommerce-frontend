@@ -12,18 +12,13 @@
             'image-active': image.path === product.imageUrls[0].path
           }"
         >
-          <img
-            [src]="getImageUrl(image.path)"
-            alt=""
-            class="single-image"
-            #imageSources
-          />
+          <img [src]="image.path" alt="" class="single-image" #imageSources />
         </div>
       </div>
       <div class="product-image">
         <div class="product-img-lens" #zoomLens></div>
         <img
-          [src]="imageUrl()"
+          [src]="product.imageUrls[0].path"
           alt=""
           class="image"
           #image

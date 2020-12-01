@@ -2,48 +2,48 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { ProductFormComponent } from './components/product-form/product-form.component';
-import { SignupFormComponent } from './components/signup-form/signup-form.component';
-import { LoginFormComponent } from './components/login-form/login-form.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
-import { ProductPageComponent } from './components/product-page/product-page.component';
 import { CategoryProductComponent } from './components/category-products/category-product.component';
-import { CartPageComponent } from './components/cart-page/cart-page.component';
-import { AdminProductsComponent } from './components/admin-products/admin-products.component';
-import { WishlistItemsComponent } from './components/wishlist-items/wishlist-items.component';
-import { OrderComponent } from './components/order/order.component';
 import { CanActivateClass } from './services/canActivate.guard';
+import { FormDeactivateGuard } from './services/formDeactivate.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
   {
-    path: 'admin/products',
-    component: AdminProductsComponent,
-    canActivate: [CanActivateClass],
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/adminProducts.module').then(
+        (m) => m.AdminProductsModule
+      ),
   },
   {
-    path: 'product/:category/:productId',
-    component: ProductPageComponent,
+    path: 'product',
+    loadChildren: () =>
+      import('./modules/productPage.module').then((m) => m.ProductPageModule),
   },
-  { path: 'products/:category', component: CategoryProductComponent },
-  { path: 'search', component: CategoryProductComponent },
+  // {
+  //   path: 'add-product',
+  //   loadChildren: () =>
+  //     import('./modules/productAdd.module').then((m) => m.ProductAddModule),
+  // },
   {
     path: 'add-product',
     component: ProductFormComponent,
     canActivate: [CanActivateClass],
+    canDeactivate: [FormDeactivateGuard],
+  },
+  { path: 'products/:category', component: CategoryProductComponent },
+  { path: 'search', component: CategoryProductComponent },
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./modules/login-signup.module').then((m) => m.LoginSignupModule),
   },
   {
-    path: 'cart',
-    component: CartPageComponent,
-    canActivate: [CanActivateClass],
+    path: 'account',
+    loadChildren: () =>
+      import('./modules/orderPackage.module').then((m) => m.OrderPackageModule),
   },
-  { path: 'signup', component: SignupFormComponent },
-  { path: 'login', component: LoginFormComponent },
-  {
-    path: 'wishlist',
-    component: WishlistItemsComponent,
-    canActivate: [CanActivateClass],
-  },
-  { path: 'order', component: OrderComponent, canActivate: [CanActivateClass] },
 ];
 
 @NgModule({

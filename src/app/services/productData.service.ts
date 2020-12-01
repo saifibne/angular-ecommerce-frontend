@@ -5,7 +5,7 @@ import {
   HttpParams,
   HttpRequest,
 } from '@angular/common/http';
-import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
 import {
@@ -23,34 +23,52 @@ export class ProductDataService {
   submitProduct(formData: FormData) {
     const req = new HttpRequest(
       'POST',
-      'http://localhost:3000/add-product',
+      'http://13.233.158.89:3000/add-product',
       formData
     );
     return this.http.request(req);
   }
   slideShowData(category: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
-      `http://localhost:3000/slideshow/${category}`
+      `http://13.233.158.89:3000/slideshow/${category}`
     );
+    // .pipe(
+    //   map((data) => {
+    //     const newSortedArray = data.productsData.map((item) => {
+    //       function compare(a, b) {
+    //         if (a.sorting < b.sorting) {
+    //           return -1;
+    //         }
+    //         if (a.sorting > b.sorting) {
+    //           return 1;
+    //         }
+    //         return 0;
+    //       }
+    //       const imageUrlArray = item.imageUrls.sort(compare);
+    //       return { ...item, imageUrls: imageUrlArray };
+    //     });
+    //     return { productsData: newSortedArray };
+    //   })
+    // );
   }
   categoryData(category: string, value: string) {
     if (value === 'New Arrivals') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://localhost:3000/products/${category}`,
+        `http://13.233.158.89:3000/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'newArrivals'),
         }
       );
     } else if (value === 'Customer Ratings') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://localhost:3000/products/${category}`,
+        `http://13.233.158.89:3000/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'ratings'),
         }
       );
     } else if (value === 'Added By Date') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://localhost:3000/products/${category}`,
+        `http://13.233.158.89:3000/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'addedDate'),
         }
@@ -60,7 +78,7 @@ export class ProductDataService {
   getProductFromDatabase(productId) {
     return this.http
       .get<{ message: string; productData: ProductInterface }>(
-        `http://localhost:3000/product/${productId}`
+        `http://13.233.158.89:3000/product/${productId}`
       )
       .pipe(
         map((product) => {
@@ -81,12 +99,28 @@ export class ProductDataService {
               deliveryDate: deliveryDate,
             },
           };
+        }),
+        map((product) => {
+          function compare(a, b) {
+            if (a.sorting < b.sorting) {
+              return -1;
+            }
+            if (a.sorting > b.sorting) {
+              return 1;
+            }
+            return 0;
+          }
+          const sortedImageUrls = product.productData.imageUrls.sort(compare);
+          return {
+            message: product.message,
+            productData: { ...product.productData, imageUrls: sortedImageUrls },
+          };
         })
       );
   }
   getSearchedProducts(input: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
-      'http://localhost:3000/search',
+      'http://13.233.158.89:3000/search',
       {
         params: new HttpParams().set('search', input),
       }
@@ -94,7 +128,7 @@ export class ProductDataService {
   }
   postAddCommentsReply(message: string, productId: string, commentId: string) {
     return this.http.post(
-      `http://localhost:3000/product/comment/reply/${productId}`,
+      `http://13.233.158.89:3000/product/comment/reply/${productId}`,
       { comment: message },
       {
         params: new HttpParams().set('commentId', commentId),
@@ -108,7 +142,7 @@ export class ProductDataService {
     rating: number
   ) {
     return this.http.post(
-      `http://localhost:3000/product/comment/${productId}`,
+      `http://13.233.158.89:3000/product/comment/${productId}`,
       {
         title: title,
         comment: comment,
@@ -123,7 +157,7 @@ export class ProductDataService {
           return this.http.get<{
             message: string;
             products: ProductInterface[];
-          }>('http://localhost:3000/admin/products', {
+          }>('http://13.233.158.89:3000/admin/products', {
             headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
           });
         } else {
@@ -133,13 +167,13 @@ export class ProductDataService {
     );
   }
   deleteProduct(productId: string) {
-    return this.http.delete(`http://localhost:3000/delete/${productId}`);
+    return this.http.delete(`http://13.233.158.89:3000/delete/${productId}`);
   }
   getWishlistItems() {
     return this.userService.userData.pipe(
       switchMap((user) => {
         if (user) {
-          return this.http.get('http://localhost:3000/get-wishlist', {
+          return this.http.get('http://13.233.158.89:3000/get-wishlist', {
             headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
           });
         } else {
@@ -155,9 +189,14 @@ export class ProductDataService {
     return this.userService.userData.pipe(
       switchMap((user) => {
         if (user) {
-          return this.http.get(`http://localhost:3000/wishlist/${productId}`, {
-            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
-          });
+          return this.http.get(
+            `http://13.233.158.89:3000/wishlist/${productId}`,
+            {
+              headers: new HttpHeaders({
+                Authorization: `Bearer ${user.token}`,
+              }),
+            }
+          );
         } else {
           return of(null);
         }
@@ -169,7 +208,7 @@ export class ProductDataService {
       switchMap((user) => {
         if (user) {
           return this.http.delete<{ message: string }>(
-            `http://localhost:3000/wishlist/${itemId}`,
+            `http://13.233.158.89:3000/wishlist/${itemId}`,
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
@@ -183,14 +222,14 @@ export class ProductDataService {
     );
   }
   postOrder(orderItems: any[]) {
-    return this.http.post('http://localhost:3000/order', orderItems);
+    return this.http.post('http://13.233.158.89:3000/order', orderItems);
   }
   getOrders() {
     return this.userService.userData.pipe(
       exhaustMap((user) => {
         if (user) {
           return this.http.get<{ message: string; orders: OrderModel[] }>(
-            'http://localhost:3000/orders',
+            'http://13.233.158.89:3000/orders',
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
