@@ -1,4 +1,9 @@
 <div class="header-wrapper">
+  <div class="mobile-header" (click)="showSidebar(sideBar, backDrop)">
+    <span class="bar"></span>
+    <span class="bar bar-margin"></span>
+    <span class="bar bar-margin"></span>
+  </div>
   <div class="header-title">
     <h4>Ecommerce</h4>
   </div>
@@ -135,5 +140,43 @@
         </li>
       </ul>
     </div>
+  </div>
+  <div
+    class="backdrop"
+    #backDrop
+    (click)="clickBackdrop(sideBar, backDrop)"
+  ></div>
+  <div class="header-sidebar" #sideBar>
+    <div class="sidebar-title">
+      <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span>Hello,
+      Sign In
+    </div>
+    <hr class="sidebar-divider" />
+    <ul class="sidebar-items">
+      <li routerLink="/">Home</li>
+      <li class="special-padding__item">
+        <div class="margin-btm__div" (click)="onCategoryClick(categoryLists)">
+          Category <span><fa-icon [icon]="caretIcon"></fa-icon></span>
+        </div>
+        <ul class="sidebar-category__dropdown-1" #categoryLists>
+          <li class="special-dropdown__item">Sofa</li>
+          <li class="special-dropdown__item">Chair</li>
+          <li>Bed</li>
+        </ul>
+      </li>
+      <li>My Cart</li>
+      <li class="special-padding__item">
+        <div class="margin-btm__div" (click)="onAccountClick(accountLists)">
+          Account <span><fa-icon [icon]="caretIcon"></fa-icon></span>
+        </div>
+        <ul class="sidebar-category__dropdown-2" #accountLists>
+          <li class="special-dropdown__item">My Products</li>
+          <li class="special-dropdown__item">Add Product</li>
+          <li class="special-dropdown__item">Wishlist</li>
+          <li>Orders</li>
+        </ul>
+      </li>
+      <li>Sign Out</li>
+    </ul>
   </div>
 </div>

@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { faAngleLeft, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
@@ -38,8 +39,11 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   nextIcon = faAngleRight;
   prevIcon = faAngleLeft;
   caretIcon = faCaretDown;
+  userIcon = faUser;
   count = -1;
   products: ProductInterface[] = [];
+  categoryShow: boolean = false;
+  accountShow = false;
   searchBoxSubscription: Subscription;
   searchTextSubscription: Subscription;
   searchText = new Subject<string>();
@@ -216,6 +220,30 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   onLogout() {
     this.userService.logout();
     return this.router.navigate(['/']);
+  }
+  showSidebar(element: Element, backDrop: Element) {
+    this.renderer.addClass(backDrop, 'show-backdrop');
+    this.renderer.addClass(element, 'show-sidebar');
+  }
+  clickBackdrop(sideBar: Element, backDrop: Element) {
+    this.renderer.removeClass(backDrop, 'show-backdrop');
+    this.renderer.removeClass(sideBar, 'show-sidebar');
+  }
+  onCategoryClick(categoryDropdown: Element) {
+    this.categoryShow = !this.categoryShow;
+    if (this.categoryShow) {
+      this.renderer.addClass(categoryDropdown, 'sidebar-dropdown__show');
+    } else {
+      this.renderer.removeClass(categoryDropdown, 'sidebar-dropdown__show');
+    }
+  }
+  onAccountClick(accountDropdown: Element) {
+    this.accountShow = !this.accountShow;
+    if (this.accountShow) {
+      this.renderer.addClass(accountDropdown, 'sidebar-dropdown__show');
+    } else {
+      this.renderer.removeClass(accountDropdown, 'sidebar-dropdown__show');
+    }
   }
   ngOnDestroy() {
     this.searchTextSubscription.unsubscribe();

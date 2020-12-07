@@ -100,7 +100,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
       .postOrder(mappedOrderItems)
       .pipe(take(1))
       .subscribe(() => {
-        return this.router.navigate(['order']);
+        return this.router.navigate(['account/order']);
       });
   }
   private handlingAddDelete(productId: string, code: string) {
