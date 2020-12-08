@@ -52,6 +52,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('categoryDropdownHost') categoryDropdown: ElementRef;
   @ViewChild('categoryDropdownWrapper') categoryWrapper: ElementRef;
   @ViewChild('accountDropdown') accountDropdown: ElementRef;
+  @ViewChild('backDrop') backDrop: ElementRef;
+  @ViewChild('sideBar') sideBar: ElementRef;
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
     private productService: ProductDataService,
@@ -221,13 +223,13 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userService.logout();
     return this.router.navigate(['/']);
   }
-  showSidebar(element: Element, backDrop: Element) {
-    this.renderer.addClass(backDrop, 'show-backdrop');
-    this.renderer.addClass(element, 'show-sidebar');
+  showSidebar() {
+    this.renderer.addClass(this.backDrop.nativeElement, 'show-backdrop');
+    this.renderer.addClass(this.sideBar.nativeElement, 'show-sidebar');
   }
-  clickBackdrop(sideBar: Element, backDrop: Element) {
-    this.renderer.removeClass(backDrop, 'show-backdrop');
-    this.renderer.removeClass(sideBar, 'show-sidebar');
+  clickBackdrop() {
+    this.renderer.removeClass(this.backDrop.nativeElement, 'show-backdrop');
+    this.renderer.removeClass(this.sideBar.nativeElement, 'show-sidebar');
   }
   onCategoryClick(categoryDropdown: Element) {
     this.categoryShow = !this.categoryShow;
@@ -244,6 +246,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.renderer.removeClass(accountDropdown, 'sidebar-dropdown__show');
     }
+  }
+  sideBarChangeRoute(route: string) {
+    this.clickBackdrop();
+    return this.router.navigate([route]);
+  }
+  sidebarLogout() {
+    this.clickBackdrop();
+    return this.onLogout();
   }
   ngOnDestroy() {
     this.searchTextSubscription.unsubscribe();

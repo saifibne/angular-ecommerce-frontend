@@ -13,6 +13,9 @@
 .header-title {
   margin-left: 10px;
 }
+.header-title h4:focus {
+  outline: none;
+}
 .header-title h4 {
   margin: 0;
   color: white;
@@ -236,6 +239,7 @@
   background-color: #3a2778;
   transition: all 200ms linear;
   overflow-y: scroll;
+  display: none;
 }
 .show-sidebar {
   transform: translateX(0);
@@ -299,14 +303,45 @@
 .userIcon {
   margin-right: 8px;
 }
+.header-userIcon {
+  font-size: 22px;
+  color: white;
+  stroke: white;
+}
+.hamburger-right__link {
+  margin-right: 15px;
+  display: none;
+}
+.header-close__btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  font-size: 30px;
+  line-height: 32px;
+  color: white;
+  font-weight: bolder;
+  border-color: transparent;
+}
 @media (max-width: 600px) {
   .header-wrapper {
-    justify-content: left;
+    justify-content: space-between;
   }
   .link-wrapper {
     display: none;
   }
   .mobile-header {
     display: block;
+  }
+  .hamburger-right__link {
+    display: block;
+  }
+  .header-sidebar {
+    display: block;
+  }
+}
+@media (min-width: 600px) {
+  .backdrop {
+    display: none;
   }
 }

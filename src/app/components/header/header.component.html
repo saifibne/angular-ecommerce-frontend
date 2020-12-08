@@ -1,11 +1,11 @@
 <div class="header-wrapper">
-  <div class="mobile-header" (click)="showSidebar(sideBar, backDrop)">
+  <div class="mobile-header" (click)="showSidebar()">
     <span class="bar"></span>
     <span class="bar bar-margin"></span>
     <span class="bar bar-margin"></span>
   </div>
   <div class="header-title">
-    <h4>Ecommerce</h4>
+    <h4 routerLink="/">Ecommerce</h4>
   </div>
   <div class="link-wrapper">
     <div class="header-left__links">
@@ -142,10 +142,22 @@
     </div>
   </div>
   <div
-    class="backdrop"
-    #backDrop
-    (click)="clickBackdrop(sideBar, backDrop)"
-  ></div>
+    class="hamburger-right__link"
+    *ngIf="userLogIn === false"
+    (click)="sideBarChangeRoute('/user/login')"
+  >
+    <fa-icon [icon]="userIcon" class="header-userIcon"></fa-icon>
+  </div>
+  <div
+    class="hamburger-right__link"
+    *ngIf="userLogIn === true"
+    (click)="sideBarChangeRoute('/account/cart')"
+  >
+    <fa-icon [icon]="cartIcon" class="header-userIcon"></fa-icon>
+  </div>
+  <div class="backdrop" #backDrop (click)="clickBackdrop()">
+    <button class="header-close__btn">&#10005;</button>
+  </div>
   <div class="header-sidebar" #sideBar>
     <div class="sidebar-title">
       <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span>Hello,
@@ -153,30 +165,65 @@
     </div>
     <hr class="sidebar-divider" />
     <ul class="sidebar-items">
-      <li routerLink="/">Home</li>
+      <li (click)="sideBarChangeRoute('/')">Home</li>
       <li class="special-padding__item">
         <div class="margin-btm__div" (click)="onCategoryClick(categoryLists)">
           Category <span><fa-icon [icon]="caretIcon"></fa-icon></span>
         </div>
         <ul class="sidebar-category__dropdown-1" #categoryLists>
-          <li class="special-dropdown__item">Sofa</li>
-          <li class="special-dropdown__item">Chair</li>
-          <li>Bed</li>
+          <li
+            class="special-dropdown__item"
+            (click)="sideBarChangeRoute('/products/sofa')"
+          >
+            Sofa
+          </li>
+          <li
+            class="special-dropdown__item"
+            (click)="sideBarChangeRoute('/products/chair')"
+          >
+            Chair
+          </li>
+          <li (click)="sideBarChangeRoute('/products/bed')">Bed</li>
         </ul>
       </li>
-      <li>My Cart</li>
+      <li (click)="sideBarChangeRoute('/account/cart')">My Cart</li>
       <li class="special-padding__item">
-        <div class="margin-btm__div" (click)="onAccountClick(accountLists)">
+        <div
+          class="margin-btm__div"
+          (click)="onAccountClick(accountLists)"
+          *ngIf="userLogIn === true"
+        >
           Account <span><fa-icon [icon]="caretIcon"></fa-icon></span>
         </div>
         <ul class="sidebar-category__dropdown-2" #accountLists>
-          <li class="special-dropdown__item">My Products</li>
-          <li class="special-dropdown__item">Add Product</li>
-          <li class="special-dropdown__item">Wishlist</li>
-          <li>Orders</li>
+          <li
+            class="special-dropdown__item"
+            (click)="sideBarChangeRoute('/admin/products')"
+          >
+            My Products
+          </li>
+          <li
+            class="special-dropdown__item"
+            (click)="sideBarChangeRoute('add-product')"
+          >
+            Add Product
+          </li>
+          <li
+            class="special-dropdown__item"
+            (click)="sideBarChangeRoute('/account/wishlist')"
+          >
+            Wishlist
+          </li>
+          <li (click)="sideBarChangeRoute('/account/order')">Orders</li>
         </ul>
       </li>
-      <li>Sign Out</li>
+      <li *ngIf="userLogIn === true" (click)="sidebarLogout()">Sign Out</li>
+      <li
+        *ngIf="userLogIn === false"
+        (click)="sideBarChangeRoute('/user/login')"
+      >
+        Sign In
+      </li>
     </ul>
   </div>
 </div>
