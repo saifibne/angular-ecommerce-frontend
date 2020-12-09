@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HideSearchBoxDirective } from '../directives/hide-searchbox.directive';
-import { RouterModule } from '@angular/router';
 import { ShortTextPipe } from '../pipes/shortText.pipe';
 
 @NgModule({

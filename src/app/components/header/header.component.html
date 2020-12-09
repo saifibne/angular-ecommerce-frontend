@@ -227,3 +227,33 @@
     </ul>
   </div>
 </div>
+<div class="search-product__mobile">
+  <div class="search-product__form-mobile">
+    <label>
+      <input
+        type="text"
+        placeholder="Search.."
+        (input)="onSearch($event)"
+        class="search-input__mobile"
+        #searchInputMobile
+      />
+    </label>
+    <button
+      type="button"
+      (click)="onClick(searchInputMobile.value)"
+      class="search-mobile__btn"
+      #searchBtnMobile
+    >
+      <fa-icon [icon]="searchIcon"></fa-icon>
+    </button>
+  </div>
+  <div class="mobile-search__result" *ngIf="products.length > 0">
+    <div
+      class="each-mobile__result"
+      *ngFor="let result of products"
+      (click)="onSelectProduct(result._id, result.category)"
+    >
+      <p class="each-mobile__text">{{ result.name }}</p>
+    </div>
+  </div>
+</div>

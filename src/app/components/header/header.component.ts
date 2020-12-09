@@ -23,6 +23,7 @@ import { faAngleLeft, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { ProductInterface } from '../../models/product.model';
 import { ProductDataService } from '../../services/productData.service';
@@ -40,6 +41,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   prevIcon = faAngleLeft;
   caretIcon = faCaretDown;
   userIcon = faUser;
+  searchIcon = faSearch;
   count = -1;
   products: ProductInterface[] = [];
   categoryShow: boolean = false;
@@ -54,6 +56,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('accountDropdown') accountDropdown: ElementRef;
   @ViewChild('backDrop') backDrop: ElementRef;
   @ViewChild('sideBar') sideBar: ElementRef;
+  @ViewChild('searchBtnMobile') searchBtnMobile: ElementRef;
+  @ViewChild('searchInputMobile') searchInputMobile: ElementRef;
   @ViewChildren('result', { read: ElementRef }) results: QueryList<ElementRef>;
   constructor(
     private productService: ProductDataService,
@@ -173,19 +177,31 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
           if (results[this.count]) {
             results[this.count].nativeElement.click();
           } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
-            (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+            if (window.innerWidth > 600) {
+              (<HTMLButtonElement>this.searchBtn.nativeElement).click();
+              this.renderer.setProperty(
+                this.searchInput.nativeElement,
+                'value',
+                ''
+              );
+            } else {
+              (<HTMLButtonElement>this.searchBtnMobile.nativeElement).click();
+              this.renderer.setProperty(
+                this.searchInputMobile.nativeElement,
+                'value',
+                ''
+              );
+            }
             this.productService.hideSearchBoxObs.next([]);
           }
-          this.renderer.setProperty(
-            this.searchInput.nativeElement,
-            'value',
-            ''
-          );
           break;
         default:
           this.count = -1;
       }
-    } else if ((<HTMLInputElement>this.searchInput.nativeElement).focus) {
+    } else if (
+      <HTMLInputElement>this.searchInput.nativeElement ===
+      document.activeElement
+    ) {
       if (e.key === 'Enter') {
         if (this.searchInput.nativeElement.value !== '') {
           (<HTMLButtonElement>this.searchBtn.nativeElement).click();
@@ -196,6 +212,19 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
           );
           this.productService.hideSearchBoxObs.next([]);
         }
+      }
+    } else if (
+      <HTMLInputElement>this.searchInputMobile.nativeElement ===
+      document.activeElement
+    ) {
+      if (e.key === 'Enter') {
+        (<HTMLButtonElement>this.searchBtnMobile.nativeElement).click();
+        this.renderer.setProperty(
+          this.searchInputMobile.nativeElement,
+          'value',
+          ''
+        );
+        this.productService.hideSearchBoxObs.next([]);
       }
     }
   }
