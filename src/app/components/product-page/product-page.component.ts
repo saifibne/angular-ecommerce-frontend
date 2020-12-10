@@ -120,7 +120,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       .addToCart(productId, 'add')
       .pipe(take(1))
       .subscribe(() => {
-        return this.router.navigate(['/cart']);
+        return this.router.navigate(['/account/cart']);
       });
   }
   onAddWishList(productId: string) {

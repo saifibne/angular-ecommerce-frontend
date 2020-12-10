@@ -47,3 +47,43 @@
     <div class="scroll-bar"></div>
   </div>
 </div>
+<div class="mobile-slideshow__container">
+  <div class="mobile-slideshow__title">
+    <h4 class="title">Great deals on {{ category }}</h4>
+  </div>
+  <div class="mobile-slideshow__card-wrapper">
+    <div class="mobile-slideshow__cards">
+      <div class="mobile-card" *ngFor="let product of products">
+        <a
+          class="mobile-card__anchor"
+          [routerLink]="['product', category, product._id]"
+        >
+          <div class="mobile-card__img-container">
+            <img
+              [src]="product.mainImage.path"
+              alt=""
+              class="mobile-card__img"
+            />
+          </div>
+          <div class="mobile-card__information">
+            <div class="mobile-card__price">
+              <div class="current-price">
+                {{ product.offerPrice | currency: "INR" }}
+              </div>
+              <div
+                class="previous-price mobile-margin__left"
+                style="text-decoration: line-through; font-size: 17px"
+              >
+                {{ product.originalPrice | currency: "INR" }}
+              </div>
+            </div>
+            <div class="mobile-card__name">
+              {{ product.name | shortText: 30 }}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-check-deals">See all deals</div>
+</div>

@@ -375,3 +375,125 @@
   color: white;
   line-height: 1.4;
 }
+.mobile-place__order {
+  display: none;
+  position: sticky;
+  bottom: 0;
+}
+.mobile-place__order-wrapper {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
+}
+.mobile-place__order-price {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin-left: 8px;
+}
+.place-order__btn-mobile {
+  padding: 10px 14px;
+  background-color: #60467e;
+  background-image: -webkit-linear-gradient(
+    left bottom,
+    rgba(159, 88, 150, 0) 0,
+    rgba(159, 88, 150, 0.6) 100%
+  );
+  color: white;
+  font-weight: 500;
+  border: 1px solid transparent;
+  margin-right: 8px;
+}
+@media (max-width: 600px) {
+  .cart-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+  .cart-items__title {
+    display: none;
+  }
+  .cart-items__wrapper {
+    width: 100%;
+    background-color: transparent;
+  }
+  .cart-items {
+    margin: 10px 0;
+  }
+  .cart-price__wrapper {
+    position: inherit;
+    width: 100%;
+  }
+  .cart-price__title {
+    padding: 10px 24px;
+  }
+  .cart-price__body {
+    padding: 12px;
+  }
+  .total-amount__wrapper {
+    padding: 20px;
+  }
+  .total-save__wrapper {
+    padding: 10px;
+  }
+  .delivery-date__wrapper {
+    display: none;
+  }
+  .each-cart__item {
+    margin: 10px 0;
+    background-color: white;
+  }
+  .mobile-place__order {
+    display: block;
+  }
+  .place-order__wrapper {
+    display: none;
+  }
+  .item-image__wrapper {
+    height: auto;
+    max-width: 120px;
+  }
+  .item-image {
+    height: auto;
+    width: 100%;
+  }
+  .notification-wrapper {
+    bottom: 0;
+    left: 0;
+  }
+  .notification {
+    max-width: 100%;
+    padding: 16px;
+  }
+  .checked-icon {
+    display: none;
+  }
+  .close-btn {
+    display: none;
+  }
+  .modal-content {
+    padding: 0 20px 18px;
+  }
+  .remove-modal {
+    min-height: auto;
+    min-width: 80%;
+    width: 85%;
+  }
+  .modal-title {
+    padding: 26px 20px 18px;
+  }
+  .modal-btn {
+    margin: 0;
+    padding: 0;
+  }
+  .modal-btn__1,
+  .modal-btn__2 {
+    min-width: 50%;
+    background-color: transparent;
+    border-radius: 0;
+  }
+  .modal-btn__2 {
+    color: #fa1515;
+  }
+}

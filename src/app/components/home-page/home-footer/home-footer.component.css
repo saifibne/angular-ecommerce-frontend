@@ -52,3 +52,22 @@
   width: 30px;
   margin: 0 10px;
 }
+.mobile-footer__wrapper {
+  background-color: #3a2778;
+  padding: 20px;
+  display: none;
+  margin-top: 20px;
+}
+.mobile-footer__text {
+  color: white;
+  font-size: 12px;
+  line-height: 16px;
+}
+@media (max-width: 600px) {
+  .footer-wrapper {
+    display: none;
+  }
+  .mobile-footer__wrapper {
+    display: block;
+  }
+}

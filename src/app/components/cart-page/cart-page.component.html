@@ -126,6 +126,16 @@
           </p>
         </div>
       </div>
+      <div class="mobile-place__order">
+        <div class="mobile-place__order-wrapper">
+          <div class="mobile-place__order-price">
+            {{ cartItems.totalPrice | currency: "INR" }}
+          </div>
+          <button class="place-order__btn-mobile" (click)="onOrder()">
+            Place Order
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="notification-wrapper" *ngIf="showNotification && updatedItemData">
@@ -137,5 +147,4 @@
       </div>
     </div>
   </div>
-  <!--  <app-home-footer></app-home-footer>-->
 </div>

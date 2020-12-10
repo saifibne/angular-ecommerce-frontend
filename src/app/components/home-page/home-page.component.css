@@ -114,13 +114,36 @@
     height: 500px;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .overview-container {
     height: auto;
   }
   .overview {
     display: flex;
-    width: 80%;
+    width: 95%;
     flex-direction: column;
+  }
+  .text-container,
+  .text-container-1 {
+    width: max-content;
+  }
+  .text-title-1,
+  .text-title-2 {
+    font-size: 18px;
+  }
+  .text-content-1,
+  .text-content-2 {
+    font-size: 14px;
+  }
+  .text-container-1 {
+    left: 10%;
+    top: 20%;
+  }
+  .text-container__button {
+    padding: 6px 25px 4px;
+    font-size: 12px;
+  }
+  .third-overview {
+    display: none;
   }
 }

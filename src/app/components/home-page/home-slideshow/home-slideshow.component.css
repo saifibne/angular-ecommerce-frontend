@@ -121,3 +121,58 @@ button:disabled {
   height: inherit;
   transition: transform 500ms linear;
 }
+.mobile-slideshow__container {
+  background-color: white;
+  display: none;
+  margin: 10px 0;
+}
+.mobile-slideshow__title {
+  margin: 0 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #aaa;
+}
+.mobile-slideshow__card-wrapper {
+  margin-top: 8px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+.mobile-card {
+  margin-bottom: 10px;
+}
+.mobile-card__anchor {
+  display: flex;
+  text-decoration: none;
+}
+.mobile-card__img-container {
+  height: 60px;
+  width: 60px;
+  margin: 0 20px;
+}
+.mobile-card__img {
+  height: 100%;
+  width: 100%;
+}
+.mobile-card__name {
+  color: #111111;
+}
+.mobile-card__price {
+  display: flex;
+  margin-bottom: 6px;
+}
+.mobile-margin__left {
+  margin-left: 15px;
+}
+.mobile-check-deals {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #0066c0;
+}
+@media (max-width: 600px) {
+  .slideshow-container {
+    display: none;
+  }
+  .mobile-slideshow__container {
+    display: block;
+  }
+}
