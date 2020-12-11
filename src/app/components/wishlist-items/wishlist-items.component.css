@@ -156,3 +156,121 @@
 .modal-delete__btn:focus {
   outline: none;
 }
+.mobile-wrapper {
+  display: none;
+}
+.wrapper-body__mobile {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+}
+.each-item__mobile {
+  background-color: white;
+  position: relative;
+}
+.item-image__wrapper-mobile {
+  width: 100%;
+  height: 80%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+.item-image__mobile {
+  width: 100%;
+  height: auto;
+}
+.item-name__mobile {
+  font-size: 14px;
+  padding: 0 10px;
+  color: #555555;
+}
+.item-price__mobile {
+  display: flex;
+}
+.item-current__price-mobile,
+.item-original__price-mobile,
+.item-offer__percentage-mobile {
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.item-current__price-mobile {
+  padding: 0 6px;
+  color: #111111;
+}
+.item-original__price-mobile {
+  color: #555555;
+  text-decoration: line-through;
+  padding-right: 6px;
+}
+.item-offer__percentage-mobile {
+  color: #388e3c;
+}
+.menu-icon__mobile {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #bababa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.dot-icon {
+  color: #555555;
+  stroke: #555555;
+  line-height: 30px;
+}
+.mobile-remove__notification {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  transform: translateY(100%);
+  transition: all 200ms linear;
+}
+.show-mobile__remove-notification {
+  transform: translateY(0);
+}
+.mobile-item__link {
+  text-decoration: none;
+}
+.mobile-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: none;
+}
+.show-mobile__backdrop {
+  display: block;
+}
+.mobile-remove__content {
+  background-color: white;
+  padding: 20px;
+  width: 100vw;
+  color: #555555;
+}
+.mobile-trash__icon {
+  padding-right: 15px;
+}
+@media (max-width: 600px) {
+  .wishlist-wrapper {
+    box-shadow: none;
+  }
+  .mobile-wrapper {
+    display: block;
+  }
+  .wishlist-wrapper {
+    width: 100%;
+  }
+  .wrapper-body {
+    display: none;
+  }
+}

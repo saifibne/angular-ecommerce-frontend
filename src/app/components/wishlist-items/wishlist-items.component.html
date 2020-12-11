@@ -86,5 +86,60 @@
         </div>
       </div>
     </div>
+    <div class="mobile-wrapper">
+      <div class="wrapper-body__mobile">
+        <div class="each-item__mobile" *ngFor="let item of items">
+          <a
+            [routerLink]="[
+              '/product',
+              item.productId.category,
+              item.productId._id
+            ]"
+            class="mobile-item__link"
+          >
+            <div class="item-image__wrapper-mobile">
+              <img
+                [src]="item.productId.mainImage.path"
+                alt=""
+                class="item-image__mobile"
+              />
+            </div>
+            <div class="item-text__mobile">
+              <div class="item-name__mobile">
+                {{ item.productId.name | shortText: 20 }}
+              </div>
+              <div class="item-price__mobile">
+                <div class="item-current__price-mobile">
+                  {{ item.productId.offerPrice | currency: "INR" }}
+                </div>
+                <div class="item-original__price-mobile">
+                  {{ item.productId.originalPrice | currency: "INR" }}
+                </div>
+                <div class="item-offer__percentage-mobile">
+                  {{ item.offerPercentage }}% off
+                </div>
+              </div>
+            </div>
+          </a>
+          <div
+            class="menu-icon__mobile"
+            (click)="onClickDot(item.productId._id)"
+          >
+            <fa-icon [icon]="dotIcon" class="dot-icon"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-backdrop" #mobileBackdrop (click)="closeModal()"></div>
+    <div class="mobile-remove__notification" #mobileRemoveModal>
+      <div class="mobile-remove__content" (click)="deleteWishItemMobile()">
+        <span
+          ><fa-icon
+            [icon]="trashIcon"
+            class="mobile-trash__icon"
+          ></fa-icon></span
+        >Remove from collection
+      </div>
+    </div>
   </div>
 </div>

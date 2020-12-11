@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ProductDataService } from '../../services/productData.service';
 import { Router } from '@angular/router';
@@ -6,6 +13,7 @@ import { WishListModel } from '../../models/wishList.model';
 import { exhaustMap, take, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { UserDataService } from '../../services/userData.service';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-wishlist-items',
@@ -16,6 +24,10 @@ export class WishlistItemsComponent implements OnInit, OnDestroy {
   trashIcon = faTrash;
   items: WishListModel[];
   wishListSub: Subscription;
+  dotIcon = faEllipsisV;
+  productId: string;
+  @ViewChild('mobileBackdrop') mobileBackdrop: ElementRef;
+  @ViewChild('mobileRemoveModal') mobileRemoveModal: ElementRef;
   constructor(
     private productService: ProductDataService,
     private router: Router,
@@ -48,9 +60,6 @@ export class WishlistItemsComponent implements OnInit, OnDestroy {
       })
     );
   }
-  // getImage(path: string) {
-  //   return `http://localhost:3000/${path}`;
-  // }
   onClickDelete(element: Element) {
     this.renderer.addClass(element, 'show-modal');
   }
@@ -67,6 +76,43 @@ export class WishlistItemsComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+  deleteWishItemMobile() {
+    if (this.productId) {
+      this.productService
+        .deleteWishListItem(this.productId)
+        .pipe(
+          take(1),
+          exhaustMap(() => {
+            return this.rerunDataBase();
+          })
+        )
+        .subscribe(() => {
+          this.closeModal();
+        });
+    }
+  }
+  onClickDot(productId: string) {
+    this.productId = productId;
+    this.renderer.addClass(
+      this.mobileBackdrop.nativeElement,
+      'show-mobile__backdrop'
+    );
+    this.renderer.addClass(
+      this.mobileRemoveModal.nativeElement,
+      'show-mobile__remove-notification'
+    );
+  }
+  closeModal() {
+    this.productId = null;
+    this.renderer.removeClass(
+      this.mobileBackdrop.nativeElement,
+      'show-mobile__backdrop'
+    );
+    this.renderer.removeClass(
+      this.mobileRemoveModal.nativeElement,
+      'show-mobile__remove-notification'
+    );
   }
   ngOnDestroy() {
     this.wishListSub.unsubscribe();
