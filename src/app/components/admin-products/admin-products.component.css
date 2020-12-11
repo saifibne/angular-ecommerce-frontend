@@ -48,6 +48,9 @@
 .img {
   height: 100%;
 }
+.product-name {
+  margin-left: 20px;
+}
 .product-name p {
   margin: 0;
   font-size: 16px;
@@ -80,5 +83,43 @@
   cursor: pointer;
 }
 .edit-btn {
+  width: auto;
   margin-right: 8px;
+}
+.product-details {
+  display: flex;
+}
+@media (max-width: 600px) {
+  .single-product__wrapper {
+    width: 95%;
+    display: block;
+    padding: 0;
+  }
+  .product-details {
+    padding: 16px 16px 8px;
+  }
+  .time-stamp {
+    display: block;
+    margin-top: 7px;
+  }
+  .edit-btn,
+  .delete-btn {
+    width: 50%;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 0;
+  }
+  .edit-btn {
+    margin: 0;
+    border-top: 1px solid #878787;
+    border-right: 1px solid #878787;
+    color: #0066c0;
+  }
+  .delete-btn {
+    color: #fa1515;
+    border-top: 1px solid #878787;
+  }
+  .single-product__btn {
+    display: flex;
+  }
 }

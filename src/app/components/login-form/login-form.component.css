@@ -117,3 +117,11 @@ input:-webkit-autofill {
   border-left: 1px solid #cbcbd2;
   margin-left: 12px;
 }
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+  .form {
+    padding: 20px;
+  }
+}

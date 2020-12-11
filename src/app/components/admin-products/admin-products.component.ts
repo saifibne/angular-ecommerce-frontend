@@ -40,7 +40,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
         if (result) {
           this.adminProducts = result.products;
         } else {
-          return this.router.navigate(['login']);
+          return this.router.navigate(['/account/login']);
         }
       })
     );

@@ -42,22 +42,24 @@
       class="single-product__wrapper"
       *ngFor="let product of adminProducts | searchArray: searchText"
     >
-      <div class="product-img">
-        <img [src]="product.mainImage.path" alt="" class="img" />
-      </div>
-      <div class="product-name">
-        <p>{{ product.name | shortText: 40 }}</p>
-        <div class="time-stamp">
-          <div class="created-at">
-            Created At: {{ product.createdAt | date: "shortDate" }}
-          </div>
-          <div class="update-at">
-            Updated At: {{ product.updatedAt | date: "shortDate" }}
+      <div class="product-details">
+        <div class="product-img">
+          <img [src]="product.mainImage.path" alt="" class="img" />
+        </div>
+        <div class="product-name">
+          <p>{{ product.name | shortText: 40 }}</p>
+          <div class="time-stamp">
+            <div class="created-at">
+              Created At: {{ product.createdAt | date: "shortDate" }}
+            </div>
+            <div class="update-at">
+              Updated At: {{ product.updatedAt | date: "shortDate" }}
+            </div>
           </div>
         </div>
       </div>
       <div class="single-product__btn">
-        <button class="edit-btn">Edit</button>
+        <button class="edit-btn">Edit Price</button>
         <button class="delete-btn" (click)="onDelete(product._id)">
           Delete
         </button>

@@ -1,259 +1,261 @@
-<div class="header-wrapper">
-  <div class="mobile-header" (click)="showSidebar()">
-    <span class="bar"></span>
-    <span class="bar bar-margin"></span>
-    <span class="bar bar-margin"></span>
-  </div>
-  <div class="header-title">
-    <h4 routerLink="/">Ecommerce</h4>
-  </div>
-  <div class="link-wrapper">
-    <div class="header-left__links">
-      <ul class="links-list">
-        <li routerLink="/">Home</li>
-        <li class="position-relative" #categoryDropdownHost>
-          <p>
-            Category
-            <span
-              ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
-            ></span>
-          </p>
-          <div class="dropdown-wrapper" #categoryDropdownWrapper>
-            <div class="dropdown-arrow"></div>
-            <ul class="dropdown-ul">
-              <li class="dropdown-item">
-                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a (click)="changeRoute('/products/sofa')">Sofa</a>
-              </li>
-              <li class="dropdown-item">
-                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a (click)="changeRoute('/products/chair')">Chair</a>
-              </li>
-              <li class="dropdown-item">
-                <span><fa-icon [icon]="nextIcon"></fa-icon></span>
-                <a (click)="changeRoute('/products/bed')">Bed</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
+<div class="mega-wrapper">
+  <div class="header-wrapper">
+    <div class="mobile-header" (click)="showSidebar()">
+      <span class="bar"></span>
+      <span class="bar bar-margin"></span>
+      <span class="bar bar-margin"></span>
     </div>
-    <div class="header-right__links">
-      <ul class="links-list">
-        <li class="relative-link">
-          <div class="search-product__form">
-            <label>
-              <input
-                type="text"
-                class="header-search__field"
-                placeholder="Search"
-                (input)="onSearch($event)"
-                #searchInput
-              />
-            </label>
-            <button
-              (click)="onClick(searchInput.value)"
-              type="button"
-              #searchBtn
-              class="search-submit__btn"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 17 18"
-                class=""
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g fill="#2874F1" fill-rule="evenodd">
-                  <path
-                    class="_2BhAHa"
-                    d="m11.618 9.897l4.225 4.212c.092.092.101.232.02.313l-1.465 1.46c-.081.081-.221.072-.314-.02l-4.216-4.203"
-                  ></path>
-                  <path
-                    class="_2BhAHa"
-                    d="m6.486 10.901c-2.42 0-4.381-1.956-4.381-4.368 0-2.413 1.961-4.369 4.381-4.369 2.42 0 4.381 1.956 4.381 4.369 0 2.413-1.961 4.368-4.381 4.368m0-10.835c-3.582 0-6.486 2.895-6.486 6.467 0 3.572 2.904 6.467 6.486 6.467 3.582 0 6.486-2.895 6.486-6.467 0-3.572-2.904-6.467-6.486-6.467"
-                  ></path>
-                </g>
-              </svg>
-            </button>
-          </div>
-          <div class="search-results" *ngIf="products.length > 0">
-            <div
-              *ngFor="let product of products"
-              class="each-result"
-              (click)="onSelectProduct(product._id, product.category)"
-              role="button"
-              #result
-            >
-              <p class="result-text">{{ product.name }}</p>
+    <div class="header-title">
+      <h4 routerLink="/">Ecommerce</h4>
+    </div>
+    <div class="link-wrapper">
+      <div class="header-left__links">
+        <ul class="links-list">
+          <li routerLink="/">Home</li>
+          <li class="position-relative" #categoryDropdownHost>
+            <p>
+              Category
+              <span
+                ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
+              ></span>
+            </p>
+            <div class="dropdown-wrapper" #categoryDropdownWrapper>
+              <div class="dropdown-arrow"></div>
+              <ul class="dropdown-ul">
+                <li class="dropdown-item">
+                  <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                  <a (click)="changeRoute('/products/sofa')">Sofa</a>
+                </li>
+                <li class="dropdown-item">
+                  <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                  <a (click)="changeRoute('/products/chair')">Chair</a>
+                </li>
+                <li class="dropdown-item">
+                  <span><fa-icon [icon]="nextIcon"></fa-icon></span>
+                  <a (click)="changeRoute('/products/bed')">Bed</a>
+                </li>
+              </ul>
             </div>
+          </li>
+        </ul>
+      </div>
+      <div class="header-right__links">
+        <ul class="links-list">
+          <li class="relative-link">
+            <div class="search-product__form">
+              <label>
+                <input
+                  type="text"
+                  class="header-search__field"
+                  placeholder="Search"
+                  (input)="onSearch($event)"
+                  #searchInput
+                />
+              </label>
+              <button
+                (click)="onClick(searchInput.value)"
+                type="button"
+                #searchBtn
+                class="search-submit__btn"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 17 18"
+                  class=""
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="#2874F1" fill-rule="evenodd">
+                    <path
+                      class="_2BhAHa"
+                      d="m11.618 9.897l4.225 4.212c.092.092.101.232.02.313l-1.465 1.46c-.081.081-.221.072-.314-.02l-4.216-4.203"
+                    ></path>
+                    <path
+                      class="_2BhAHa"
+                      d="m6.486 10.901c-2.42 0-4.381-1.956-4.381-4.368 0-2.413 1.961-4.369 4.381-4.369 2.42 0 4.381 1.956 4.381 4.369 0 2.413-1.961 4.368-4.381 4.368m0-10.835c-3.582 0-6.486 2.895-6.486 6.467 0 3.572 2.904 6.467 6.486 6.467 3.582 0 6.486-2.895 6.486-6.467 0-3.572-2.904-6.467-6.486-6.467"
+                    ></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" *ngIf="products.length > 0">
+              <div
+                *ngFor="let product of products"
+                class="each-result"
+                (click)="onSelectProduct(product._id, product.category)"
+                role="button"
+                #result
+              >
+                <p class="result-text">{{ product.name }}</p>
+              </div>
+            </div>
+          </li>
+          <li routerLink="/account/cart">
+            <fa-icon [icon]="cartIcon"></fa-icon>
+          </li>
+          <li
+            class="special-link"
+            routerLink="/user/login"
+            *ngIf="userLogIn === false"
+          >
+            Sign In
+          </li>
+          <li
+            class="special-link another-relative"
+            *ngIf="userLogIn === true"
+            accountDropdown
+          >
+            <p>
+              Account
+              <span
+                ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
+              ></span>
+            </p>
+            <div class="account-dropdown" #accountDropdown>
+              <div class="dropdown-arrow more-right"></div>
+              <ul class="account-dropdown-ul">
+                <li class="account-dropdown-item">
+                  <a (click)="changeAdminRoute('/add-product')">Add Product</a
+                  ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+                </li>
+                <li class="account-dropdown-item">
+                  <a (click)="changeAdminRoute('/admin/products')"
+                    >Your Products</a
+                  ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+                </li>
+                <li class="account-dropdown-item">
+                  <a (click)="changeAdminRoute('/account/wishlist')"
+                    >Wishlist Items</a
+                  ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+                </li>
+                <li class="account-dropdown-item">
+                  <a (click)="changeAdminRoute('/account/order')">Your Orders</a
+                  ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+                </li>
+                <li class="account-dropdown-item">
+                  <a (click)="onLogout()">Log Out</a
+                  ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="hamburger-right__link"
+      *ngIf="userLogIn === false"
+      (click)="sideBarChangeRoute('/user/login')"
+    >
+      <fa-icon [icon]="userIcon" class="header-userIcon"></fa-icon>
+    </div>
+    <div
+      class="hamburger-right__link"
+      *ngIf="userLogIn === true"
+      (click)="sideBarChangeRoute('/account/cart')"
+    >
+      <fa-icon [icon]="cartIcon" class="header-userIcon"></fa-icon>
+    </div>
+    <div class="backdrop" #backDrop (click)="clickBackdrop()">
+      <button class="header-close__btn">&#10005;</button>
+    </div>
+    <div class="header-sidebar" #sideBar>
+      <div class="sidebar-title">
+        <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span
+        >Hello, Sign In
+      </div>
+      <hr class="sidebar-divider" />
+      <ul class="sidebar-items">
+        <li (click)="sideBarChangeRoute('/')">Home</li>
+        <li class="special-padding__item">
+          <div class="margin-btm__div" (click)="onCategoryClick(categoryLists)">
+            Category <span><fa-icon [icon]="caretIcon"></fa-icon></span>
           </div>
+          <ul class="sidebar-category__dropdown-1" #categoryLists>
+            <li
+              class="special-dropdown__item"
+              (click)="sideBarChangeRoute('/products/sofa')"
+            >
+              Sofa
+            </li>
+            <li
+              class="special-dropdown__item"
+              (click)="sideBarChangeRoute('/products/chair')"
+            >
+              Chair
+            </li>
+            <li (click)="sideBarChangeRoute('/products/bed')">Bed</li>
+          </ul>
         </li>
-        <li routerLink="/account/cart">
-          <fa-icon [icon]="cartIcon"></fa-icon>
+        <li (click)="sideBarChangeRoute('/account/cart')">My Cart</li>
+        <li class="special-padding__item">
+          <div
+            class="margin-btm__div"
+            (click)="onAccountClick(accountLists)"
+            *ngIf="userLogIn === true"
+          >
+            Account <span><fa-icon [icon]="caretIcon"></fa-icon></span>
+          </div>
+          <ul class="sidebar-category__dropdown-2" #accountLists>
+            <li
+              class="special-dropdown__item"
+              (click)="sideBarChangeRoute('/admin/products')"
+            >
+              My Products
+            </li>
+            <li
+              class="special-dropdown__item"
+              (click)="sideBarChangeRoute('add-product')"
+            >
+              Add Product
+            </li>
+            <li
+              class="special-dropdown__item"
+              (click)="sideBarChangeRoute('/account/wishlist')"
+            >
+              Wishlist
+            </li>
+            <li (click)="sideBarChangeRoute('/account/order')">Orders</li>
+          </ul>
         </li>
+        <li *ngIf="userLogIn === true" (click)="sidebarLogout()">Sign Out</li>
         <li
-          class="special-link"
-          routerLink="/user/login"
           *ngIf="userLogIn === false"
+          (click)="sideBarChangeRoute('/user/login')"
         >
           Sign In
         </li>
-        <li
-          class="special-link another-relative"
-          *ngIf="userLogIn === true"
-          accountDropdown
-        >
-          <p>
-            Account
-            <span
-              ><fa-icon [icon]="caretIcon" class="caret-icon"></fa-icon
-            ></span>
-          </p>
-          <div class="account-dropdown" #accountDropdown>
-            <div class="dropdown-arrow more-right"></div>
-            <ul class="account-dropdown-ul">
-              <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/add-product')">Add Product</a
-                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
-              </li>
-              <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/admin/products')"
-                  >Your Products</a
-                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
-              </li>
-              <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/account/wishlist')"
-                  >Wishlist Items</a
-                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
-              </li>
-              <li class="account-dropdown-item">
-                <a (click)="changeAdminRoute('/account/order')">Your Orders</a
-                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
-              </li>
-              <li class="account-dropdown-item">
-                <a (click)="onLogout()">Log Out</a
-                ><span><fa-icon [icon]="prevIcon"></fa-icon></span>
-              </li>
-            </ul>
-          </div>
-        </li>
       </ul>
     </div>
   </div>
-  <div
-    class="hamburger-right__link"
-    *ngIf="userLogIn === false"
-    (click)="sideBarChangeRoute('/user/login')"
-  >
-    <fa-icon [icon]="userIcon" class="header-userIcon"></fa-icon>
-  </div>
-  <div
-    class="hamburger-right__link"
-    *ngIf="userLogIn === true"
-    (click)="sideBarChangeRoute('/account/cart')"
-  >
-    <fa-icon [icon]="cartIcon" class="header-userIcon"></fa-icon>
-  </div>
-  <div class="backdrop" #backDrop (click)="clickBackdrop()">
-    <button class="header-close__btn">&#10005;</button>
-  </div>
-  <div class="header-sidebar" #sideBar>
-    <div class="sidebar-title">
-      <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span>Hello,
-      Sign In
-    </div>
-    <hr class="sidebar-divider" />
-    <ul class="sidebar-items">
-      <li (click)="sideBarChangeRoute('/')">Home</li>
-      <li class="special-padding__item">
-        <div class="margin-btm__div" (click)="onCategoryClick(categoryLists)">
-          Category <span><fa-icon [icon]="caretIcon"></fa-icon></span>
-        </div>
-        <ul class="sidebar-category__dropdown-1" #categoryLists>
-          <li
-            class="special-dropdown__item"
-            (click)="sideBarChangeRoute('/products/sofa')"
-          >
-            Sofa
-          </li>
-          <li
-            class="special-dropdown__item"
-            (click)="sideBarChangeRoute('/products/chair')"
-          >
-            Chair
-          </li>
-          <li (click)="sideBarChangeRoute('/products/bed')">Bed</li>
-        </ul>
-      </li>
-      <li (click)="sideBarChangeRoute('/account/cart')">My Cart</li>
-      <li class="special-padding__item">
-        <div
-          class="margin-btm__div"
-          (click)="onAccountClick(accountLists)"
-          *ngIf="userLogIn === true"
-        >
-          Account <span><fa-icon [icon]="caretIcon"></fa-icon></span>
-        </div>
-        <ul class="sidebar-category__dropdown-2" #accountLists>
-          <li
-            class="special-dropdown__item"
-            (click)="sideBarChangeRoute('/admin/products')"
-          >
-            My Products
-          </li>
-          <li
-            class="special-dropdown__item"
-            (click)="sideBarChangeRoute('add-product')"
-          >
-            Add Product
-          </li>
-          <li
-            class="special-dropdown__item"
-            (click)="sideBarChangeRoute('/account/wishlist')"
-          >
-            Wishlist
-          </li>
-          <li (click)="sideBarChangeRoute('/account/order')">Orders</li>
-        </ul>
-      </li>
-      <li *ngIf="userLogIn === true" (click)="sidebarLogout()">Sign Out</li>
-      <li
-        *ngIf="userLogIn === false"
-        (click)="sideBarChangeRoute('/user/login')"
+  <div class="search-product__mobile">
+    <div class="search-product__form-mobile">
+      <label>
+        <input
+          type="text"
+          placeholder="Search.."
+          (input)="onSearch($event)"
+          class="search-input__mobile"
+          #searchInputMobile
+        />
+      </label>
+      <button
+        type="button"
+        (click)="onClick(searchInputMobile.value)"
+        class="search-mobile__btn"
+        #searchBtnMobile
       >
-        Sign In
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="search-product__mobile">
-  <div class="search-product__form-mobile">
-    <label>
-      <input
-        type="text"
-        placeholder="Search.."
-        (input)="onSearch($event)"
-        class="search-input__mobile"
-        #searchInputMobile
-      />
-    </label>
-    <button
-      type="button"
-      (click)="onClick(searchInputMobile.value)"
-      class="search-mobile__btn"
-      #searchBtnMobile
-    >
-      <fa-icon [icon]="searchIcon"></fa-icon>
-    </button>
-  </div>
-  <div class="mobile-search__result" *ngIf="products.length > 0">
-    <div
-      class="each-mobile__result"
-      *ngFor="let result of products"
-      (click)="onSelectProduct(result._id, result.category)"
-    >
-      <p class="each-mobile__text">{{ result.name }}</p>
+        <fa-icon [icon]="searchIcon"></fa-icon>
+      </button>
+    </div>
+    <div class="mobile-search__result" *ngIf="products.length > 0">
+      <div
+        class="each-mobile__result"
+        *ngFor="let result of products"
+        (click)="onSelectProduct(result._id, result.category)"
+      >
+        <p class="each-mobile__text">{{ result.name }}</p>
+      </div>
     </div>
   </div>
 </div>

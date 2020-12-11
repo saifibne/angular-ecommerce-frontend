@@ -173,3 +173,11 @@ hr {
 .benefit-icon {
   margin-right: 8px;
 }
+@media (max-width: 600px) {
+  .form-sheet {
+    flex-direction: column;
+  }
+  .content-header__paragraph {
+    display: none;
+  }
+}
