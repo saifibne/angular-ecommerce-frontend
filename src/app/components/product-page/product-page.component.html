@@ -15,6 +15,26 @@
           <img [src]="image.path" alt="" class="single-image" #imageSources />
         </div>
       </div>
+      <div class="product-detail__mobile">
+        <h4 class="product-detail__title-mobile">{{ product.name }}</h4>
+      </div>
+      <div class="product-img__slideshow-mobile" #mobileSliderWrapper>
+        <div class="mobile-img__slideshow-wrapper" #mobileSlider>
+          <div
+            class="each-mobile__img"
+            *ngFor="let singleImage of product.imageUrls"
+          >
+            <div class="each-mobile__img-wrapper">
+              <img
+                [src]="singleImage.path"
+                alt=""
+                class="mobile-image"
+                (load)="readySlider()"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="product-image">
         <div class="product-img-lens" #zoomLens></div>
         <img

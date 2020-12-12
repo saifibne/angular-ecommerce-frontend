@@ -37,6 +37,9 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   cart = faShoppingCart;
   wishList = faShoppingBag;
   productId;
+  totalImages: number;
+  imageCount = 0;
+  eachImageWidth: number;
   category: string;
   alreadyReplied = false;
   alreadyCommented = false;
@@ -45,6 +48,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   deleteItemNotification = false;
   emptyMessage = false;
   emptySubmit = false;
+  touchStartPoint: number;
+  touchTravelDistance: number;
+  alreadyTravelledDistance: number = 0;
+  maxTravelDistance: number;
+  touchBreakPoint: number;
   product: mappedProductInterface;
   paramSub: Subscription;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
@@ -59,6 +67,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   @ViewChild('image') image: ElementRef;
   @ViewChild('zoomLens') zoomLens: ElementRef;
   @ViewChild('zoomView') zoomView: ElementRef;
+  @ViewChild('mobileSlider') mobileSlider: ElementRef;
+  @ViewChild('mobileSliderWrapper') mobileSliderWrapper: ElementRef;
   constructor(
     private currentRoute: ActivatedRoute,
     private productService: ProductDataService,
@@ -105,9 +115,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       return this.product.imageUrls;
     }
   }
-  // getImageUrl(path) {
-  //   return `http://localhost:3000/${path}`;
-  // }
   onSelectImage(imageUrl, element) {
     this.allImages.forEach((image) => {
       this.render.removeClass(image.nativeElement, 'image-active');
@@ -166,12 +173,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
         });
     }
   }
-  // imageUrl() {
-  //   if (this.product) {
-  //     const imageUrl = this.product.imageUrls[0].path;
-  //     return `http://localhost:3000/${imageUrl}`;
-  //   }
-  // }
   onComment(event: Event) {
     this.render.setStyle(
       (<HTMLButtonElement>event.target).nextElementSibling,
@@ -344,6 +345,93 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   mouseOut() {
     this.render.removeStyle(this.zoomView.nativeElement, 'visibility');
     this.render.removeStyle(this.zoomLens.nativeElement, 'visibility');
+  }
+  readySlider() {
+    this.totalImages = this.product.imageUrls.length;
+    this.imageCount++;
+    if (this.imageCount === this.totalImages) {
+      this.touchBreakPoint = Math.round(
+        this.mobileSliderWrapper.nativeElement.offsetWidth / 2
+      );
+      this.eachImageWidth = this.mobileSliderWrapper.nativeElement.offsetWidth;
+      this.maxTravelDistance = this.eachImageWidth * (this.totalImages - 1);
+      this.mobileSlider.nativeElement.addEventListener('touchstart', (e) => {
+        this.touchStart(e);
+      });
+      this.mobileSlider.nativeElement.addEventListener('touchmove', (e) => {
+        this.touchMove(e);
+      });
+      this.mobileSlider.nativeElement.addEventListener('touchend', (e) => {
+        this.touchEnd(e);
+      });
+    }
+  }
+  touchStart(event: TouchEvent) {
+    this.touchStartPoint = event.touches[0].clientX;
+  }
+  touchMove(event: TouchEvent) {
+    const currentPosition = event.touches[0].clientX;
+    const travelDistance = this.touchStartPoint - currentPosition;
+    this.render.setStyle(
+      this.mobileSlider.nativeElement,
+      'transform',
+      `translateX(${-(travelDistance + this.alreadyTravelledDistance)}px)`
+    );
+  }
+  touchEnd(event: TouchEvent) {
+    const touchEndPoint = event.changedTouches[0].clientX;
+    this.touchTravelDistance = this.touchStartPoint - touchEndPoint;
+    if (this.touchTravelDistance > 0) {
+      if (this.touchTravelDistance > this.touchBreakPoint) {
+        if (this.alreadyTravelledDistance === this.maxTravelDistance) {
+          this.render.setStyle(
+            this.mobileSlider.nativeElement,
+            'transform',
+            `translateX(-${this.alreadyTravelledDistance}px)`
+          );
+        } else {
+          this.render.setStyle(
+            this.mobileSlider.nativeElement,
+            'transform',
+            `translateX(-${
+              this.eachImageWidth + this.alreadyTravelledDistance
+            }px)`
+          );
+          this.alreadyTravelledDistance += this.eachImageWidth;
+        }
+      } else if (this.touchTravelDistance < this.touchBreakPoint) {
+        this.render.setStyle(
+          this.mobileSlider.nativeElement,
+          'transform',
+          `translateX(-${this.alreadyTravelledDistance}px)`
+        );
+      }
+    } else if (this.touchTravelDistance < 0) {
+      if (this.touchTravelDistance < -this.touchBreakPoint) {
+        if (this.alreadyTravelledDistance === 0) {
+          this.render.setStyle(
+            this.mobileSlider.nativeElement,
+            'transform',
+            `translateX(0)`
+          );
+        } else {
+          this.render.setStyle(
+            this.mobileSlider.nativeElement,
+            'transform',
+            `translateX(-${
+              this.alreadyTravelledDistance - this.eachImageWidth
+            }px)`
+          );
+          this.alreadyTravelledDistance -= this.eachImageWidth;
+        }
+      } else if (this.touchTravelDistance > -this.touchBreakPoint) {
+        this.render.setStyle(
+          this.mobileSlider.nativeElement,
+          'transform',
+          `translateX(-${this.alreadyTravelledDistance}px)`
+        );
+      }
+    }
   }
   ngOnDestroy() {
     this.paramSub.unsubscribe();

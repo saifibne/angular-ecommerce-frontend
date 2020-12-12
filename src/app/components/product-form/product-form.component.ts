@@ -104,7 +104,9 @@ export class ProductFormComponent
   clearControl(index: number) {
     (<FormArray>this.form.get('imageUrl')).removeAt(index);
     this.fileData.splice(index, 1);
-    this.fileAsDataUrl = this.fileData[index - 1].data;
+    if (this.fileData.length > 0) {
+      this.fileAsDataUrl = this.fileData[index - 1].data;
+    }
   }
   private clearFormArray() {
     while ((<FormArray>this.form.get('imageUrl')).controls.length !== 1) {
