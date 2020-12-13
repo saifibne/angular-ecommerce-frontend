@@ -96,13 +96,13 @@
           <li
             class="special-link"
             routerLink="/user/login"
-            *ngIf="userLogIn === false"
+            *ngIf="userLogIn.login === false"
           >
             Sign In
           </li>
           <li
             class="special-link another-relative"
-            *ngIf="userLogIn === true"
+            *ngIf="userLogIn.login === true"
             accountDropdown
           >
             <p>
@@ -144,14 +144,14 @@
     </div>
     <div
       class="hamburger-right__link"
-      *ngIf="userLogIn === false"
+      *ngIf="userLogIn.login === false"
       (click)="sideBarChangeRoute('/user/login')"
     >
       <fa-icon [icon]="userIcon" class="header-userIcon"></fa-icon>
     </div>
     <div
       class="hamburger-right__link"
-      *ngIf="userLogIn === true"
+      *ngIf="userLogIn.login === true"
       (click)="sideBarChangeRoute('/account/cart')"
     >
       <fa-icon [icon]="cartIcon" class="header-userIcon"></fa-icon>
@@ -160,9 +160,13 @@
       <button class="header-close__btn">&#10005;</button>
     </div>
     <div class="header-sidebar" #sideBar>
-      <div class="sidebar-title">
+      <div class="sidebar-title" *ngIf="userLogIn.login === false">
         <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span
         >Hello, Sign In
+      </div>
+      <div class="sidebar-title" *ngIf="userLogIn.login === true">
+        <span><fa-icon [icon]="userIcon" class="userIcon"></fa-icon></span
+        >Hello, {{ userLogIn.name | shortText: 10 }}
       </div>
       <hr class="sidebar-divider" />
       <ul class="sidebar-items">
@@ -192,7 +196,7 @@
           <div
             class="margin-btm__div"
             (click)="onAccountClick(accountLists)"
-            *ngIf="userLogIn === true"
+            *ngIf="userLogIn.login === true"
           >
             Account <span><fa-icon [icon]="caretIcon"></fa-icon></span>
           </div>
@@ -218,9 +222,11 @@
             <li (click)="sideBarChangeRoute('/account/order')">Orders</li>
           </ul>
         </li>
-        <li *ngIf="userLogIn === true" (click)="sidebarLogout()">Sign Out</li>
+        <li *ngIf="userLogIn.login === true" (click)="sidebarLogout()">
+          Sign Out
+        </li>
         <li
-          *ngIf="userLogIn === false"
+          *ngIf="userLogIn.login === false"
           (click)="sideBarChangeRoute('/user/login')"
         >
           Sign In

@@ -129,14 +129,17 @@
 }
 @media (max-width: 600px) {
   .products-container {
-    grid-template-columns: repeat(2, 50%);
-    grid-gap: 1px;
-    background-color: #cbcbcb;
+    grid-template-columns: repeat(auto-fit, 50%);
+    grid-gap: 0;
   }
   .single-product {
     width: auto;
     border-radius: 0;
     box-shadow: none;
+    border-bottom: 1px solid #cbcbcb;
+  }
+  .single-product:nth-child(odd) {
+    border-right: 1px solid #cbcbcb;
   }
   .each-product__btn {
     display: none;

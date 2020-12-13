@@ -63,6 +63,7 @@
               [src]="product.mainImage.path"
               alt=""
               class="mobile-card__img"
+              (load)="calculateWidth()"
             />
           </div>
           <div class="mobile-card__information">

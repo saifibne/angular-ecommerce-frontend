@@ -13,7 +13,7 @@ import { UserDataService } from './services/userData.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
-  isLogIn = false;
+  isLogIn: { login: boolean; name: string } = { login: false, name: null };
   showHeader = true;
   fixedHeader = false;
   showFooter = true;

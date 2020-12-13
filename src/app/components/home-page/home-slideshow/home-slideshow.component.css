@@ -80,6 +80,9 @@
   opacity: 0.5;
   transition: all 200ms linear;
 }
+.icon-container:focus {
+  outline: none;
+}
 .icon-container:hover {
   opacity: 1;
 }

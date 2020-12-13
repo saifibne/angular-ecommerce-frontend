@@ -39,7 +39,7 @@
         <span
           class="each-bullet__point"
           *ngFor="let image of product.imageUrls; let i = index"
-          [ngClass]="{ 'active-bullet__point': i <= imgBulletPoint - 1 }"
+          [ngClass]="{ 'active-bullet__point': i === imgBulletPoint - 1 }"
         ></span>
       </div>
       <div class="product-image">

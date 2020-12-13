@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AccountDropdownDirective } from './directives/account-dropdown.directive';
 import { HomeModule } from './modules/home.module';
 import { ProductAddModule } from './modules/productAdd.module';
+import { SharedModule } from './modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ProductAddModule } from './modules/productAdd.module';
     FontAwesomeModule,
     HomeModule,
     ProductAddModule,
+    SharedModule,
   ],
   providers: [
     {

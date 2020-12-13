@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, exhaustMap, take, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, take } from 'rxjs/operators';
 
 import { UserDataService } from './userData.service';
 import { Injectable } from '@angular/core';
@@ -22,7 +22,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // this.userDataService.loadProgressBar.next(true);
     if (req.method === 'POST') {
       return this.userDataService.userData.pipe(
         take(1),

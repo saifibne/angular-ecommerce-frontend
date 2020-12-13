@@ -35,7 +35,7 @@ import { UserDataService } from '../../services/userData.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input('userLogIn') userLogIn: boolean;
+  @Input('userLogIn') userLogIn: { login: boolean; name: string };
   cartIcon = faShoppingCart;
   nextIcon = faAngleRight;
   prevIcon = faAngleLeft;

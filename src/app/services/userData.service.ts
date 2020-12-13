@@ -10,7 +10,10 @@ import { CartInterface } from '../models/cart.model';
 export class UserDataService {
   logOutTimer;
   userData = new ReplaySubject<User>(1);
-  userLogInObs = new BehaviorSubject<boolean>(false);
+  userLogInObs = new BehaviorSubject<{ login: boolean; name: string }>({
+    login: false,
+    name: null,
+  });
   showHeader = new BehaviorSubject<boolean>(true);
   fixedHeader = new BehaviorSubject<boolean>(false);
   showFooter = new BehaviorSubject<boolean>(true);
@@ -41,7 +44,10 @@ export class UserDataService {
               expireTime
             );
             this.userData.next(user);
-            this.userLogInObs.next(true);
+            this.userLogInObs.next({
+              login: true,
+              name: userData.userData.name,
+            });
             localStorage.setItem('token', user.token);
           }
         })
@@ -50,13 +56,13 @@ export class UserDataService {
   logout() {
     localStorage.removeItem('token');
     this.userData.next(null);
-    this.userLogInObs.next(false);
+    this.userLogInObs.next({ login: false, name: null });
     clearTimeout(this.logOutTimer);
   }
   autoLogin() {
     const token: string = localStorage.getItem('token');
     if (!token) {
-      this.userLogInObs.next(false);
+      this.userLogInObs.next({ login: false, name: null });
       this.userData.next(null);
       return;
     }
@@ -72,12 +78,12 @@ export class UserDataService {
             new Date(user.expireTime)
           );
           this.userData.next(existingUser);
-          this.userLogInObs.next(true);
+          this.userLogInObs.next({ login: true, name: user.userData.name });
           this.autoLogOut(new Date(user.expireTime));
         },
         (error) => {
           this.logout();
-          this.userLogInObs.next(false);
+          this.userLogInObs.next({ login: false, name: null });
           this.userData.next(null);
           console.log(error);
         }

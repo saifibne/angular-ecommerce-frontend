@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpRequest,
-} from '@angular/common/http';
-import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
 import {
@@ -21,35 +16,12 @@ export class ProductDataService {
   hideSearchBoxObs = new Subject<[]>();
   constructor(private http: HttpClient, private userService: UserDataService) {}
   submitProduct(formData: FormData) {
-    const req = new HttpRequest(
-      'POST',
-      'http://13.233.158.89:3000/add-product',
-      formData
-    );
-    return this.http.request(req);
+    return this.http.post('http://13.233.158.89:3000/add-product', formData);
   }
   slideShowData(category: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
       `http://13.233.158.89:3000/slideshow/${category}`
     );
-    // .pipe(
-    //   map((data) => {
-    //     const newSortedArray = data.productsData.map((item) => {
-    //       function compare(a, b) {
-    //         if (a.sorting < b.sorting) {
-    //           return -1;
-    //         }
-    //         if (a.sorting > b.sorting) {
-    //           return 1;
-    //         }
-    //         return 0;
-    //       }
-    //       const imageUrlArray = item.imageUrls.sort(compare);
-    //       return { ...item, imageUrls: imageUrlArray };
-    //     });
-    //     return { productsData: newSortedArray };
-    //   })
-    // );
   }
   categoryData(category: string, value: string) {
     if (value === 'New Arrivals') {

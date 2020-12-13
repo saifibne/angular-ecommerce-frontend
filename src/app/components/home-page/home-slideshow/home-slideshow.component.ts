@@ -34,6 +34,8 @@ export class HomeSlideshowComponent
   sliderBreakPoint;
   totalWidth = 0;
   prevSliderWidth = 0;
+  totalImages: number;
+  imageCount: number = 0;
   scrollBarWrapperWidth;
   scrollBar: number;
   items = [];
@@ -58,17 +60,7 @@ export class HomeSlideshowComponent
         this.items = this.elem.nativeElement.querySelectorAll(
           '.slideshow-card'
         );
-        // change set timeout to work the total width properly TODO: replace querySelectorAll()
-        const completeInterval = setInterval(() => {
-          if (document.readyState === 'complete') {
-            this.totalWidth = (this.items.length - 1) * 10;
-            this.items.forEach((item) => {
-              this.totalWidth += item.clientWidth;
-            });
-            this.scrollBarWidth();
-            clearInterval(completeInterval);
-          }
-        }, 100);
+        this.totalImages = this.products.length;
       });
   }
 
@@ -78,6 +70,16 @@ export class HomeSlideshowComponent
     ).offsetWidth;
     this.sliderVisibilityWidth = this.slider.nativeElement.offsetWidth;
     this.scrollBarWidth();
+  }
+  calculateWidth() {
+    this.imageCount += 1;
+    if (this.imageCount === this.totalImages) {
+      this.totalWidth = (this.items.length - 1) * 10;
+      this.items.forEach((item) => {
+        this.totalWidth += item.clientWidth;
+      });
+      this.scrollBarWidth();
+    }
   }
   onClickNext() {
     for (const item of this.items) {
