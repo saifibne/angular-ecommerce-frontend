@@ -459,7 +459,7 @@ hr {
   display: none;
 }
 .product-img__slideshow-mobile {
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   position: relative;
   top: 0;
@@ -482,6 +482,30 @@ hr {
 .mobile-image {
   width: 100%;
   height: auto;
+}
+.img-slideshow__bullet-point {
+  display: none;
+}
+.each-bullet__point:before {
+  content: "\f111";
+  font-weight: 400;
+  font-size: 12px;
+  padding: 0 3px;
+  font-family: "Font Awesome 5 Free";
+  color: #555555;
+}
+.active-bullet__point:before {
+  content: "\f111";
+  font-weight: 900;
+  font-size: 12px;
+  padding: 0 3px;
+  font-family: "Font Awesome 5 Free";
+  color: #555555;
+}
+.each-mobile__img {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 @media (max-width: 600px) {
   .product-detail__wrapper {
@@ -524,5 +548,11 @@ hr {
   }
   .button-icon {
     top: 11px;
+  }
+  .measure-width {
+    width: calc(100% - 110px);
+  }
+  .img-slideshow__bullet-point {
+    display: block;
   }
 }

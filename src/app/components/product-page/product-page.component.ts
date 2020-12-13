@@ -53,6 +53,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   alreadyTravelledDistance: number = 0;
   maxTravelDistance: number;
   touchBreakPoint: number;
+  imgBulletPoint: number = 1;
   product: mappedProductInterface;
   paramSub: Subscription;
   @ViewChildren('imageSources', { read: ElementRef }) imageSources: QueryList<
@@ -398,6 +399,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
             }px)`
           );
           this.alreadyTravelledDistance += this.eachImageWidth;
+          this.imgBulletPoint += 1;
         }
       } else if (this.touchTravelDistance < this.touchBreakPoint) {
         this.render.setStyle(
@@ -423,6 +425,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
             }px)`
           );
           this.alreadyTravelledDistance -= this.eachImageWidth;
+          this.imgBulletPoint -= 1;
         }
       } else if (this.touchTravelDistance > -this.touchBreakPoint) {
         this.render.setStyle(
