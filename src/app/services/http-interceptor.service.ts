@@ -34,7 +34,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           return next.handle(newRequest);
         }),
         catchError(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/user/login']);
           return throwError('Cant get the token from user object.');
         })
       );

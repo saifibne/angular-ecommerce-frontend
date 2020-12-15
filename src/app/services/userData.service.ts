@@ -21,7 +21,7 @@ export class UserDataService {
   constructor(private http: HttpClient) {}
 
   signUp(name: string, email: string, password: string, companyName: string) {
-    return this.http.put('http://13.233.158.89:3000/signin', {
+    return this.http.put('https://hostmaster.club/signin', {
       name: name,
       email: email,
       password: password,
@@ -30,7 +30,7 @@ export class UserDataService {
   }
   logIn(email: string, password: string) {
     return this.http
-      .put<UserInterface>('http://13.233.158.89:3000/login', {
+      .put<UserInterface>('https://hostmaster.club/login', {
         email: email,
         password: password,
       })
@@ -67,7 +67,7 @@ export class UserDataService {
       return;
     }
     this.http
-      .get<UserInterface>('http://13.233.158.89:3000/userData', {
+      .get<UserInterface>('https://hostmaster.club/userData', {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
       })
       .subscribe(
@@ -102,7 +102,7 @@ export class UserDataService {
       switchMap((user) => {
         if (user) {
           return this.http.get<{ message: string; cart: CartInterface }>(
-            'http://13.233.158.89:3000/cart',
+            'https://hostmaster.club/cart',
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
@@ -147,7 +147,7 @@ export class UserDataService {
     );
   }
   addToCart(productId: string, code: string) {
-    return this.http.post(`http://13.233.158.89:3000/cart/${productId}`, {
+    return this.http.post(`https://hostmaster.club/cart/${productId}`, {
       code: code,
     });
   }

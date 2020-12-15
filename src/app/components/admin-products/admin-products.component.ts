@@ -45,9 +45,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       })
     );
   }
-  // getImage(path) {
-  //   return `http://localhost:3000/${path}`;
-  // }
   onDelete(productId: string) {
     this.showModal = true;
     this.productId = productId;

@@ -16,31 +16,31 @@ export class ProductDataService {
   hideSearchBoxObs = new Subject<[]>();
   constructor(private http: HttpClient, private userService: UserDataService) {}
   submitProduct(formData: FormData) {
-    return this.http.post('http://13.233.158.89:3000/add-product', formData);
+    return this.http.post('https://hostmaster.club/add-product', formData);
   }
   slideShowData(category: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
-      `http://13.233.158.89:3000/slideshow/${category}`
+      `https://hostmaster.club/slideshow/${category}`
     );
   }
   categoryData(category: string, value: string) {
     if (value === 'New Arrivals') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://13.233.158.89:3000/products/${category}`,
+        `https://hostmaster.club/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'newArrivals'),
         }
       );
     } else if (value === 'Customer Ratings') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://13.233.158.89:3000/products/${category}`,
+        `https://hostmaster.club/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'ratings'),
         }
       );
     } else if (value === 'Added By Date') {
       return this.http.get<{ productsData: ProductInterface[] }>(
-        `http://13.233.158.89:3000/products/${category}`,
+        `https://hostmaster.club/products/${category}`,
         {
           params: new HttpParams().set('sortBy', 'addedDate'),
         }
@@ -50,7 +50,7 @@ export class ProductDataService {
   getProductFromDatabase(productId) {
     return this.http
       .get<{ message: string; productData: ProductInterface }>(
-        `http://13.233.158.89:3000/product/${productId}`
+        `https://hostmaster.club/product/${productId}`
       )
       .pipe(
         map((product) => {
@@ -92,7 +92,7 @@ export class ProductDataService {
   }
   getSearchedProducts(input: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
-      'http://13.233.158.89:3000/search',
+      'https://hostmaster.club/search',
       {
         params: new HttpParams().set('search', input),
       }
@@ -100,7 +100,7 @@ export class ProductDataService {
   }
   postAddCommentsReply(message: string, productId: string, commentId: string) {
     return this.http.post(
-      `http://13.233.158.89:3000/product/comment/reply/${productId}`,
+      `https://hostmaster.club/product/comment/reply/${productId}`,
       { comment: message },
       {
         params: new HttpParams().set('commentId', commentId),
@@ -114,7 +114,7 @@ export class ProductDataService {
     rating: number
   ) {
     return this.http.post(
-      `http://13.233.158.89:3000/product/comment/${productId}`,
+      `https://hostmaster.club/product/comment/${productId}`,
       {
         title: title,
         comment: comment,
@@ -129,7 +129,7 @@ export class ProductDataService {
           return this.http.get<{
             message: string;
             products: ProductInterface[];
-          }>('http://13.233.158.89:3000/admin/products', {
+          }>('https://hostmaster.club/admin/products', {
             headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
           });
         } else {
@@ -139,13 +139,13 @@ export class ProductDataService {
     );
   }
   deleteProduct(productId: string) {
-    return this.http.delete(`http://13.233.158.89:3000/delete/${productId}`);
+    return this.http.delete(`https://hostmaster.club/delete/${productId}`);
   }
   getWishlistItems() {
     return this.userService.userData.pipe(
       switchMap((user) => {
         if (user) {
-          return this.http.get('http://13.233.158.89:3000/get-wishlist', {
+          return this.http.get('https://hostmaster.club/get-wishlist', {
             headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
           });
         } else {
@@ -162,7 +162,7 @@ export class ProductDataService {
       switchMap((user) => {
         if (user) {
           return this.http.get(
-            `http://13.233.158.89:3000/wishlist/${productId}`,
+            `https://hostmaster.club/wishlist/${productId}`,
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
@@ -180,7 +180,7 @@ export class ProductDataService {
       switchMap((user) => {
         if (user) {
           return this.http.delete<{ message: string }>(
-            `http://13.233.158.89:3000/wishlist/${itemId}`,
+            `https://hostmaster.club/wishlist/${itemId}`,
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,
@@ -194,14 +194,14 @@ export class ProductDataService {
     );
   }
   postOrder(orderItems: any[]) {
-    return this.http.post('http://13.233.158.89:3000/order', orderItems);
+    return this.http.post('https://hostmaster.club/order', orderItems);
   }
   getOrders() {
     return this.userService.userData.pipe(
       exhaustMap((user) => {
         if (user) {
           return this.http.get<{ message: string; orders: OrderModel[] }>(
-            'http://13.233.158.89:3000/orders',
+            'https://hostmaster.club/orders',
             {
               headers: new HttpHeaders({
                 Authorization: `Bearer ${user.token}`,

@@ -127,9 +127,14 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.userService
       .addToCart(productId, 'add')
       .pipe(take(1))
-      .subscribe(() => {
-        return this.router.navigate(['/account/cart']);
-      });
+      .subscribe(
+        () => {
+          return this.router.navigate(['/account/cart']);
+        },
+        () => {
+          return this.router.navigate(['/user/login']);
+        }
+      );
   }
   onAddWishList(productId: string) {
     if (this.alreadyWishListed) {
@@ -150,7 +155,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
               this.deleteItemNotification = false;
             }, 2000);
           } else {
-            return this.router.navigate(['login']);
+            return this.router.navigate(['/user/login']);
           }
         });
     } else {
@@ -169,7 +174,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
               this.showNotification = false;
             }, 2000);
           } else {
-            return this.router.navigate(['login']);
+            return this.router.navigate(['/user/login']);
           }
         });
     }

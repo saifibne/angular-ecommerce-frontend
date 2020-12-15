@@ -63,9 +63,6 @@ export class CategoryProductComponent implements OnInit, OnDestroy {
         this.userService.showFooter.next(true);
       });
   }
-  // getImageUrl(product: ProductInterface) {
-  //   return `http://localhost:3000/${product.imageUrls[0].path}`;
-  // }
   showList(element: Element) {
     const width = this.anchor.nativeElement.offsetWidth;
     this.renderer.setStyle(this.sortList.nativeElement, 'width', `${width}px`);
