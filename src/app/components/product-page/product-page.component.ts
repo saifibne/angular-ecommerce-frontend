@@ -356,9 +356,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.totalImages = this.product.imageUrls.length;
     this.imageCount++;
     if (this.imageCount === this.totalImages) {
-      this.touchBreakPoint = Math.round(
-        this.mobileSliderWrapper.nativeElement.offsetWidth / 2
-      );
+      this.touchBreakPoint =
+        Math.round(this.mobileSliderWrapper.nativeElement.offsetWidth / 2) - 80;
       this.eachImageWidth = this.mobileSliderWrapper.nativeElement.offsetWidth;
       this.maxTravelDistance = this.eachImageWidth * (this.totalImages - 1);
       this.mobileSlider.nativeElement.addEventListener('touchstart', (e) => {

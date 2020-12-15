@@ -18,6 +18,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   passwordIcon = faLock;
   wrongCredentials = false;
   logInSubscription: Subscription;
+  isLoggingIn = false;
   constructor(
     private userDataService: UserDataService,
     private router: Router
@@ -29,20 +30,27 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.wrongCredentials = false;
+    this.isLoggingIn = true;
     this.logInSubscription = this.userDataService
       .logIn(this.form.value.email, this.form.value.password)
       .subscribe(
         (result) => {
-          console.log(result);
           switch (result.message) {
             case 'email address dont match.':
               this.wrongCredentials = true;
+              this.isLoggingIn = false;
               break;
             case "password doesn't match.":
               this.wrongCredentials = true;
+              this.isLoggingIn = false;
+              break;
+            case 'Some validation error occurred.':
+              this.wrongCredentials = true;
+              this.isLoggingIn = false;
               break;
             case 'successfully login.':
               this.userDataService.autoLogOut(new Date(result.expireTime));
+              this.isLoggingIn = false;
               return this.router.navigate(['/']);
           }
         },

@@ -56,7 +56,7 @@
   background-color: #3a2778;
   padding: 20px;
   display: none;
-  margin-top: 20px;
+  /*margin-top: 20px;*/
 }
 .mobile-footer__text {
   color: white;

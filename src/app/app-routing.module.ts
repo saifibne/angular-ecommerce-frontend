@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { ProductFormComponent } from './components/product-form/product-form.component';
@@ -51,6 +51,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: 'enabled',
       relativeLinkResolution: 'legacy',
+      preloadingStrategy: PreloadAllModules,
     }),
   ],
   exports: [RouterModule],

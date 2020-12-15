@@ -13,6 +13,7 @@ import { AccountDropdownDirective } from './directives/account-dropdown.directiv
 import { HomeModule } from './modules/home.module';
 import { ProductAddModule } from './modules/productAdd.module';
 import { SharedModule } from './modules/shared.module';
+import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from './modules/shared.module';
     HeaderComponent,
     HomeFooterComponent,
     AccountDropdownDirective,
+    HideSearchBoxDirective,
   ],
   imports: [
     BrowserModule,

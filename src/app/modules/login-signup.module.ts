@@ -6,6 +6,7 @@ import { SignupFormComponent } from '../components/signup-form/signup-form.compo
 import { LoginFormComponent } from '../components/login-form/login-form.component';
 import { EmailCheckDirective } from '../directives/email-check.directive';
 import { SharedModule } from './shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [SignupFormComponent, LoginFormComponent, EmailCheckDirective],
@@ -16,6 +17,7 @@ import { SharedModule } from './shared.module';
       { path: 'login', component: LoginFormComponent },
     ]),
     SharedModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class LoginSignupModule {}

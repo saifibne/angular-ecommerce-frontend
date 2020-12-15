@@ -1,4 +1,12 @@
 <div class="wrapper"></div>
+<div class="spinner-portion" *ngIf="isAddingProduct">
+  <div class="backdrop">
+    <div class="spinner-wrapper">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <div class="spinner-title">Adding Product ...</div>
+    </div>
+  </div>
+</div>
 <div class="second-wrapper">
   <div class="content-header">
     <div class="content-header__brand">

@@ -112,7 +112,7 @@
 }
 .submit-button {
   width: 100%;
-  padding: 15px;
+  padding: 5px;
   background-color: #1969ca;
   color: white;
   margin: 0;
@@ -123,6 +123,13 @@
   border: 1px solid transparent;
   text-transform: uppercase;
   transition: background-color 0.1s linear;
+  line-height: 30px;
+}
+mat-progress-spinner {
+  margin: 0 auto;
+}
+::ng-deep .mat-progress-spinner circle {
+  stroke: white;
 }
 .submit-button:hover {
   background-color: #0650aa;

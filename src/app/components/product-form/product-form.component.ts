@@ -23,6 +23,7 @@ export class ProductFormComponent
   fileAsDataUrl: string | ArrayBuffer;
   fileData = [];
   submitted = false;
+  isAddingProduct = false;
   constructor(
     private productDataService: ProductDataService,
     private router: Router,
@@ -117,6 +118,7 @@ export class ProductFormComponent
     this.fileAsDataUrl = image.data;
   }
   onSubmit() {
+    this.isAddingProduct = true;
     this.submitted = false;
     const formData = new FormData();
     formData.append('name', this.form.get('name').value);
@@ -129,6 +131,7 @@ export class ProductFormComponent
     this.productDataService.submitProduct(formData).subscribe(
       (result) => {
         console.log(result);
+        this.isAddingProduct = false;
         this.submitted = true;
         this.form.reset({
           category: 'sofa',

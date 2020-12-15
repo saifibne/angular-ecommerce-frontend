@@ -14,6 +14,7 @@ export class SignupFormComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
   deliveryIcon = faTruck;
   customerIcon = faHeadset;
+  isSigningUp = false;
   constructor(private userDataService: UserDataService) {}
   ngOnInit() {
     this.userDataService.showHeader.next(false);
@@ -21,6 +22,7 @@ export class SignupFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.isSigningUp = true;
     this.userDataService
       .signUp(
         this.form.value.name,
@@ -28,8 +30,8 @@ export class SignupFormComponent implements OnInit, OnDestroy {
         this.form.value.password,
         this.form.value.companyName
       )
-      .subscribe((result) => {
-        console.log(result);
+      .subscribe(() => {
+        this.isSigningUp = false;
         this.form.reset();
       });
   }

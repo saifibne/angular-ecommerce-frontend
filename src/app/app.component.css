@@ -34,6 +34,6 @@ app-home-footer {
 }
 @media (max-width: 600px) {
   app-root {
-    grid-template-rows: 103px 1fr 108px;
+    grid-template-rows: 103px 1fr 104px;
   }
 }

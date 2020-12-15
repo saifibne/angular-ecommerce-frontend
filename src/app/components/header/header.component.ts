@@ -233,6 +233,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchText.next(inputValue);
   }
   onSelectProduct(productId, category) {
+    this.renderer.setProperty(this.searchInput.nativeElement, 'value', '');
+    this.renderer.setProperty(
+      this.searchInputMobile.nativeElement,
+      'value',
+      ''
+    );
     this.router.navigate(['product', category, productId]).then(() => {
       this.products = [];
       this.searchInput.nativeElement.blur();

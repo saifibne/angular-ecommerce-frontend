@@ -10,6 +10,7 @@ import { SharedModule } from './shared.module';
 import { CanActivateClass } from '../services/canActivate.guard';
 import { FormDeactivateGuard } from '../services/formDeactivate.guard';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [ProductFormComponent],
@@ -19,6 +20,7 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatOptionModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
     // RouterModule.forChild([
     //   {
     //     path: '',

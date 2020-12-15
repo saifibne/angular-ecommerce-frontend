@@ -110,7 +110,13 @@
       </div>
       <div class="submit-div">
         <button class="submit-button" type="submit" [disabled]="!form.valid">
-          Create Free Account
+          <span *ngIf="isSigningUp === false">Create Free Account</span>
+          <span *ngIf="isSigningUp === true"
+            ><mat-progress-spinner
+              diameter="30"
+              mode="indeterminate"
+            ></mat-progress-spinner
+          ></span>
         </button>
       </div>
       <p class="terms-class">

@@ -170,6 +170,8 @@ button:disabled {
   padding: 10px 20px;
   font-size: 14px;
   color: #0066c0;
+  display: block;
+  text-decoration: none;
 }
 @media (max-width: 600px) {
   .slideshow-container {
