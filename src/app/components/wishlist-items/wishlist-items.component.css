@@ -181,7 +181,7 @@
 }
 .item-name__mobile {
   font-size: 14px;
-  padding: 0 10px;
+  padding: 0 6px;
   color: #555555;
 }
 .item-price__mobile {
@@ -190,7 +190,7 @@
 .item-current__price-mobile,
 .item-original__price-mobile,
 .item-offer__percentage-mobile {
-  font-size: 14px;
+  font-size: 12px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .item-current__price-mobile {

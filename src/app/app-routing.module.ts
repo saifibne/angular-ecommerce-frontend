@@ -21,11 +21,6 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('./modules/productPage.module').then((m) => m.ProductPageModule),
   },
-  // {
-  //   path: 'add-product',
-  //   loadChildren: () =>
-  //     import('./modules/productAdd.module').then((m) => m.ProductAddModule),
-  // },
   {
     path: 'add-product',
     component: ProductFormComponent,

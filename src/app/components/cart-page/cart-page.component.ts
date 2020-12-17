@@ -48,6 +48,7 @@ export class CartPageComponent implements OnInit, OnDestroy {
         }
       }),
       catchError(() => {
+        this.userService.loadProgressBar.next(false);
         return this.router.navigate(['/user/login']);
       })
     );

@@ -555,4 +555,11 @@ hr {
   .img-slideshow__bullet-point {
     display: block;
   }
+  .notification {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .notification-text {
+    margin: 0 auto;
+  }
 }

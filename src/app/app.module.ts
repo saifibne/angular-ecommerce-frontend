@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
@@ -11,11 +10,9 @@ import { HomeFooterComponent } from './components/home-page/home-footer/home-foo
 import { HeaderComponent } from './components/header/header.component';
 import { AccountDropdownDirective } from './directives/account-dropdown.directive';
 import { HomeModule } from './modules/home.module';
-import { ProductAddModule } from './modules/productAdd.module';
 import { SharedModule } from './modules/shared.module';
 import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
-import { EditPriceComponent } from './components/edit-price/edit-price.component';
-import { FormsModule } from '@angular/forms';
+import { ProductAddModule } from './modules/productAdd.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +27,6 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     AppRoutingModule,
     MatProgressBarModule,
-    // FontAwesomeModule,
     HomeModule,
     ProductAddModule,
     SharedModule,

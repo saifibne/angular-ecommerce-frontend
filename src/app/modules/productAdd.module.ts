@@ -7,9 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared.module';
-import { CanActivateClass } from '../services/canActivate.guard';
-import { FormDeactivateGuard } from '../services/formDeactivate.guard';
-import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
@@ -21,14 +18,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatOptionModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    // RouterModule.forChild([
-    //   {
-    //     path: '',
-    //     component: ProductFormComponent,
-    //     canActivate: [CanActivateClass],
-    //     canDeactivate: [FormDeactivateGuard],
-    //   },
-    // ]),
     RouterModule,
     SharedModule,
   ],

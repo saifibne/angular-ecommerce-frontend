@@ -12,4 +12,7 @@ export class HideSearchBoxDirective {
   @HostListener('wheel') wheelFunction() {
     this.productService.hideSearchBoxObs.next([]);
   }
+  @HostListener('touchmove') touchFunction() {
+    this.productService.hideSearchBoxObs.next([]);
+  }
 }
