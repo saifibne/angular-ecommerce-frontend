@@ -59,7 +59,9 @@
         </div>
       </div>
       <div class="single-product__btn">
-        <button class="edit-btn">Edit Price</button>
+        <button class="edit-btn" (click)="onEditPrice(product._id)">
+          Edit Price
+        </button>
         <button class="delete-btn" (click)="onDelete(product._id)">
           Delete
         </button>

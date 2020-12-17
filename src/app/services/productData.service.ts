@@ -90,6 +90,32 @@ export class ProductDataService {
         })
       );
   }
+  getProductPrice(productId: string) {
+    return this.userService.userData.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.http.get<{
+            message: string;
+            product: ProductInterface;
+          }>(`https://hostmaster.club/get-price/${productId}`, {
+            headers: new HttpHeaders({ Authorization: `Bearer ${user.token}` }),
+          });
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+  postPriceUpdate(
+    productId: string,
+    offerPrice: number,
+    originalPrice: number
+  ) {
+    return this.http.post(`https://hostmaster.club/post-price/${productId}`, {
+      offerPrice: offerPrice,
+      originalPrice: originalPrice,
+    });
+  }
   getSearchedProducts(input: string) {
     return this.http.get<{ productsData: ProductInterface[] }>(
       'https://hostmaster.club/search',

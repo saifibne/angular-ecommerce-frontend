@@ -32,6 +32,13 @@ const appRoutes: Routes = [
     canActivate: [CanActivateClass],
     canDeactivate: [FormDeactivateGuard],
   },
+  {
+    path: 'information',
+    loadChildren: () =>
+      import('./modules/product-information.module').then(
+        (m) => m.ProductInformationModule
+      ),
+  },
   { path: 'products/:category', component: CategoryProductComponent },
   { path: 'search', component: CategoryProductComponent },
   {

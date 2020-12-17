@@ -1,0 +1,19 @@
+import { NgModule } from '@angular/core';
+import { EditPriceComponent } from '../components/edit-price/edit-price.component';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from './shared.module';
+import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+@NgModule({
+  declarations: [EditPriceComponent],
+  imports: [
+    FormsModule,
+    SharedModule,
+    RouterModule.forChild([
+      { path: 'edit-price/:productId', component: EditPriceComponent },
+    ]),
+    MatProgressSpinnerModule,
+  ],
+})
+export class ProductInformationModule {}

@@ -14,6 +14,8 @@ import { HomeModule } from './modules/home.module';
 import { ProductAddModule } from './modules/productAdd.module';
 import { SharedModule } from './modules/shared.module';
 import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
+import { EditPriceComponent } from './components/edit-price/edit-price.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,7 @@ import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
     HttpClientModule,
     AppRoutingModule,
     MatProgressBarModule,
-    FontAwesomeModule,
+    // FontAwesomeModule,
     HomeModule,
     ProductAddModule,
     SharedModule,

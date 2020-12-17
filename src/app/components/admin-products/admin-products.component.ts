@@ -67,6 +67,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
         });
     }
   }
+  onEditPrice(productId: string) {
+    return this.router.navigate([`information/edit-price/${productId}`]);
+  }
   ngOnDestroy() {
     this.productSub.unsubscribe();
   }
