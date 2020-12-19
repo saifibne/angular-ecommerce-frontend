@@ -13,6 +13,8 @@ import { HomeModule } from './modules/home.module';
 import { SharedModule } from './modules/shared.module';
 import { HideSearchBoxDirective } from './directives/hide-searchbox.directive';
 import { ProductAddModule } from './modules/productAdd.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,9 @@ import { ProductAddModule } from './modules/productAdd.module';
     HomeModule,
     ProductAddModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [
     {
